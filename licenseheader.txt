@@ -1,0 +1,7 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}AutoSub sample code
+<#if licenseLast??>
+${licenseLast}
+</#if>

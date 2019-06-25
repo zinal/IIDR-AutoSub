@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ibmcdc.subscription source="ORA" target="ORA" name="SUB1">
+    <table name="REPL.STAB0">
+        <column name="ID"/>
+        <column name="C1_DATE"/>
+        <column name="C2_NUMBER"/>
+        <column name="C3_VARCHAR"/>
+        <column name="C4_VARCHAR"/>
+        <column name="C5_VARCHAR"/>
+        <column name="C6_NUMBER"/>
+    </table>
+</ibmcdc.subscription>

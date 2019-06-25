@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ibmcdc.subscription source="ORA" target="DS" name="SUB2">
+    <table name="REPL.STAB6">
+        <column name="A"/>
+        <column name="B"/>
+    </table>
+    <table name="REPL.STAB8">
+        <column name="A"/>
+        <column name="B"/>
+    </table>
+</ibmcdc.subscription>
