@@ -137,17 +137,17 @@ public class Repairman implements Runnable {
                     + "sourceSchema \"{0}\" sourceTable \"{1}\";",
                     ti.getSchema(), ti.getName());
             script.execute("reassign table mapping;");
-            repair(ti);
+            updateReplicatedColumns(ti);
+            LOG.info("\tMarking capture point...");
+            script.execute("mark capture point;");
         }
-        LOG.info("\tMarking capture point...");
-        script.execute("mark capture point;");
         LOG.info("\tUnlocking...");
         script.execute("unlock subscription;");
         subsToStart.put(m.getSubscription(), m.getTarget());
         LOG.info("\tComplete!");
     }
     
-    private void repair(TableInfo ti) {
+    private void updateReplicatedColumns(TableInfo ti) {
         final List<ColumnInfo> includeColumns = new ArrayList<>();
         final List<String> excludeColumns = new ArrayList<>();
         script.execute("list source columns;");
