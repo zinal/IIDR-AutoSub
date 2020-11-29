@@ -5,6 +5,12 @@
     <artifactId>autosub</artifactId>
     <version>1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <iidr.libs.version>11.4.0.2.10686</iidr.libs.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.jdom</groupId>
@@ -14,37 +20,37 @@
         <dependency>
             <groupId>com.ibm.iidr</groupId>
             <artifactId>api</artifactId>
-            <version>11.4.0.2.10686</version>
+            <version>${iidr.libs.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ibm.iidr</groupId>
             <artifactId>chcclp</artifactId>
-            <version>11.4.0.2.10686</version>
+            <version>${iidr.libs.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ibm.iidr</groupId>
             <artifactId>comms</artifactId>
-            <version>11.4.0.2.10686</version>
+            <version>${iidr.libs.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ibm.iidr</groupId>
             <artifactId>messaging</artifactId>
-            <version>11.4.0.2.10686</version>
+            <version>${iidr.libs.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ibm.iidr</groupId>
             <artifactId>online</artifactId>
-            <version>11.4.0.2.10686</version>
+            <version>${iidr.libs.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ibm.iidr</groupId>
             <artifactId>resources</artifactId>
-            <version>11.4.0.2.10686</version>
+            <version>${iidr.libs.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ibm.iidr</groupId>
             <artifactId>server</artifactId>
-            <version>11.4.0.2.10686</version>
+            <version>${iidr.libs.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -95,11 +101,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
     <build>
         <plugins>
             <plugin>
