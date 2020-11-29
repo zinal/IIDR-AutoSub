@@ -1,25 +1,32 @@
 #! /bin/sh
 
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home
-MVN="/Applications/NetBeans/NetBeans 8.2.app/Contents/Resources/NetBeans/java/maven/bin/mvn"
+# MacOS options:
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home
+# MVN="/Applications/NetBeans/NetBeans 8.2.app/Contents/Resources/NetBeans/java/maven/bin/mvn"
+
+# Debian Linux options:
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+MVN=/opt/netbeans/v12.0/netbeans/java/maven/bin/mvn
 
 "$MVN" --version
 
-XVER=11.4.0.2.10686
+XVER=11.4.0.3.11041
+XLOC=/home/zinal/Projects/Examples/IIDR-Samples/jars/aslibs-"$XVER"
 
-# api
-# chcclp
-# comms
-# messaging
-# online
-# resources
-# server
+# Buildtime dependency jars:
+# * chcclp
+# Runtime dependency jars:
+# * api
+# * comms
+# * messaging
+# * online
+# * resources
+# * server
 
+for jbase in chcclp api comms messaging online resources server; do
+  echo "Installing $jbase ..."
 
-ls *.jar | while read fn; do
-
-ARTI=`basename "$fn" .jar`
-"$MVN" install:install-file -Dfile=`pwd`/"$fn" -DgroupId=com.ibm.iidr -DartifactId="$ARTI" -Dversion="$XVER" -Dpackaging=jar
+  "$MVN" install:install-file -Dfile="$XLOC"/"$jbase".jar -Dpackaging=jar \
+      -DgroupId=com.ibm.iidr -DartifactId="$jbase" -Dversion="$XVER" 
 
 done
-
