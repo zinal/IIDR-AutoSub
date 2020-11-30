@@ -19,8 +19,12 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package ru.zinal.idrcdc.autosub;
+package com.ibm.idrcdc.autosub;
 
+import com.ibm.idrcdc.autosub.config.Config;
+import com.ibm.idrcdc.autosub.config.Monitor;
+import com.ibm.idrcdc.autosub.config.PerSource;
+import com.ibm.idrcdc.autosub.config.PerSourceTarget;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -31,8 +35,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 import org.jdom2.input.SAXBuilder;
-import ru.zinal.idrcdc.autosub.algo.*;
-import ru.zinal.idrcdc.autosub.config.*;
 
 /**
  * Application entry point and main working cycle.

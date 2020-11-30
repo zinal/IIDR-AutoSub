@@ -19,9 +19,9 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package ru.zinal.idrcdc.autosub.algo;
+package com.ibm.idrcdc.autosub;
 
-import ru.zinal.idrcdc.autosub.config.Config;
+import com.ibm.idrcdc.autosub.config.Config;
 import com.ibm.replication.cdc.scripting.EmbeddedScript;
 import com.ibm.replication.cdc.scripting.EmbeddedScriptException;
 import com.ibm.replication.cdc.scripting.Result;

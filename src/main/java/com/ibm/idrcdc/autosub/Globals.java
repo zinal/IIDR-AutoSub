@@ -19,11 +19,10 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package ru.zinal.idrcdc.autosub;
+package com.ibm.idrcdc.autosub;
 
-import ru.zinal.idrcdc.autosub.config.Monitor;
-import ru.zinal.idrcdc.autosub.algo.Script;
-import ru.zinal.idrcdc.autosub.config.Config;
+import com.ibm.idrcdc.autosub.config.Monitor;
+import com.ibm.idrcdc.autosub.config.Config;
 import com.ibm.replication.cdc.scripting.EmbeddedScriptException;
 import java.util.List;
 

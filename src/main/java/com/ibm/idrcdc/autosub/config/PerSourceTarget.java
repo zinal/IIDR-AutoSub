@@ -19,31 +19,52 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package ru.zinal.idrcdc.autosub.config;
+package com.ibm.idrcdc.autosub.config;
 
-import org.jdom2.Element;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Configuration settings for columns in replicated tables,
- * part of per-subscription configuration settings.
+ * Monitors for one target datastore
+ * (previously filtered by source datastore)
  * @author zinal
  */
-public class ColumnInfo {
+public class PerSourceTarget {
     
-    private final String name;
-    private final boolean critical;
+    private final String target;
+    private final List<Monitor> monitors = new ArrayList<>();
 
-    public ColumnInfo(Element options) {
-        this.name = Misc.getAttr(options, "name");
-        this.critical = Misc.getAttr(options, "critical", false);
+    public PerSourceTarget(String target) {
+        this.target = target;
     }
 
-    public String getName() {
-        return name;
+    public String getTarget() {
+        return target;
     }
 
-    public boolean isCritical() {
-        return critical;
+    public List<Monitor> getMonitors() {
+        return monitors;
+    }
+
+    public boolean isDisabled() {
+        for (Monitor m : monitors) {
+            if (!m.isDisabled())
+                return false;
+        }
+        return true;
     }
     
+    /**
+     * Find monitor by its subscription name
+     * @param name subscription name
+     * @return Monitor object, or null if not found
+     */
+    public Monitor findMonitor(String name) {
+        for (Monitor m : monitors) {
+            if (name.equalsIgnoreCase(m.getSubscription()))
+                return m;
+        }
+        return null;
+    }
+
 }

@@ -19,11 +19,11 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package ru.zinal.idrcdc.autosub.algo;
+package com.ibm.idrcdc.autosub;
 
-import ru.zinal.idrcdc.autosub.Globals;
-import ru.zinal.idrcdc.autosub.config.Monitor;
-import ru.zinal.idrcdc.autosub.config.TableInfo;
+import com.ibm.idrcdc.autosub.Globals;
+import com.ibm.idrcdc.autosub.config.Monitor;
+import com.ibm.idrcdc.autosub.config.TableInfo;
 
 /**
  * Algorithm to validate configuration settings of subscription monitors.

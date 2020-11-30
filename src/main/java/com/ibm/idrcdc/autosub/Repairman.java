@@ -19,8 +19,14 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package ru.zinal.idrcdc.autosub.algo;
+package com.ibm.idrcdc.autosub;
 
+import com.ibm.idrcdc.autosub.config.Config;
+import com.ibm.idrcdc.autosub.config.ColumnInfo;
+import com.ibm.idrcdc.autosub.config.Monitor;
+import com.ibm.idrcdc.autosub.config.PerSource;
+import com.ibm.idrcdc.autosub.config.PerSourceTarget;
+import com.ibm.idrcdc.autosub.config.TableInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.BufferedReader;
@@ -28,7 +34,6 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import com.ibm.replication.cdc.scripting.ResultStringTable;
-import ru.zinal.idrcdc.autosub.config.*;
 
 /**
  * Algorithm to repair subscriptions of a single source datastore.
