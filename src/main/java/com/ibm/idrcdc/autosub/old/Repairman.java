@@ -19,7 +19,7 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub;
+package com.ibm.idrcdc.autosub.old;
 
 import com.ibm.idrcdc.autosub.config.Config;
 import com.ibm.idrcdc.autosub.config.ColumnInfo;

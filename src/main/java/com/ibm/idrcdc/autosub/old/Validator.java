@@ -19,9 +19,9 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub;
+package com.ibm.idrcdc.autosub.old;
 
-import com.ibm.idrcdc.autosub.Globals;
+import com.ibm.idrcdc.autosub.old.Globals;
 import com.ibm.idrcdc.autosub.config.Monitor;
 import com.ibm.idrcdc.autosub.config.TableInfo;
 
