@@ -45,7 +45,7 @@ public class ConfigValidator implements Runnable {
         LOG.info("Validating configuration settings...");
         int countValid = 0;
         for ( PerSource ps : groups.getData() ) {
-            for ( PerSourceTarget pst : ps.getTargets() ) {
+            for ( PerTarget pst : ps.getTargets() ) {
                 for ( Monitor m : pst.getMonitors() ) {
                     LOG.info("Subscription {}: {} -> {}",
                             m.getSubscription().getName(),

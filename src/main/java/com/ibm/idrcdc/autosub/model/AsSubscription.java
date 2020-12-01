@@ -95,4 +95,10 @@ public class AsSubscription {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "AsSubscription{" + name + ": " + source.getName()
+                + " -> " + target.getName() + '}';
+    }
+
 }

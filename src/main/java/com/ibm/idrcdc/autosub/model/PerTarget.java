@@ -29,12 +29,12 @@ import java.util.List;
  * (previously filtered by source datastore)
  * @author zinal
  */
-public class PerSourceTarget {
+public class PerTarget {
 
     private final AsEngine target;
     private final List<Monitor> monitors = new ArrayList<>();
 
-    public PerSourceTarget(AsEngine target) {
+    public PerTarget(AsEngine target) {
         this.target = target;
     }
 

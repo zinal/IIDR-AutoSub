@@ -23,6 +23,8 @@ package com.ibm.idrcdc.autosub.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Monitors for one source datastore, grouped by target datastore
@@ -31,7 +33,7 @@ import java.util.List;
 public class PerSource {
 
     private final AsEngine source;
-    private final List<PerSourceTarget> targets = new ArrayList<>();
+    private final List<PerTarget> targets = new ArrayList<>();
 
     public PerSource(AsEngine source) {
         this.source = source;
@@ -41,7 +43,7 @@ public class PerSource {
         return source;
     }
 
-    public List<PerSourceTarget> getTargets() {
+    public List<PerTarget> getTargets() {
         return targets;
     }
 
@@ -50,7 +52,7 @@ public class PerSource {
      * @return true, if all corresponding monitors are disabled
      */
     public boolean isDisabled() {
-        for (PerSourceTarget pst : targets) {
+        for (PerTarget pst : targets) {
             if (!pst.isDisabled())
                 return false;
         }
@@ -63,7 +65,7 @@ public class PerSource {
      * @return Monitor object, or null if not found
      */
     public Monitor findMonitor(String name) {
-        for (PerSourceTarget pst : targets) {
+        for (PerTarget pst : targets) {
             Monitor m = pst.findMonitor(name);
             if (m!=null)
                 return m;
@@ -76,12 +78,25 @@ public class PerSource {
      * @param name Target datastore name
      * @return Per-target group object, or null if not found
      */
-    public PerSourceTarget findTarget(String name) {
-        for (PerSourceTarget pst : targets) {
+    public PerTarget findTarget(String name) {
+        for (PerTarget pst : targets) {
             if (name.equalsIgnoreCase(pst.getTarget().getName()))
                 return pst;
         }
         return null;
+    }
+
+    /**
+     * Build the set of altered tables.
+     * @return Set of all tables altered in this source.
+     */
+    public Set<String> extractAlteredTables() {
+        final Set<String> tables = new TreeSet<>();
+        for (PerTarget pst : targets) {
+            for ( Monitor m : pst.getMonitors() )
+                tables.addAll(m.getSourceTables());
+        }
+        return tables;
     }
 
 }

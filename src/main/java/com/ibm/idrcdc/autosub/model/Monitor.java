@@ -22,7 +22,9 @@
 package com.ibm.idrcdc.autosub.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Monitored subscription, including its configuration settings
@@ -36,7 +38,13 @@ public class Monitor {
     private boolean disabled; // incorrect configuration (not found on startup)
     private boolean known;    // does subscription exist?
     private boolean repair;   // should the subscription be repaired?
+
+    // altered source tables
     private final List<String> sourceTables = new ArrayList<>();
+    // bookmark retrieved from target
+    private String bookmark;
+    // time of the last failure
+    long failureTime;
 
     private boolean suppressMissing; // for "Missing..." message
     private boolean suppressStopped; // for "Stopped..." message
@@ -51,6 +59,8 @@ public class Monitor {
         this.disabled = false;
         this.known = false;
         this.repair = false;
+        this.bookmark = null;
+        this.failureTime = 0L;
         this.suppressMissing = false;
         this.suppressStopped = false;
         this.suppressNoRepair = false;
@@ -96,6 +106,27 @@ public class Monitor {
         return sourceTables;
     }
 
+    public String getBookmark() {
+        return bookmark;
+    }
+
+    public void setBookmark(String bookmark) {
+        this.bookmark = bookmark;
+    }
+
+    public long getFailureTime() {
+        return failureTime;
+    }
+
+    public void setFailureTime(long failureTime) {
+        this.failureTime = failureTime;
+    }
+
+    public void setRepairFailed(long failureTime) {
+        this.failureTime = failureTime;
+        this.repair = false;
+    }
+
     public boolean isSuppressMissing() {
         return suppressMissing;
     }
@@ -120,6 +151,31 @@ public class Monitor {
 
     public void setSuppressNoRepair(boolean suppressNoRecovery) {
         this.suppressNoRepair = suppressNoRecovery;
+    }
+
+    /**
+     * Re-set the flags for this monitor.
+     * Used by the PendingChecker.
+     */
+    public void clearSubFlags() {
+        known = false;
+        repair = false;
+        sourceTables.clear();
+        bookmark = null;
+    }
+
+    public Map<String,String> substGetBookmark() {
+        Map<String,String> m = new HashMap<>();
+        m.put("SUBSCRIPTION", subscription.getName());
+        m.put("SOURCE", subscription.getSource().getName());
+        m.put("TARGET", subscription.getTarget().getName());
+        return m;
+    }
+
+    public Map<String,String> substPutBookmark() {
+        Map<String,String> m = substGetBookmark();
+        m.put("BOOKMARK", bookmark);
+        return m;
     }
 
 }

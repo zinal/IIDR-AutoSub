@@ -36,8 +36,8 @@ public class AsGlobals {
     private String configDirectory = null;
     private String dataFile = null;
     private long mainSleep = -1L;
+    private int waitStartMirroring = -1;
     private long pauseAfterError = -1L;
-    private boolean stagingClearEnable = false;
 
     /**
      * Constructor for the manual setup.
@@ -59,8 +59,8 @@ public class AsGlobals {
         this.mainSleep = Long.parseLong(props.getProperty("tool.sleep", "1000"));
         this.pauseAfterError =
                 Long.parseLong(props.getProperty("tool.pause_after_error", "30000"));
-        this.stagingClearEnable =
-                Misc.parseBoolean(props.getProperty("tool.staging_clear"), false);
+        this.waitStartMirroring =
+                Integer.parseInt(props.getProperty("tool.wait_start_mirroring", "30"));
     }
 
     public String getAccessServerAddress() {
@@ -127,12 +127,12 @@ public class AsGlobals {
         this.pauseAfterError = pauseAfterError;
     }
 
-    public boolean isStagingClearEnable() {
-        return stagingClearEnable;
+    public int getWaitStartMirroring() {
+        return waitStartMirroring;
     }
 
-    public void setStagingClearEnable(boolean stagingClearEnable) {
-        this.stagingClearEnable = stagingClearEnable;
+    public void setWaitStartMirroring(int waitStartMirroring) {
+        this.waitStartMirroring = waitStartMirroring;
     }
 
 }

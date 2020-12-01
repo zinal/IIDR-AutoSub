@@ -52,8 +52,8 @@ public class AsGroups {
                 data.add(ps);
             }
             // find the existing target group
-            PerSourceTarget pst = null;
-            for (PerSourceTarget cur : ps.getTargets()) {
+            PerTarget pst = null;
+            for (PerTarget cur : ps.getTargets()) {
                 if (cur.getTarget() == as.getTarget()) {
                     pst = cur;
                     break;
@@ -61,7 +61,7 @@ public class AsGroups {
             }
             // make new target group if one not found
             if (pst==null) {
-                pst = new PerSourceTarget(as.getTarget());
+                pst = new PerTarget(as.getTarget());
                 ps.getTargets().add(pst);
             }
             // add the new monitor to the target group

@@ -109,4 +109,9 @@ public class AsEngine {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "AsEngine{" + "name=" + name + ", type=" + type + '}';
+    }
+
 }

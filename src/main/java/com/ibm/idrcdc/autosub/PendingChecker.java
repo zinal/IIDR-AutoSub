@@ -1,6 +1,6 @@
 /*
 ** ****************************************************************************
-** (c) Copyright IBM Corp. 2019 All rights reserved.
+** (c) Copyright IBM Corp. 2019, 2020. All rights reserved.
 **
 ** The following sample of source code ("Sample") is owned by International
 ** Business Machines Corporation or one of its subsidiaries ("IBM") and is
@@ -78,7 +78,7 @@ public class PendingChecker {
         String subname = table.getValueAt(irow, "SUBSCRIPTION");
         String substate = table.getValueAt(irow, "STATE");
         String target = table.getValueAt(irow, "TARGET DATASTORE");
-        PerSourceTarget pst = source.findTarget(target);
+        PerTarget pst = source.findTarget(target);
         if (pst==null)
             return false; // Skip the unknown targets
         Monitor m = pst.findMonitor(subname);
@@ -186,11 +186,9 @@ public class PendingChecker {
      * Remove all known/repair flags and list of tables for all monitors.
      */
     private void clearSubFlags() {
-        for (PerSourceTarget pst : source.getTargets()) {
+        for (PerTarget pst : source.getTargets()) {
             for (Monitor m : pst.getMonitors()) {
-                m.setKnown(false);
-                m.setRepair(false);
-                m.getSourceTables().clear();
+                m.clearSubFlags();
             }
         }
     }
@@ -199,7 +197,7 @@ public class PendingChecker {
      * Detect lost & found subscriptions - for logging only.
      */
     private void checkMissingSubs() {
-        for (PerSourceTarget pst : source.getTargets()) {
+        for (PerTarget pst : source.getTargets()) {
             for (Monitor m : pst.getMonitors()) {
                 checkMissingSub(m);
             }
