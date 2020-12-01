@@ -21,7 +21,6 @@
  */
 package com.ibm.idrcdc.autosub;
 
-import com.ibm.replication.cdc.scripting.ResultStringTable;
 import com.ibm.idrcdc.autosub.model.*;
 
 /**
@@ -59,7 +58,7 @@ public class PendingChecker {
         int countPending = 0;
         script.dataStore(source.getSource(), EngineType.Source);
         script.execute("monitor replication;");
-        final ResultStringTable table = script.getTable();
+        final ScriptOutput table = script.getTable();
         for (int irow = 0; irow < table.getRowCount(); ++irow) {
             if ( checkRow(table, irow) )
                 ++ countPending;
@@ -78,7 +77,7 @@ public class PendingChecker {
      * @param irow Row number
      * @return true, if the corresponding subscription should be recovered.
      */
-    private boolean checkRow(ResultStringTable table, int irow) {
+    private boolean checkRow(ScriptOutput table, int irow) {
         String subname = table.getValueAt(irow, "SUBSCRIPTION");
         String substate = table.getValueAt(irow, "STATE");
         String target = table.getValueAt(irow, "TARGET DATASTORE");
@@ -132,7 +131,7 @@ public class PendingChecker {
         // (b) 90, 119, 1463
         script.execute("list subscription events name \"{0}\" type source;",
                 m.getSubscription());
-        final ResultStringTable table = script.getTable();
+        final ScriptOutput table = script.getTable();
         String msg9505 = null;
         String msg90 = null;
         String msg119 = null;

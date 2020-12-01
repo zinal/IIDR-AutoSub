@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import com.ibm.replication.cdc.scripting.ResultStringTable;
 import com.ibm.idrcdc.autosub.model.*;
 
 /**
@@ -175,7 +174,7 @@ public class Repairman implements Runnable {
     private Map<String,Boolean> grabColumnStatus(Monitor m) {
         final Map<String,Boolean> state = new HashMap<>();
         script.execute("list source columns;");
-        final ResultStringTable table = script.getTable();
+        final ScriptOutput table = script.getTable();
         for (int irow = 0; irow < table.getRowCount(); ++irow) {
             String colname = table.getValueAt(irow, "SOURCE COLUMN");
             String replicate = table.getValueAt(irow, "REPLICATE");
@@ -188,7 +187,7 @@ public class Repairman implements Runnable {
         final List<String> includeColumns = new ArrayList<>();
         final List<String> excludeColumns = new ArrayList<>();
         script.execute("list source columns;");
-        final ResultStringTable table = script.getTable();
+        final ScriptOutput table = script.getTable();
         for (int irow = 0; irow < table.getRowCount(); ++irow) {
             String colname = table.getValueAt(irow, "SOURCE COLUMN");
             String dtype = table.getValueAt(irow, "DATA TYPE");
@@ -230,7 +229,7 @@ public class Repairman implements Runnable {
     private Map<String, String> listRunningSubscriptions() {
         final Map<String, String> retval = new HashMap<>();
         script.execute("monitor replication;");
-        final ResultStringTable table = script.getTable();
+        final ScriptOutput table = script.getTable();
         for (int irow = 0; irow < table.getRowCount(); ++irow) {
             String subname = table.getValueAt(irow, "SUBSCRIPTION");
             String substate = table.getValueAt(irow, "STATE");

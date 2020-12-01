@@ -183,20 +183,16 @@ public class Script implements AutoCloseable {
         return es.getResultCodeAndMessage();
     }
 
-    public Result getResult() {
-        return es.getResult();
-    }
-
     /**
      * @return Command execution result as a table
      */
-    public ResultStringTable getTable() {
+    public ScriptOutput getTable() {
         Result res = es.getResult();
         if (res instanceof ResultStringTable) {
             ResultStringTable table = (ResultStringTable) res;
             if (LOG.isDebugEnabled())
                 printTable(table);
-            return table;
+            return new ScriptOutputImpl(table);
         }
         if (res==null)
             throw new IllegalStateException("Missing result object");
