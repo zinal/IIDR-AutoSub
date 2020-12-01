@@ -34,10 +34,14 @@ public class PendingChecker {
     private static final org.slf4j.Logger LOG =
             org.slf4j.LoggerFactory.getLogger(PendingChecker.class);
 
+    private final long startTime;
+    private final AsGlobals globals;
     private final PerSource source;
     private final Script script;
 
-    public PendingChecker(PerSource source, Script script) {
+    public PendingChecker(AsGlobals globals, PerSource source, Script script) {
+        this.startTime = System.currentTimeMillis();
+        this.globals = globals;
         this.source = source;
         this.script = script;
     }
@@ -118,6 +122,11 @@ public class PendingChecker {
      * @return true if the subscription should be recovered, false otherwise.
      */
     private boolean checkMonitor(Monitor m) {
+        if (m.getFailureTime() != 0L) {
+            final long diff = startTime - m.getFailureTime();
+            if (diff < globals.getPauseAfterError())
+                return false;
+        }
         // Possible event sequences:
         // (a) 9505, 1463
         // (b) 90, 119, 1463

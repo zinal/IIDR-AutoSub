@@ -165,6 +165,7 @@ public class Repairman implements Runnable {
             LOG.info("\tComplete!");
 
             subsToStart.put(m.getSubscription().getName(), m.getTarget().getName());
+            m.setFailureTime(0L); // Reset the failure time in case we have recovered
         } catch(Exception ex) {
             m.setRepairFailed(startTime);
             LOG.info("\tFailed!", ex);

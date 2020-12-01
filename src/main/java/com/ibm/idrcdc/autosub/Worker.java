@@ -161,7 +161,7 @@ public class Worker implements Runnable {
             try (Script script = openScript()) {
                 if (script!=null) {
                     // Validate monitors in each group
-                    if ( new PendingChecker(ps, script).check() ) {
+                    if ( new PendingChecker(globals, ps, script).check() ) {
                         if (pending==null)
                             pending = new ArrayList<>();
                         pending.add(ps);
