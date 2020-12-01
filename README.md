@@ -3,8 +3,9 @@
 
 Example implementation of a tool to automate the recovery of subscriptions in the event of DDL operation over the source tables. Uses CHCCLP embedded scripting to do its job.
 
-Data loss is possible (missing changes on target) between the point of the first DDL operation and the point of subscription re-start.
-By re-programming this sample to use *Refresh* instead of *Mark capture point* it is possible to avoid the data loss, at the cost of an automated Refresh (which is also probably not a best option for all cases).
+Version 2.0 has been created to avoid the data loss.
+There are still situations which cannot be recovered without the Refresh operation, the main example being the DDL -> DML -> DDL sequence on a single table.
+By adding the *Refresh* operation, with some logic to detect these nonrecoverable situations, it is possible to support the full set of cases, at the cost of an automated Refresh (which is also probably not a best option for all customers).
 
 Build uses Maven, third-party (Access Server) jars need to be installed into the local Maven repository with the iidr-cdc-setup-maven-libs.sh script.
 Required Eclipse libraries are grabbed from central Maven repository, versions should be validated.
