@@ -21,6 +21,7 @@
  */
 package com.ibm.idrcdc.autosub.model;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jdom2.Element;
 
 /**
@@ -61,5 +62,12 @@ public class Misc {
 
     public static boolean getAttr(Element el, String name, boolean defval) {
         return parseBoolean(el.getAttributeValue(name), defval);
+    }
+
+    public static String getText(Element el) {
+        String text = (el==null) ? null : el.getTextTrim();
+        if (StringUtils.isBlank(text))
+            return null;
+        return text;
     }
 }

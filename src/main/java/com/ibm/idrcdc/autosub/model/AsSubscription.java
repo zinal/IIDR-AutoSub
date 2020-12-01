@@ -21,6 +21,8 @@
  */
 package com.ibm.idrcdc.autosub.model;
 
+import java.util.Objects;
+
 /**
  * Subscription to be monitored.
  * @author zinal
@@ -57,6 +59,40 @@ public class AsSubscription {
 
     public void setSkipNewBlobs(boolean skipNewBlobs) {
         this.skipNewBlobs = skipNewBlobs;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AsSubscription other = (AsSubscription) obj;
+        if (this.skipNewBlobs != other.skipNewBlobs) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.source, other.source)) {
+            return false;
+        }
+        if (!Objects.equals(this.target, other.target)) {
+            return false;
+        }
+        return true;
     }
 
 }

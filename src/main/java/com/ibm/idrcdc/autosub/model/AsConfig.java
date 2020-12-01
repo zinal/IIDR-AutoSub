@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -76,6 +77,35 @@ public class AsConfig {
         subscriptions.add(as);
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.engines);
+        hash = 37 * hash + Objects.hashCode(this.subscriptions);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AsConfig other = (AsConfig) obj;
+        if (!Objects.equals(this.engines, other.engines)) {
+            return false;
+        }
+        if (!Objects.equals(this.subscriptions, other.subscriptions)) {
+            return false;
+        }
+        return true;
+    }
+
     public static AsConfig load(Element root) {
         final AsConfig config = new AsConfig();
         for (Element el : root.getChildren(EL_ENGINE)) {
@@ -87,21 +117,6 @@ public class AsConfig {
         return config;
     }
 
-    private static AsEngine parseEngine(Element el) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    private static AsSubscription parseSubscription(AsConfig config, Element el) {
-        AsEngine source = config.getEngine(Misc.getAttr(el, "source"));
-        AsEngine target = config.getEngine(Misc.getAttr(el, "target"));
-        AsSubscription as  = new AsSubscription(
-                Misc.getAttr(el, "name"), source, target);
-        if (source==null || target==null)
-            throw new RuntimeException("Source or target missing for subscription " + as.getName());
-        as.setSkipNewBlobs(Misc.parseBoolean(Misc.getAttr(el, "skipNewBlobs", "false"), false));
-        return as;
-    }
-
     public static Element save(AsConfig config) {
         Element root = new Element(EL_ROOT);
         for (AsEngine ae : config.engines.values()) {
@@ -111,6 +126,23 @@ public class AsConfig {
             root.addContent(formatSubscription(as));
         }
         return root;
+    }
+
+    private static AsEngine parseEngine(Element el) {
+        AsEngine ae = new AsEngine(
+                Misc.getAttr(el, "name"),
+                EngineType.valueOf(Misc.getAttr(el, "type")));
+        Element cur;
+        cur = el.getChild(EL_CMD_CLEAR);
+        if (cur!=null)
+            ae.setCommandClear(Misc.getText(cur));
+        cur = el.getChild(EL_CMD_BMK_GET);
+        if (cur!=null)
+            ae.setCommandBookmarkGet(Misc.getText(cur));
+        cur = el.getChild(EL_CMD_BMK_PUT);
+        if (cur!=null)
+            ae.setCommandBookmarkPut(Misc.getText(cur));
+        return ae;
     }
 
     private static Element formatEngine(AsEngine ae) {
@@ -133,6 +165,17 @@ public class AsConfig {
             cur.addContent(cmd);
         }
         return cur;
+    }
+
+    private static AsSubscription parseSubscription(AsConfig config, Element el) {
+        AsEngine source = config.getEngine(Misc.getAttr(el, "source"));
+        AsEngine target = config.getEngine(Misc.getAttr(el, "target"));
+        AsSubscription as  = new AsSubscription(
+                Misc.getAttr(el, "name"), source, target);
+        if (source==null || target==null)
+            throw new RuntimeException("Source or target missing for subscription " + as.getName());
+        as.setSkipNewBlobs(Misc.getAttr(el, "skipNewBlobs", false));
+        return as;
     }
 
     private static Element formatSubscription(AsSubscription as) {

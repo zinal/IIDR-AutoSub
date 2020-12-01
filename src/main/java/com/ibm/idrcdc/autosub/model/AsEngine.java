@@ -21,6 +21,8 @@
  */
 package com.ibm.idrcdc.autosub.model;
 
+import java.util.Objects;
+
 /**
  * Source or target engine configuration.
  * @author zinal
@@ -68,6 +70,43 @@ public class AsEngine {
 
     public void setCommandBookmarkPut(String commandBookmarkPut) {
         this.commandBookmarkPut = commandBookmarkPut;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AsEngine other = (AsEngine) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.commandClear, other.commandClear)) {
+            return false;
+        }
+        if (!Objects.equals(this.commandBookmarkGet, other.commandBookmarkGet)) {
+            return false;
+        }
+        if (!Objects.equals(this.commandBookmarkPut, other.commandBookmarkPut)) {
+            return false;
+        }
+        if (this.type != other.type) {
+            return false;
+        }
+        return true;
     }
 
 }
