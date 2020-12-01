@@ -93,6 +93,15 @@ public class Script implements AutoCloseable {
 
     /**
      * Connect or select a data store.
+     * @param engine Data store configuration object
+     * @param mode Source, Target or Both
+     */
+    public void dataStore(AsEngine engine, EngineType mode) {
+        dataStore(engine.getName(), mode);
+    }
+
+    /**
+     * Connect or select a data store.
      * @param name Data store name
      * @param mode Source, Target or Both
      */

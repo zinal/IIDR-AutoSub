@@ -25,6 +25,8 @@ import com.ibm.idrcdc.autosub.model.*;
 import com.ibm.replication.cdc.scripting.EmbeddedScriptException;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -110,6 +112,13 @@ public class Worker implements Runnable {
                 break;
             // Validate the configuration, if not yet done.
             if (validate()) {
+                // Find the subscriptions to repair
+                List<PerSource> pending = checkPending();
+                if (pending!=null) {
+                    // Repair everything
+                    for (PerSource ps : pending)
+                        repair(ps);
+                }
             }
         } // while (true)
     }
@@ -137,6 +146,37 @@ public class Worker implements Runnable {
             configValidated = true;
             return true;
         }
+    }
+
+    /**
+     * Identify any fixable failed subscriptions
+     * @return List of source datastores containing fixable subscriptions
+     */
+    private List<PerSource> checkPending() {
+        List<PerSource> pending = null;
+        for (PerSource ps : groups.getData()) {
+            if (ps.isDisabled())
+                continue; // skip groups without valid monitors
+            // Connect to access server for each source datastore
+            try (Script script = openScript()) {
+                if (script!=null) {
+                    // Validate monitors in each group
+                    if ( new PendingChecker(ps, script).check() ) {
+                        if (pending==null)
+                            pending = new ArrayList<>();
+                        pending.add(ps);
+                    }
+                }
+            } catch(Exception ex) {
+                LOG.error("Error checking state for subscriptions in "
+                        + "source datastore {}", ps.getSource(), ex);
+            }
+        }
+        return pending;
+    }
+
+    private void repair(PerSource ps) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**

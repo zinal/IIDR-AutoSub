@@ -75,10 +75,10 @@ public class ConfigValidator implements Runnable {
         m.setDisabled(false);
         // Switch to proper datastores
         if ( m.getTarget() == m.getSource() ) {
-            script.dataStore(m.getSource().getName(), EngineType.Both);
+            script.dataStore(m.getSource(), EngineType.Both);
         } else {
-            script.dataStore(m.getSource().getName(), EngineType.Source);
-            script.dataStore(m.getTarget().getName(), EngineType.Target);
+            script.dataStore(m.getSource(), EngineType.Source);
+            script.dataStore(m.getTarget(), EngineType.Target);
         }
         // Check that the subscription exists
         script.execute("select subscription name \"{0}\";", m.getSubscription().getName());

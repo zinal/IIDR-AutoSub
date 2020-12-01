@@ -21,6 +21,9 @@
  */
 package com.ibm.idrcdc.autosub.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Monitored subscription, including its configuration settings
  * and runtime processing flags.
@@ -33,6 +36,7 @@ public class Monitor {
     private boolean disabled; // incorrect configuration (not found on startup)
     private boolean known;    // does subscription exist?
     private boolean repair;   // should the subscription be repaired?
+    private final List<String> sourceTables = new ArrayList<>();
 
     private boolean suppressMissing; // for "Missing..." message
     private boolean suppressStopped; // for "Stopped..." message
@@ -86,6 +90,10 @@ public class Monitor {
 
     public void setRepair(boolean repair) {
         this.repair = repair;
+    }
+
+    public List<String> getSourceTables() {
+        return sourceTables;
     }
 
     public boolean isSuppressMissing() {
