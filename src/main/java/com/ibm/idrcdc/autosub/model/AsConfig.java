@@ -268,4 +268,8 @@ public class AsConfig {
         save(config, new File(outputFile));
     }
 
+    public static AsConfig load(AsGlobals globals) {
+        return load(globals.getDataFile());
+    }
+
 }
