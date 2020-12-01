@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import com.ibm.replication.cdc.scripting.ResultStringTable;
 import com.ibm.idrcdc.autosub.model.*;
@@ -82,9 +81,9 @@ public class Repairman implements Runnable {
         }
 
         // 5. Re-adding the altered tables
-        Set<String> tables = source.extractAlteredTables();
-        for (String tableFull : tables) {
+        for (String tableFull : source.extractAlteredTables()) {
             if (!readdTable(tableFull)) {
+                // Mark all dependant subscriptions as non-recoverable
                 setRepairFailed(tableFull);
             }
         }
@@ -92,20 +91,22 @@ public class Repairman implements Runnable {
         // 6. Repairing the subscriptions
         for (PerTarget pst : source.getTargets()) {
             for (Monitor m : pst.getMonitors()) {
-                if (m.isRepair())
-                    repair(m);
+                if (!m.isRepair())
+                    continue;
+                // Update the subscription
+                if (!repair(m))
+                    continue;
+                // Set the previous bookmark back
+                if (!resetBookmark(m))
+                    continue;
+                // Success - will start the subscription
+                subsToStart.put(m.getSubscription().getName(), m.getTarget().getName());
+                // Reset the failure time in case we have recovered
+                m.setFailureTime(0L);
             }
         }
 
-        // 7. Setting the bookmarks
-        for (PerTarget pst : source.getTargets()) {
-            for (Monitor m : pst.getMonitors()) {
-                if (m.isRepair())
-                    resetBookmark(m);
-            }
-        }
-
-        // 8. Restarting the subscriptions
+        // 7. Restarting the subscriptions
         restartSubscriptions();
 
         LOG.info("Repair sequence COMPLETED for source datastore {}",
@@ -126,9 +127,9 @@ public class Repairman implements Runnable {
         }
     }
 
-    private void repair(Monitor m) {
+    private boolean repair(Monitor m) {
         if (! m.isRepair())
-            return;
+            return false;
         LOG.info("Processing subscription {}", m.getSubscription());
         try {
             script.dataStore(m.getTarget(), EngineType.Target);
@@ -163,12 +164,11 @@ public class Repairman implements Runnable {
             LOG.info("\tUnlocking...");
             script.execute("unlock subscription;");
             LOG.info("\tComplete!");
-
-            subsToStart.put(m.getSubscription().getName(), m.getTarget().getName());
-            m.setFailureTime(0L); // Reset the failure time in case we have recovered
+            return true;
         } catch(Exception ex) {
             m.setRepairFailed(startTime);
             LOG.info("\tFailed!", ex);
+            return false;
         }
     }
 
@@ -222,6 +222,7 @@ public class Repairman implements Runnable {
     }
 
     private static boolean isBlobColumn(String dtype) {
+        // TODO: VARCHAR(MAX) for MSSQL???
         return "CLOB".equalsIgnoreCase(dtype)
                 || "BLOB".equalsIgnoreCase(dtype);
     }
