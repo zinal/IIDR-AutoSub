@@ -131,7 +131,7 @@ public class Repairman implements Runnable {
         try {
             script.dataStore(m.getTarget(), EngineType.Target);
             script.execute("select subscription name \"{0}\";",
-                    m.getSubscription());
+                    m.getSubscription().getName());
             try { // Ignoring the possible unlock error
                 script.execute("unlock subscription;");
             } catch(Exception ex) {}
@@ -308,7 +308,7 @@ public class Repairman implements Runnable {
     }
 
     private boolean resetBookmark(Monitor m) {
-        final String command = m.getSource().getCommandBookmarkGet();
+        final String command = m.getSource().getCommandBookmarkPut();
         if (StringUtils.isBlank(command)) {
             LOG.warn("Put bookmark command not configured for source {}", m.getSource().getName());
             return false;
