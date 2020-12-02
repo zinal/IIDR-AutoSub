@@ -29,6 +29,7 @@ import com.ibm.replication.cdc.scripting.EmbeddedScriptException;
 import com.ibm.replication.cdc.scripting.Result;
 import com.ibm.replication.cdc.scripting.ResultStringTable;
 import com.ibm.idrcdc.autosub.model.*;
+import com.ibm.replication.cdc.scripting.ResultStringValue;
 
 /**
  * Supporting helper class to execute commands through embedded
@@ -188,14 +189,19 @@ public class Script implements AutoCloseable {
      */
     public ScriptOutput getTable() {
         Result res = es.getResult();
-        if (res instanceof ResultStringTable) {
-            ResultStringTable table = (ResultStringTable) res;
-            if (LOG.isDebugEnabled())
-                printTable(table);
-            return new ScriptOutputImpl(table);
-        }
         if (res==null)
             throw new IllegalStateException("Missing result object");
+        ScriptOutput retval = null;
+        if (res instanceof ResultStringTable) {
+            retval = new ScriptTableImpl((ResultStringTable) res);
+        } else if (res instanceof ResultStringValue) {
+            retval = new ScriptValueImpl((ResultStringValue) res);
+        }
+        if (retval != null) {
+            if (LOG.isDebugEnabled())
+                printTable(retval);
+            return retval;
+        }
         throw new IllegalStateException("Incorrect type of result object: "
                 + res.getClass().getName());
     }
@@ -205,7 +211,7 @@ public class Script implements AutoCloseable {
         es.close();
     }
 
-    private void printTable(ResultStringTable table) {
+    public static void printTable(ScriptOutput table) {
         StringBuilder sb = new StringBuilder();
         for (int icolumn = 0; icolumn < table.getColumnCount(); ++icolumn) {
             sb.append("\t").

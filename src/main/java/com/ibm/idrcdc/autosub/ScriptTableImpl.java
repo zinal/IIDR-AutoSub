@@ -9,11 +9,11 @@ import com.ibm.replication.cdc.scripting.ResultStringTable;
  * Wrapper implementation around ResultStringTable to allow mock tests.
  * @author zinal
  */
-public class ScriptOutputImpl implements ScriptOutput {
-    
+public class ScriptTableImpl implements ScriptOutput {
+
     private final ResultStringTable table;
 
-    public ScriptOutputImpl(ResultStringTable table) {
+    public ScriptTableImpl(ResultStringTable table) {
         this.table = table;
     }
 
@@ -28,8 +28,8 @@ public class ScriptOutputImpl implements ScriptOutput {
     }
 
     @Override
-    public String getValueAt(int irow, int colindex) {
-        return table.getValueAt(irow, colindex);
+    public String getValueAt(int index, int colindex) {
+        return table.getValueAt(index, colindex);
     }
 
     @Override
@@ -41,5 +41,10 @@ public class ScriptOutputImpl implements ScriptOutput {
     public String toString() {
         return table.toString();
     }
-    
+
+    @Override
+    public String getColumnAt(int colindex) {
+        return table.getColumnAt(colindex);
+    }
+
 }

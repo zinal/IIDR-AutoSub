@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import com.ibm.idrcdc.autosub.model.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Algorithm to repair subscriptions of a single source datastore.
@@ -54,7 +56,7 @@ public class Repairman implements Runnable {
     @Override
     public void run() {
         LOG.info("Repair sequence started for source datastore {}",
-                source.getSource());
+                source.getSource().getName());
 
         // 1. Grab the bookmarks on proper targets.
         grabAllBookmarks();
@@ -114,7 +116,7 @@ public class Repairman implements Runnable {
         try {
             script.execute("readd replication table name \"{0}\" "
                     + "schema \"{1}\" table \"{2}\";",
-                    source.getSource(), table[0], table[1]);
+                    source.getSource().getName(), table[0], table[1]);
             return true;
         } catch(Exception ex) {
             LOG.error("Failed to re-add table {} to the replication", ex);
@@ -297,7 +299,12 @@ public class Repairman implements Runnable {
                 command, m.substGetBookmark()) . execute(data);
         if (retval!=0)
             throw new RuntimeException("Get bookmark command failed with code " + retval);
-        return data.toString().trim();
+        Pattern p = Pattern.compile("^[0-9A-F]{8,512}$");
+        for (String v : data.toString().split("[\n]")) {
+            if (p.matcher(v).matches())
+                return v;
+        }
+        throw new RuntimeException("Get bookmark command returned illegal output");
     }
 
     private boolean resetBookmark(Monitor m) {

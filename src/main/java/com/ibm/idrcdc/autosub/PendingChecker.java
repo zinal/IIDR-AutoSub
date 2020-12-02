@@ -140,13 +140,19 @@ public class PendingChecker {
             String eventId = table.getValueAt(irow, "EVENT ID");
             if ("9505".equals(eventId)) {
                 // DDL detected, target cannot handle it
-                msg9505 = table.getValueAt(irow, "MESSAGE");
+                script.execute("show subscription event details row {0} ;",
+                        String.valueOf(irow+1));
+                msg9505 = script.getTable().getValueAt(1, 1);
             } else if ("90".equals(eventId)) {
                 // Failure on target
-                msg90 = table.getValueAt(irow, "MESSAGE");
+                script.execute("show subscription event details row {0} ;",
+                        String.valueOf(irow+1));
+                msg90 = script.getTable().getValueAt(1, 1);
             } else if ("119".equals(eventId)) {
                 // DDL detected, attempt to send to the target
-                msg119 = table.getValueAt(irow, "MESSAGE");
+                script.execute("show subscription event details row {0} ;",
+                        String.valueOf(irow+1));
+                msg119 = script.getTable().getValueAt(1, 1);
                 if (msg90 != null) {
                     // We know that target has failed, and DDL was sent to it.
                     have90_119 = true;
@@ -162,17 +168,20 @@ public class PendingChecker {
             // Parse the 9505 message
             // IBM XXX has encountered a critical data definition (DDL) change for source table
             // METADEMO.TAB0 and will shutdown. Please re-add the table definition ...
-            int tabBegin = msg9505.indexOf("(DDL) change for source table ");
+            msg9505 = msg9505.replace('\n', ' ').replace('\r', ' ');
+            final String textBegin = "(DDL) change for source table ";
+            int tabBegin = msg9505.indexOf(textBegin);
             int tabEnd = msg9505.indexOf(" and will shutdown. Please re-add ");
             if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
                 LOG.warn("Failed to parse the 9505 message text:\n\t{}", msg9505);
             } else {
+                tabBegin += textBegin.length();
                 tableName = msg9505.substring(tabBegin, tabEnd);
             }
         } else if (have90_119) {
             // TODO: parse the 119 message
         }
-        if (tableName != null) {
+        if (tableName == null) {
             // Not a case we support.
             if (!m.isSuppressNoRepair()) {
                 m.setSuppressNoRepair(true);

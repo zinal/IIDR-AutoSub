@@ -28,11 +28,13 @@ package com.ibm.idrcdc.autosub;
 public interface ScriptOutput {
 
     int getColumnCount();
-    
+
     int getRowCount();
 
     String getValueAt(int irow, int colindex);
 
     String getValueAt(int irow, String colname);
-    
+
+    String getColumnAt(int icolumn);
+
 }

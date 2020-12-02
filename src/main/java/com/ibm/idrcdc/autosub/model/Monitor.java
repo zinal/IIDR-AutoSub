@@ -167,14 +167,16 @@ public class Monitor {
     public Map<String,String> substGetBookmark() {
         Map<String,String> m = new HashMap<>();
         m.put("SUB", subscription.getName());
-        m.put("INSTANCE", subscription.getTarget().getName());
+        m.put("SOURCE", subscription.getSource().getName());
+        m.put("TARGET", subscription.getTarget().getName());
         return m;
     }
 
     public Map<String,String> substPutBookmark() {
         Map<String,String> m = new HashMap<>();
         m.put("SUB", subscription.getName());
-        m.put("INSTANCE", subscription.getSource().getName());
+        m.put("SOURCE", subscription.getSource().getName());
+        m.put("TARGET", subscription.getTarget().getName());
         m.put("BOOKMARK", bookmark);
         return m;
     }
