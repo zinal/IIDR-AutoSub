@@ -185,6 +185,10 @@ public class Worker implements Runnable {
         return pending;
     }
 
+    /**
+     * Run the repairman on the specified source datastore.
+     * @param ps Per-source collection of monitors
+     */
     private void repair(PerSource ps) {
         try (Script script = openScript()) {
             if (script != null)

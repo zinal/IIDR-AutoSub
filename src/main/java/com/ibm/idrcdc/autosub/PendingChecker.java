@@ -22,6 +22,7 @@
 package com.ibm.idrcdc.autosub;
 
 import com.ibm.idrcdc.autosub.model.*;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Algorithm to check subscriptions of a single source datastore
@@ -126,16 +127,12 @@ public class PendingChecker {
             if (diff < globals.getPauseAfterError())
                 return false;
         }
-        // Possible event sequences:
-        // (a) 9505, 1463
-        // (b) 90, 119, 1463
+        // Supported event sequence: 9505, 1463.
+        // Table name is extracted from message 9505.
         script.execute("list subscription events name \"{0}\" type source;",
                 m.getSubscription().getName());
         final ScriptOutput table = script.getTable();
         String msg9505 = null;
-        String msg90 = null;
-        String msg119 = null;
-        boolean have90_119 = false;
         for (int irow=0; irow < table.getRowCount(); ++irow) {
             String eventId = table.getValueAt(irow, "EVENT ID");
             if ("9505".equals(eventId)) {
@@ -143,20 +140,6 @@ public class PendingChecker {
                 script.execute("show subscription event details row {0} ;",
                         String.valueOf(irow+1));
                 msg9505 = script.getTable().getValueAt(1, 1);
-            } else if ("90".equals(eventId)) {
-                // Failure on target
-                script.execute("show subscription event details row {0} ;",
-                        String.valueOf(irow+1));
-                msg90 = script.getTable().getValueAt(1, 1);
-            } else if ("119".equals(eventId)) {
-                // DDL detected, attempt to send to the target
-                script.execute("show subscription event details row {0} ;",
-                        String.valueOf(irow+1));
-                msg119 = script.getTable().getValueAt(1, 1);
-                if (msg90 != null) {
-                    // We know that target has failed, and DDL was sent to it.
-                    have90_119 = true;
-                }
             } else if ("1463".equals(eventId)) {
                 // Subscription start, no need to scan further.
                 break;
@@ -178,10 +161,8 @@ public class PendingChecker {
                 tabBegin += textBegin.length();
                 tableName = msg9505.substring(tabBegin, tabEnd);
             }
-        } else if (have90_119) {
-            // TODO: parse the 119 message
         }
-        if (tableName == null) {
+        if (StringUtils.isBlank(tableName)) {
             // Not a case we support.
             if (!m.isSuppressNoRepair()) {
                 m.setSuppressNoRepair(true);

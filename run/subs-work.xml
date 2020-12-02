@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <idrcdc-autosub>
     <idrcdc-subscription name='O2K1' source='WRK1' target='KAFKA1' />
+    <idrcdc-subscription name='O2K2' source='WRK1' target='KAFKA1' />
+    <idrcdc-subscription name='O2M1' source='WRK1' target='META' skipNewBlobs='true' />
+    <idrcdc-subscription name='O2M2' source='WRK1' target='META' skipNewBlobs='true' />
     <idrcdc-engine name='WRK1' type='Source'>
         <cmd-clear>ssh cdcuser@zodak /datum/sw/cdc-oracle/bin/dmclearstagingstore -I wrk1</cmd-clear>
         <cmd-bmk-put>ssh cdcuser@zodak /datum/sw/cdc-oracle/bin/dmsetbookmark -I wrk1 -s ${SUB} -a -b ${BOOKMARK}</cmd-bmk-put>
     </idrcdc-engine>
     <idrcdc-engine name='KAFKA1' type='Target'>
         <cmd-bmk-get>ssh cdcuser@kafko cdc-kafka/bin/dmshowbookmark -I kafka1 -s ${SUB}</cmd-bmk-get>
+    </idrcdc-engine>
+    <idrcdc-engine name='META' type='Target'>
+        <cmd-bmk-get>ssh cdcuser@zodak /datum/sw/cdc-oracle/bin/dmshowbookmark -I meta -s ${SUB}</cmd-bmk-get>
     </idrcdc-engine>
 </idrcdc-autosub>
