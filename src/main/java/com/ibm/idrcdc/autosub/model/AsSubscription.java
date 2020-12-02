@@ -97,8 +97,7 @@ public class AsSubscription {
 
     @Override
     public String toString() {
-        return "AsSubscription{" + name + ": " + source.getName()
-                + " -> " + target.getName() + '}';
+        return name;
     }
 
 }
