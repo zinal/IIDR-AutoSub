@@ -51,10 +51,6 @@ public class Repairman implements Runnable {
         this.script = script;
     }
 
-    public Map<String, String> getSubsToStart() {
-        return subsToStart;
-    }
-
     @Override
     public void run() {
         LOG.info("Repair sequence started for source datastore {}",
@@ -262,7 +258,9 @@ public class Repairman implements Runnable {
 
     private boolean clearStagingStore() {
         final String command = source.getSource().getCommandClear();
-        int retval = new RemoteTool("cmd-clear-staging", command) . execute();
+        Map<String,String> subst = new HashMap<>();
+        subst.put("INSTANCE", source.getSource().getName());
+        int retval = new RemoteTool("cmd-clear-staging", command, subst) . execute();
         if (retval != 0) {
             setRepairFailed(null); // mark repair failure for all subscriptions
             LOG.error("Cannot clear the staging store on source, status code {}. "

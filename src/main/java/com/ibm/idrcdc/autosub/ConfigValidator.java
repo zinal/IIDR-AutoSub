@@ -65,7 +65,7 @@ public class ConfigValidator implements Runnable {
             }
         }
         if (countValid > 0) {
-            LOG.info("Configuration validated, monitoring {} subscriptions.", countValid);
+            LOG.info("Configuration validated, monitoring {} subscription(s).", countValid);
         } else {
             LOG.info("Empty configuration, nothing to do");
         }

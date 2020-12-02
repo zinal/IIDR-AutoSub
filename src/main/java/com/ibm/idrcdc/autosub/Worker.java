@@ -120,6 +120,16 @@ public class Worker implements Runnable {
                         repair(ps);
                 }
             }
+            final long tvFinish = System.currentTimeMillis() + globals.getMainSleep();
+            while (true) {
+                try {
+                    Thread.sleep(500L);
+                } catch (InterruptedException ix) {}
+                if (flagShutdown.isEnabled())
+                    break; // Shutdown fast
+                if (tvFinish >= System.currentTimeMillis())
+                    break; // End of delay
+            }
         } // while (true)
     }
 
@@ -169,14 +179,22 @@ public class Worker implements Runnable {
                 }
             } catch(Exception ex) {
                 LOG.error("Error checking state for subscriptions in "
-                        + "source datastore {}", ps.getSource(), ex);
+                        + "source datastore {}", ps.getSource().getName(), ex);
             }
         }
         return pending;
     }
 
     private void repair(PerSource ps) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try (Script script = openScript()) {
+            if (script != null)
+                try {
+                    new Repairman(globals, ps, script) . run();
+                } catch(Exception ex) {
+                    LOG.error("Repair sequence failed for datastore {}",
+                            ps.getSource().getName(), ex);
+                }
+        }
     }
 
     /**

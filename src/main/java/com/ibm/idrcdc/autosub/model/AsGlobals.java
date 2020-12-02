@@ -55,7 +55,7 @@ public class AsGlobals {
         this.accessServerLogin = props.getProperty("as.user", "admin");
         this.accessServerPassword = props.getProperty("as.password", "password");
         this.configDirectory = props.getProperty("subs.config", "subs-config");
-        this.dataFile = props.getProperty("subs.work", "subs-work.dat");
+        this.dataFile = props.getProperty("subs.work", "subs-work.xml");
         this.mainSleep = Long.parseLong(props.getProperty("tool.sleep", "1000"));
         this.pauseAfterError =
                 Long.parseLong(props.getProperty("tool.pause_after_error", "30000"));

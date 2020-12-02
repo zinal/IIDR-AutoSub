@@ -102,7 +102,7 @@ public class PendingChecker {
         if (!m.isSuppressStopped()) {
             m.setSuppressStopped(true);
             LOG.info("Subscription {} not working, actual state: {}",
-                    m.getSubscription(), substate);
+                    m.getSubscription().getName(), substate);
         }
         // Check the actual failure reason
         if ("Failed".equalsIgnoreCase(substate)) {
@@ -130,7 +130,7 @@ public class PendingChecker {
         // (a) 9505, 1463
         // (b) 90, 119, 1463
         script.execute("list subscription events name \"{0}\" type source;",
-                m.getSubscription());
+                m.getSubscription().getName());
         final ScriptOutput table = script.getTable();
         String msg9505 = null;
         String msg90 = null;
