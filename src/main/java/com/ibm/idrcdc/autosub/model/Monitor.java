@@ -43,8 +43,10 @@ public class Monitor {
     private final List<String> sourceTables = new ArrayList<>();
     // bookmark retrieved from target
     private String bookmark;
+    // state of columns before re-adding the tables
+    private Map<String,Boolean> columnState;
     // time of the last failure
-    long failureTime;
+    private long failureTime;
 
     private boolean suppressMissing; // for "Missing..." message
     private boolean suppressStopped; // for "Stopped..." message
@@ -114,6 +116,14 @@ public class Monitor {
         this.bookmark = bookmark;
     }
 
+    public Map<String, Boolean> getColumnState() {
+        return columnState;
+    }
+
+    public void setColumnState(Map<String, Boolean> columnState) {
+        this.columnState = columnState;
+    }
+
     public long getFailureTime() {
         return failureTime;
     }
@@ -122,7 +132,7 @@ public class Monitor {
         this.failureTime = failureTime;
     }
 
-    public void setRepairFailed(long failureTime) {
+    public void markRepairFailed(long failureTime) {
         this.failureTime = failureTime;
         this.repair = false;
     }
@@ -179,6 +189,11 @@ public class Monitor {
         m.put("TARGET", subscription.getTarget().getName());
         m.put("BOOKMARK", bookmark);
         return m;
+    }
+
+    @Override
+    public String toString() {
+        return subscription.getName();
     }
 
 }

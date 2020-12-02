@@ -22,13 +22,13 @@
 package com.ibm.idrcdc.autosub;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import com.ibm.idrcdc.autosub.model.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Algorithm to repair subscriptions of a single source datastore.
@@ -55,20 +55,20 @@ public class Repairman implements Runnable {
 
     @Override
     public void run() {
-        LOG.info("Repair sequence started for source datastore {}",
-                source.getSource().getName());
+        LOG.info("Repair sequence STARTED for source datastore {}, subscriptions {}",
+                source.getSource(), getPendingSubs());
 
-        // 1. Grab the bookmarks on proper targets.
-        grabAllBookmarks();
-
-        // 2. Connect to the source datastore
+        // Connect to the source datastore
         script.dataStore(source.getSource(), EngineType.Source);
 
-        // 3. Stop all the running subscriptions
+        // 1. Grab the bookmarks on target datastores.
+        grabAllBookmarks();
+
+        // 2. Stop all the running subscriptions on the source datastore
         // (necessary for dmclearstagingstore)
         stopAllSubscriptions();
 
-        // 4. Clear the staging store
+        // 3. Clear the staging store
         if ( ! clearStagingStore() ) {
             // Re-start the stopped subscriptions on error, and return
             restartSubscriptions();
@@ -77,25 +77,23 @@ public class Repairman implements Runnable {
             return;
         }
 
+        // 4. Reading the column states
+        for (Monitor m : getPendingSubs()) {
+            grabColumnStates(m);
+        }
+
         // 5. Re-adding the altered tables
         for (String tableFull : source.extractAlteredTables()) {
             if (!readdTable(tableFull)) {
                 // Mark all dependant subscriptions as non-recoverable
-                setRepairFailed(tableFull);
+                markRepairFailed(tableFull);
             }
         }
 
         // 6. Repairing the subscriptions
-        for (PerTarget pst : source.getTargets()) {
-            for (Monitor m : pst.getMonitors()) {
-                if (!m.isRepair())
-                    continue;
-                // Update the subscription
-                if (!repair(m))
-                    continue;
-                // Set the previous bookmark back
-                if (!resetBookmark(m))
-                    continue;
+        for (Monitor m : getPendingSubs()) {
+            // Update the subscription and reset the bookmark
+            if ( repair(m) ) {
                 // Success - will start the subscription
                 subsToStart.put(m.getSubscription().getName(), m.getTarget().getName());
                 // Reset the failure time in case we have recovered
@@ -106,8 +104,8 @@ public class Repairman implements Runnable {
         // 7. Restarting the subscriptions
         restartSubscriptions();
 
-        LOG.info("Repair sequence COMPLETED for source datastore {}",
-                source.getSource().getName());
+        LOG.info("Repair sequence COMPLETED for source datastore {}, subscriptions {}",
+                source.getSource(), getPendingSubs());
     }
 
     private boolean readdTable(String tableFull) {
@@ -119,7 +117,32 @@ public class Repairman implements Runnable {
                     source.getSource().getName(), table[0], table[1]);
             return true;
         } catch(Exception ex) {
-            LOG.error("Failed to re-add table {} to the replication", tableFull, ex);
+            LOG.error("Failed to re-add table {}", tableFull, ex);
+            return false;
+        }
+    }
+
+    private boolean grabColumnStates(Monitor m) {
+        if (! m.isRepair())
+            return false;
+        LOG.info("Reading column data for subscription {}", m.getSubscription());
+        try {
+            script.dataStore(m.getTarget(), EngineType.Target);
+            script.execute("select subscription name \"{0}\";",
+                    m.getSubscription().getName());
+            for (String tableFull : m.getSourceTables()) {
+                LOG.info("\tAnalysing table {}...", tableFull);
+                String[] table = tableFull2Pair(tableFull);
+                script.execute("select table mapping "
+                        + "sourceSchema \"{0}\" sourceTable \"{1}\";",
+                        table[0], table[1]);
+                m.setColumnState( grabColumnStatus(m) );
+            }
+            LOG.info("\tComplete!");
+            return true;
+        } catch(Exception ex) {
+            m.markRepairFailed(startTime);
+            LOG.info("\tFailed!", ex);
             return false;
         }
     }
@@ -127,7 +150,7 @@ public class Repairman implements Runnable {
     private boolean repair(Monitor m) {
         if (! m.isRepair())
             return false;
-        LOG.info("Processing subscription {}", m.getSubscription());
+        LOG.info("Repairing the subscription {}", m.getSubscription());
         try {
             script.dataStore(m.getTarget(), EngineType.Target);
             script.execute("select subscription name \"{0}\";",
@@ -146,7 +169,9 @@ public class Repairman implements Runnable {
                 script.execute("select table mapping "
                         + "sourceSchema \"{0}\" sourceTable \"{1}\";",
                         table[0], table[1]);
-                Map<String,Boolean> state = grabColumnStatus(m);
+                Map<String,Boolean> state = m.getColumnState();
+                if (state==null)
+                    state = Collections.emptyMap();
                 script.execute("reassign table mapping;");
                 updateReplicatedColumns(m, state);
                 LOG.info("\tParking...");
@@ -161,9 +186,10 @@ public class Repairman implements Runnable {
             LOG.info("\tUnlocking...");
             script.execute("unlock subscription;");
             LOG.info("\tComplete!");
-            return true;
+            // Need to reset the bookmark after the repairs.
+            return resetBookmark(m);
         } catch(Exception ex) {
-            m.setRepairFailed(startTime);
+            m.markRepairFailed(startTime);
             LOG.info("\tFailed!", ex);
             return false;
         }
@@ -243,19 +269,23 @@ public class Repairman implements Runnable {
         final Map<String, String> runningSubs = listRunningSubscriptions();
         if (runningSubs.isEmpty())
             return;
+        // All stopped subscriptions must be restarted.
         subsToStart.putAll(runningSubs);
-        LOG.info("Stopping all subscriptions...");
+        LOG.info("Stopping all running subscriptions for datastore {}...", source.getSource());
         for (Map.Entry<String, String> sub : runningSubs.entrySet()) {
+            LOG.info("\tStopping subscription {}...", sub.getKey());
             script.dataStore(sub.getValue(), EngineType.Target);
             script.execute("select subscription name \"{0}\";", sub.getKey());
             script.execute("end replication method immediate wait {0};",
                     String.valueOf(globals.getWaitStartMirroring()));
         }
-        do {
+        LOG.info("\tWaiting for completion...");
+        while (listRunningSubscriptions().isEmpty() == false) {
             try {
                 Thread.sleep(500L);
             } catch (InterruptedException ix) {}
-        } while (listRunningSubscriptions().isEmpty() == false);
+        }
+        LOG.info("\tComplete!...");
     }
 
     private boolean clearStagingStore() {
@@ -264,7 +294,7 @@ public class Repairman implements Runnable {
         subst.put("INSTANCE", source.getSource().getName());
         int retval = new RemoteTool("cmd-clear-staging", command, subst) . execute();
         if (retval != 0) {
-            setRepairFailed(null); // mark repair failure for all subscriptions
+            markRepairFailed(null); // mark repair failure for all subscriptions
             LOG.error("Cannot clear the staging store on source, status code {}. "
                     + "Skipping the recovery of all affected subscriptions...", retval);
             return false;
@@ -282,7 +312,7 @@ public class Repairman implements Runnable {
                     LOG.info("Bookmark value for subscription {} is {}",
                             m.getSubscription().getName(), m.getBookmark());
                 } catch(Exception ex) {
-                    m.setRepairFailed(startTime); // mark repair failure
+                    m.markRepairFailed(startTime); // mark repair failure
                     LOG.error("Cannot retrieve bookmark for subscription {}. "
                             + "Skipping the recovery...", m.getSubscription().getName(), ex);
                 }
@@ -323,14 +353,14 @@ public class Repairman implements Runnable {
         return true;
     }
 
-    private void setRepairFailed(String tableName) {
+    private void markRepairFailed(String tableName) {
         for (PerTarget pst : source.getTargets()) {
             for (Monitor m : pst.getMonitors()) {
                 if (tableName!=null) {
                     if (!m.getSourceTables().contains(tableName))
                         continue; // Filter out unrelated subscription monitors
                 }
-                m.setRepairFailed(startTime);
+                m.markRepairFailed(startTime);
             }
         }
     }
@@ -350,6 +380,17 @@ public class Repairman implements Runnable {
                 LOG.error("Failed to start subscription {}", sub.getKey(), ex);
             }
         }
+    }
+
+    private List<Monitor> getPendingSubs() {
+        final List<Monitor> v = new ArrayList<>();
+        for (PerTarget pst : source.getTargets()) {
+            for (Monitor m : pst.getMonitors()) {
+                if ( m.isRepair() )
+                    v.add(m);
+            }
+        }
+        return v;
     }
 
     private static String[] tableFull2Pair(String tableFull) {
