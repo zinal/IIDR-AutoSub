@@ -127,7 +127,7 @@ public class Worker implements Runnable {
                 } catch (InterruptedException ix) {}
                 if (flagShutdown.isEnabled())
                     break; // Shutdown fast
-                if (tvFinish >= System.currentTimeMillis())
+                if (tvFinish <= System.currentTimeMillis())
                     break; // End of delay
             }
         } // while (true)

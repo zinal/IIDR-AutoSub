@@ -119,7 +119,7 @@ public class Repairman implements Runnable {
                     source.getSource().getName(), table[0], table[1]);
             return true;
         } catch(Exception ex) {
-            LOG.error("Failed to re-add table {} to the replication", ex);
+            LOG.error("Failed to re-add table {} to the replication", tableFull, ex);
             return false;
         }
     }

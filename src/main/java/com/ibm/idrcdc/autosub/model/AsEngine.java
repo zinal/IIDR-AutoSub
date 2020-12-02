@@ -111,7 +111,7 @@ public class AsEngine {
 
     @Override
     public String toString() {
-        return "AsEngine{" + "name=" + name + ", type=" + type + '}';
+        return name;
     }
 
 }
