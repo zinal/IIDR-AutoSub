@@ -409,25 +409,8 @@ public class Repairman implements Runnable {
         subsToStart.clear();
     }
 
-    private List<Monitor> getAllSubs() {
-        final List<Monitor> v = new ArrayList<>();
-        for (PerTarget pst : origin.getTargets()) {
-            for (Monitor m : pst.getMonitors()) {
-                v.add(m);
-            }
-        }
-        return v;
-    }
-
     private List<Monitor> getPendingSubs() {
-        final List<Monitor> v = new ArrayList<>();
-        for (PerTarget pst : origin.getTargets()) {
-            for (Monitor m : pst.getMonitors()) {
-                if ( m.isRepair() )
-                    v.add(m);
-            }
-        }
-        return v;
+        return origin.pendingMonitors();
     }
 
     private static String[] tableFull2Pair(String tableFull) {

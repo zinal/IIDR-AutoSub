@@ -81,7 +81,7 @@ public class ChangeSignature {
         public Record(PerSource ps) {
             alteredTables.addAll(ps.alteredTables());
             for (Monitor m : ps.pendingMonitors()) {
-                pendingSubscriptions.add(m.getSource().getName());
+                pendingSubscriptions.add(m.getSubscription().getName());
             }
         }
 
