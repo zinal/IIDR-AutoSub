@@ -93,18 +93,11 @@ public class PendingChecker {
         if ("Mirror Continuous".equalsIgnoreCase(substate)) {
             // Okay, so it works now.
             // Report the recovery, if it failed previously.
-            if (m.isSuppressStopped()) {
-                m.setSuppressStopped(false);
-                LOG.info("Recovered subscription {}", m.getSubscription());
-            }
+            m.reportSubscriptionRecovered();
             return false;
         }
         // Report the subscription as failed.
-        if (!m.isSuppressStopped()) {
-            m.setSuppressStopped(true);
-            LOG.info("Subscription {} not working, actual state: {}",
-                    m.getSubscription().getName(), substate);
-        }
+        m.reportSubscriptionFailed(substate);
         // Check the actual failure reason
         if ("Failed".equalsIgnoreCase(substate)) {
             if ( checkMonitor(m) ) {
@@ -127,57 +120,89 @@ public class PendingChecker {
             if (diff < globals.getPauseAfterError())
                 return false;
         }
-        // Supported event sequence: 9505, 1463.
-        // Table name is extracted from message 9505.
+        // Supported event sequence: {9505 or 9602}, 1463.
+        // Table name is extracted from message.
         script.execute("list subscription events name \"{0}\" type source;",
                 m.getSubscription().getName());
         final ScriptOutput table = script.getTable();
-        String msg9505 = null;
+        FailureMessageType messageType = null;
+        String messageText = null;
         for (int irow=0; irow < table.getRowCount(); ++irow) {
             String eventId = table.getValueAt(irow, "EVENT ID");
-            if ("9505".equals(eventId)) {
-                // DDL detected, target cannot handle it
-                script.execute("show subscription event details row {0} ;",
-                        String.valueOf(irow+1));
-                msg9505 = script.getTable().getValueAt(1, 1);
-            } else if ("1463".equals(eventId)) {
+            if ("1463".equals(eventId)) {
                 // Subscription start, no need to scan further.
                 break;
             }
+            for (FailureMessageType mt : FailureMessageType.values()) {
+                if (mt.id.equals(eventId)) {
+                    messageType = mt;
+                    script.execute("show subscription event details row {0} ;",
+                            String.valueOf(irow+1));
+                    messageText = script.getTable().getValueAt(1, 1);
+                    break;
+                }
+            }
+            if (messageType != null)
+                break; // found the message with table name
         }
         // Retrieve the altered table name from the messages.
         String tableName = null;
-        if (msg9505 != null) {
-            // Parse the 9505 message
-            // IBM XXX has encountered a critical data definition (DDL) change for source table
-            // METADEMO.TAB0 and will shutdown. Please re-add the table definition ...
-            msg9505 = msg9505.replace('\n', ' ').replace('\r', ' ');
-            final String textBegin = "(DDL) change for source table ";
-            int tabBegin = msg9505.indexOf(textBegin);
-            int tabEnd = msg9505.indexOf(" and will shutdown. Please re-add ");
-            if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
-                LOG.warn("Failed to parse the 9505 message text:\n\t{}", msg9505);
-            } else {
-                tabBegin += textBegin.length();
-                tableName = msg9505.substring(tabBegin, tabEnd);
+        if (messageType != null) {
+            switch (messageType) {
+                case M9505: {
+// Oracle:
+// IBM XXX has encountered a critical data definition (DDL) change for source table
+// METADEMO.TAB0 and will shutdown. Please re-add the table definition ...
+                    String msg9505 = messageToLine(messageText);
+                    final String textBegin = "(DDL) change for source table ";
+                    int tabBegin = msg9505.indexOf(textBegin);
+                    int tabEnd = msg9505.indexOf(" and will shutdown. Please re-add ");
+                    if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
+                        LOG.warn("Failed to parse the 9505 message text:\n\t{}", msg9505);
+                    } else {
+                        tabBegin += textBegin.length();
+                        tableName = msg9505.substring(tabBegin, tabEnd);
+                    }
+                    break;
+                }
+                case M9602: {
+// PostgreSQL:
+// An exception has occurred during mirroring.
+// Stopping replication because table definition has changed for table "myuser.pgtab1".
+                    String msg9602 = messageToLine(messageText).trim();
+                    final String textBegin = "definition has changed for table ";
+                    int tabBegin = msg9602.indexOf(textBegin);
+                    int tabEnd = msg9602.length() - 1;
+                    if (!msg9602.endsWith("\"."))
+                        tabEnd = -1;
+                    if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
+                        LOG.warn("Failed to parse the 9602 message text:\n\t{}", msg9602);
+                    } else {
+                        tabBegin += textBegin.length();
+                        tableName = msg9602.substring(tabBegin, tabEnd);
+                        tableName = tableName.replace("\"", "");
+                    }
+                    break;
+                }
             }
         }
         if (StringUtils.isBlank(tableName)) {
             // Not a case we support.
-            if (!m.isSuppressNoRepair()) {
-                m.setSuppressNoRepair(true);
-                LOG.warn("Cannot repair the failed subscription {}", m.getSubscription());
-            }
+            m.reportCannotRepair();
             return false;
         }
         // Seems to be a supported case.
-        if (m.isSuppressNoRepair()) {
-            m.setSuppressNoRepair(false);
-        }
-        m.getSourceTables().add(tableName);
-        LOG.info("Probably able to repair the failed subscription {}\n\t{}",
-                m.getSubscription(), m.getSourceTables());
+        m.resetCannotRepair();
+        m.getAlteredTables().add(tableName);
+        LOG.info("Probably able to repair the failed subscription {}, tables {}",
+                m.getSubscription(), m.getAlteredTables());
         return true;
+    }
+
+    private static String messageToLine(String msg) {
+        while (msg.contains("\n\r"))
+            msg = msg.replace("\n\r", " ");
+        return msg.replace('\n', ' ').replace('\r', ' ');
     }
 
     /**
@@ -197,21 +222,7 @@ public class PendingChecker {
     private void checkMissingSubs() {
         for (PerTarget pst : source.getTargets()) {
             for (Monitor m : pst.getMonitors()) {
-                checkMissingSub(m);
-            }
-        }
-    }
-
-    private void checkMissingSub(Monitor m) {
-        if (m.isKnown()) {
-            if (m.isSuppressMissing()) {
-                m.setSuppressMissing(false);
-                LOG.info("Found subscription {}", m.getSubscription());
-            }
-        } else {
-            if (! m.isSuppressMissing()) {
-                m.setSuppressMissing(true);
-                LOG.warn("Lost subscription {}", m.getSubscription());
+                m.checkMissingSub();
             }
         }
     }

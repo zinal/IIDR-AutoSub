@@ -19,8 +19,10 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub.model;
+package com.ibm.idrcdc.autosub;
 
+import com.ibm.idrcdc.autosub.model.AsEngine;
+import com.ibm.idrcdc.autosub.model.AsSubscription;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,14 +35,19 @@ import java.util.Map;
  */
 public class Monitor {
 
+    private static final org.slf4j.Logger LOG =
+            org.slf4j.LoggerFactory.getLogger(Monitor.class);
+
     private final AsSubscription subscription;
 
     private boolean disabled; // incorrect configuration (not found on startup)
     private boolean known;    // does subscription exist?
     private boolean repair;   // should the subscription be repaired?
 
-    // altered source tables
+    // all replicated source tables
     private final List<String> sourceTables = new ArrayList<>();
+    // altered source tables
+    private final List<String> alteredTables = new ArrayList<>();
     // bookmark retrieved from target
     private String bookmark;
     // state of columns before re-adding the tables
@@ -48,9 +55,11 @@ public class Monitor {
     // time of the last failure
     private long failureTime;
 
-    private boolean suppressMissing; // for "Missing..." message
-    private boolean suppressStopped; // for "Stopped..." message
+    // Message suppression flags, to avoid endless duplicates in the log.
+    private boolean suppressMissing;  // for "Missing..." message
+    private boolean suppressStopped;  // for "Stopped..." message
     private boolean suppressNoRepair; // for "Cannot repair" message
+    private boolean suppressLocked;   // for "Locked recovery" message
 
     /**
      * Create object by parsing XML data element
@@ -66,6 +75,7 @@ public class Monitor {
         this.suppressMissing = false;
         this.suppressStopped = false;
         this.suppressNoRepair = false;
+        this.suppressLocked = false;
     }
 
     public AsSubscription getSubscription() {
@@ -104,6 +114,10 @@ public class Monitor {
         this.repair = repair;
     }
 
+    public List<String> getAlteredTables() {
+        return alteredTables;
+    }
+
     public List<String> getSourceTables() {
         return sourceTables;
     }
@@ -132,35 +146,19 @@ public class Monitor {
         this.failureTime = failureTime;
     }
 
+    @Override
+    public String toString() {
+        return subscription.getName();
+    }
+
+    /**
+     * Mark the table as not repairable, and save the time of failure
+     * to compute the retry delay.
+     * @param failureTime Time of failure of the subscription recovery attempt.
+     */
     public void markRepairFailed(long failureTime) {
         this.failureTime = failureTime;
         this.repair = false;
-    }
-
-    public boolean isSuppressMissing() {
-        return suppressMissing;
-    }
-
-    public void setSuppressMissing(boolean suppressMissing) {
-        this.suppressMissing = suppressMissing;
-    }
-
-    public boolean isSuppressStopped() {
-        return suppressStopped;
-    }
-
-    public void setSuppressStopped(boolean suppressStopped) {
-        this.suppressStopped = suppressStopped;
-        if (suppressStopped==false)
-            setSuppressNoRepair(false);
-    }
-
-    public boolean isSuppressNoRepair() {
-        return suppressNoRepair;
-    }
-
-    public void setSuppressNoRepair(boolean suppressNoRecovery) {
-        this.suppressNoRepair = suppressNoRecovery;
     }
 
     /**
@@ -170,6 +168,7 @@ public class Monitor {
     public void clearSubFlags() {
         known = false;
         repair = false;
+        alteredTables.clear();
         sourceTables.clear();
         bookmark = null;
     }
@@ -191,9 +190,60 @@ public class Monitor {
         return m;
     }
 
-    @Override
-    public String toString() {
-        return subscription.getName();
+    public void checkMissingSub() {
+        if (known) {
+            if (suppressMissing) {
+                suppressMissing = false;
+                LOG.info("Found subscription {}", subscription.getName());
+            }
+        } else {
+            if (! suppressMissing) {
+                suppressMissing = true;
+                LOG.warn("Lost subscription {}", subscription.getName());
+            }
+        }
+    }
+
+    public void reportRecoveryLocked(String tabName, Monitor other) {
+        if (! suppressLocked) {
+            suppressLocked = true;
+            LOG.info("Locked recovery of subscription {} with altered table {} "
+                    + "by another subscription {}",
+                    subscription.getName(), tabName, other.getSubscription().getName());
+        }
+    }
+
+    public void resetRecoveryLocked() {
+        suppressLocked = false;
+    }
+
+    public void reportSubscriptionRecovered() {
+        if (suppressStopped) {
+            suppressStopped = false;
+            LOG.info("Recovered subscription {}", subscription.getName());
+        }
+        // In case the subscription recovered, we will report this too again.
+        suppressNoRepair = false;
+        suppressLocked = false;
+    }
+
+    public void reportSubscriptionFailed(String substate) {
+        if (! suppressStopped ) {
+            suppressStopped = true;
+            LOG.info("Subscription {} not working, actual state: {}",
+                    subscription.getName(), substate);
+        }
+    }
+
+    public void reportCannotRepair() {
+        if (! suppressNoRepair ) {
+            suppressNoRepair = true;
+            LOG.warn("Cannot repair the failed subscription {}", subscription.getName());
+        }
+    }
+
+    public void resetCannotRepair() {
+        suppressNoRepair = false;
     }
 
 }

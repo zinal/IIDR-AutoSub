@@ -1,6 +1,6 @@
 /*
 ** ****************************************************************************
-** (c) Copyright IBM Corp. 2020 All rights reserved.
+** (c) Copyright IBM Corp. 2019, 2020. All rights reserved.
 **
 ** The following sample of source code ("Sample") is owned by International
 ** Business Machines Corporation or one of its subsidiaries ("IBM") and is
@@ -19,52 +19,31 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub.model;
+package com.ibm.idrcdc.autosub;
 
+import com.ibm.idrcdc.autosub.model.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
- * Monitors for one target datastore
- * (previously filtered by source datastore)
+ * Selects the set of altered tables which can be safely re-added.
  * @author zinal
  */
-public class PerTarget {
+public class TableSelector {
 
-    private final AsEngine target;
-    private final List<Monitor> monitors = new ArrayList<>();
+    private final PerSource origin;
+    private final Script script;
+    private final List<String> retval = new ArrayList<>();
 
-    public PerTarget(AsEngine target) {
-        this.target = target;
+    public TableSelector(PerSource origin, Script script) {
+        this.origin = origin;
+        this.script = script;
     }
 
-    public AsEngine getTarget() {
-        return target;
-    }
-
-    public List<Monitor> getMonitors() {
-        return monitors;
-    }
-
-    public boolean isDisabled() {
-        for (Monitor m : monitors) {
-            if (!m.isDisabled())
-                return false;
-        }
-        return true;
-    }
-
-    /**
-     * Find monitor by its subscription name
-     * @param name subscription name
-     * @return Monitor object, or null if not found
-     */
-    public Monitor findMonitor(String name) {
-        for (Monitor m : monitors) {
-            if (name.equalsIgnoreCase(m.getSubscription().getName()))
-                return m;
-        }
-        return null;
-    }
 
 }

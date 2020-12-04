@@ -19,12 +19,11 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub.model;
+package com.ibm.idrcdc.autosub;
 
+import com.ibm.idrcdc.autosub.model.AsEngine;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Monitors for one source datastore, grouped by target datastore
@@ -84,19 +83,6 @@ public class PerSource {
                 return pst;
         }
         return null;
-    }
-
-    /**
-     * Build the set of altered tables.
-     * @return Set of all tables altered in this source.
-     */
-    public Set<String> extractAlteredTables() {
-        final Set<String> tables = new TreeSet<>();
-        for (PerTarget pst : targets) {
-            for ( Monitor m : pst.getMonitors() )
-                tables.addAll(m.getSourceTables());
-        }
-        return tables;
     }
 
 }

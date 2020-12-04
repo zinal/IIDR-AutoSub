@@ -21,6 +21,9 @@
  */
 package com.ibm.idrcdc.autosub.model;
 
+import com.ibm.idrcdc.autosub.Monitor;
+import com.ibm.idrcdc.autosub.PerTarget;
+import com.ibm.idrcdc.autosub.PerSource;
 import java.util.ArrayList;
 import java.util.List;
 
