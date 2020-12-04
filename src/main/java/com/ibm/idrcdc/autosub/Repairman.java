@@ -89,7 +89,7 @@ public class Repairman implements Runnable {
 
             // 5. Reading the column states
             for (Monitor m : getPendingSubs()) {
-                grabColumnStates(m);
+                grabTableColumns(m);
             }
             if (getPendingSubs().isEmpty())
                 return;
@@ -149,31 +149,6 @@ public class Repairman implements Runnable {
         }
     }
 
-    private boolean grabColumnStates(Monitor m) {
-        if (! m.isRepair())
-            return false;
-        LOG.info("Reading column data for subscription {}", m.getSubscription());
-        try {
-            script.dataStore(m.getTarget(), EngineType.Target);
-            script.execute("select subscription name \"{0}\";",
-                    m.getSubscription().getName());
-            for (String tableFull : m.getAlteredTables()) {
-                LOG.info("\tAnalysing table {}...", tableFull);
-                String[] table = tableFull2Pair(tableFull);
-                script.execute("select table mapping "
-                        + "sourceSchema \"{0}\" sourceTable \"{1}\";",
-                        table[0], table[1]);
-                m.setColumnState( grabColumnStatus(m) );
-            }
-            LOG.info("\tComplete!");
-            return true;
-        } catch(Exception ex) {
-            m.markRepairFailed(startTime);
-            LOG.info("\tFailed!", ex);
-            return false;
-        }
-    }
-
     private boolean repair(Monitor m) {
         if (! m.isRepair())
             return false;
@@ -229,36 +204,35 @@ public class Repairman implements Runnable {
      * @return List of tables to be re-added.
      */
     private void selectTables() {
-        final Map<String, List<Monitor>> candidates = new HashMap<>();
-        final List<Monitor> monitors = new ArrayList<>();
-        for (PerTarget pst : origin.getTargets()) {
-            script.dataStore(pst.getTarget(), EngineType.Target);
-            for (Monitor m : pst.getMonitors()) {
-                monitors.add(m);
-                // Grab the names of the replicated tables
-                m.getSourceTables().clear();
-                script.execute("select subscription name \"{0}\";",
-                        m.getSubscription().getName());
-                script.execute("list table mappings;");
-                ScriptOutput mappings = script.getTable();
-                for ( int irow = 0; irow < mappings.getRowCount(); ++irow ) {
-                    String tableName = mappings.getValueAt(irow, "SOURCE TABLE");
-                    m.getSourceTables().add(tableName);
-                }
-                // Collect the names of all altered tables we've detected.
-                if (m.isRepair()) {
-                    for (String tabName : m.getAlteredTables()) {
-                        List<Monitor> x = candidates.get(tabName);
-                        if (x==null) {
-                            x = new ArrayList<>();
-                            candidates.put(tabName, x);
-                        }
-                        x.add(m);
-                    }
-                }
+        // Grab the names of all the replicated tables in all subscriptions
+        final List<Monitor> monitors = getAllSubs();
+        for (Monitor m : monitors) {
+            m.getSourceTables().clear();
+            script.dataStore(m.getTarget().getName(), EngineType.Target);
+            script.execute("select subscription name \"{0}\";",
+                    m.getSubscription().getName());
+            script.execute("list table mappings;");
+            ScriptOutput mappings = script.getTable();
+            for ( int irow = 0; irow < mappings.getRowCount(); ++irow ) {
+                String tableName = mappings.getValueAt(irow, "SOURCE TABLE");
+                m.getSourceTables().add(tableName);
             }
         }
+        // Collect the names of all altered tables we've detected.
+        final Map<String, List<Monitor>> candidates = new HashMap<>();
+        for (Monitor m : getPendingSubs()) {
+            for (String tabName : m.getAlteredTables()) {
+                List<Monitor> x = candidates.get(tabName);
+                if (x==null) {
+                    x = new ArrayList<>();
+                    candidates.put(tabName, x);
+                }
+                x.add(m);
+            }
+        }
+
         selectedTables.clear();
+
         // We have a list of altered tables,
         // plus the list of all replicated tables per subscription.
         // To re-add the table, all the subscriptions with it should stop on it.
@@ -290,7 +264,34 @@ public class Repairman implements Runnable {
                 selectedTables, getPendingSubs());
     }
 
-    private Map<String,Boolean> grabColumnStatus(Monitor m) {
+    private boolean grabTableColumns(Monitor m) {
+        if (! m.isRepair())
+            return false;
+        LOG.info("Reading column data for subscription {}", m.getSubscription());
+        try {
+            script.dataStore(m.getTarget(), EngineType.Target);
+            script.execute("select subscription name \"{0}\";",
+                    m.getSubscription().getName());
+            for (String tableFull : m.getAlteredTables()) {
+                if (! selectedTables.contains(tableFull) )
+                    continue;
+                LOG.info("\tAnalysing table {}...", tableFull);
+                String[] table = tableFull2Pair(tableFull);
+                script.execute("select table mapping "
+                        + "sourceSchema \"{0}\" sourceTable \"{1}\";",
+                        table[0], table[1]);
+                m.setColumnState( grabColumnStates(m) );
+            }
+            LOG.info("\tComplete!");
+            return true;
+        } catch(Exception ex) {
+            m.markRepairFailed(startTime);
+            LOG.info("\tFailed!", ex);
+            return false;
+        }
+    }
+
+    private Map<String,Boolean> grabColumnStates(Monitor m) {
         final Map<String,Boolean> state = new HashMap<>();
         script.execute("list source columns;");
         final ScriptOutput table = script.getTable();
@@ -448,7 +449,7 @@ public class Repairman implements Runnable {
         for (PerTarget pst : origin.getTargets()) {
             for (Monitor m : pst.getMonitors()) {
                 if (tableName!=null) {
-                    if (!m.getAlteredTables().contains(tableName))
+                    if (! m.getAlteredTables().contains(tableName) )
                         continue; // Filter out unrelated subscription monitors
                 }
                 m.markRepairFailed(startTime);
@@ -472,6 +473,16 @@ public class Repairman implements Runnable {
             }
         }
         subsToStart.clear();
+    }
+
+    private List<Monitor> getAllSubs() {
+        final List<Monitor> v = new ArrayList<>();
+        for (PerTarget pst : origin.getTargets()) {
+            for (Monitor m : pst.getMonitors()) {
+                v.add(m);
+            }
+        }
+        return v;
     }
 
     private List<Monitor> getPendingSubs() {
