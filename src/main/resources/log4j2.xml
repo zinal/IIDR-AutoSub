@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.ibm.idrcdc.autosub.Script" level="info"/>
+        <Logger name="com.ibm.idrcdc.autosub.RemoteTool" level="info"/>
+        <Logger name="com.ibm.idrcdc.autosub.Worker" level="info"/>
+        <Logger name="com.ibm.idrcdc.autosub.Monitor" level="info"/>
+        <Logger name="com.ibm.idrcdc.autosub.Repairman" level="info"/>
+        <Logger name="com.ibm.idrcdc.autosub.ConfigValidator" level="info"/>
+        <Logger name="com.ibm.idrcdc.autosub.PendingChecker" level="info"/>
+
+        <Root level="info">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
