@@ -58,22 +58,23 @@ public class Repairman implements Runnable {
 
     @Override
     public void run() {
-        LOG.info("Repair sequence STARTED for source datastore {}, subscriptions {}",
-                origin.getSource(), getPendingSubs());
+        // Connect to the source datastore
+        script.dataStore(origin.getSource(), EngineType.Source);
+
+        // 1. Identify the tables to be re-added.
+        // As a side-effect, update the list of subscriptions to be repaired,
+        // excluding those which cannot be repaired safely due to dependencies.
+        selectTables();
+        if (selectedTables.isEmpty())
+            return;
+
+        LOG.info("Repair sequence STARTED for source datastore {}, "
+                + "subscriptions {}, tables {}",
+                origin.getSource(), getPendingSubs(), selectedTables);
 
         boolean repairSucceeded = false;
 
         try {
-            // Connect to the source datastore
-            script.dataStore(origin.getSource(), EngineType.Source);
-
-            // 1. Identify the tables to be re-added.
-            // As a side-effect, update the list of subscriptions to be repaired,
-            // excluding those which cannot be repaired safely due to dependencies.
-            selectTables();
-            if (selectedTables.isEmpty())
-                return;
-
             // 2. Grab the bookmarks on target datastores.
             grabAllBookmarks();
             if (getPendingSubs().isEmpty())
@@ -168,8 +169,8 @@ public class Repairman implements Runnable {
             for (String tableFull : m.getAlteredTables()) {
                 if (!selectedTables.contains(tableFull))
                     continue;
-                LOG.info("\tRe-mapping table {}...", tableFull);
                 String[] table = tableFull2Pair(tableFull);
+                LOG.info("\tRe-mapping table {}...", tableFull);
                 script.execute("select table mapping "
                         + "sourceSchema \"{0}\" sourceTable \"{1}\";",
                         table[0], table[1]);
@@ -178,16 +179,16 @@ public class Repairman implements Runnable {
                     state = Collections.emptyMap();
                 script.execute("reassign table mapping;");
                 updateReplicatedColumns(m, state);
-                LOG.info("\tParking...");
+                LOG.info("\t\tParking...");
                 script.execute("park table mapping;");
-                LOG.info("\tSwitching to REFRESH...");
+                LOG.info("\t\tSwitching to REFRESH...");
                 script.execute("modify table mapping method refresh;");
-                LOG.info("\tSwitching to MIRROR...");
+                LOG.info("\t\tSwitching to MIRROR...");
                 script.execute("modify table mapping method mirror;");
-                LOG.info("\tMarking capture point...");
+                LOG.info("\t\tMarking capture point...");
                 script.execute("mark capture point;");
             }
-            LOG.info("\tUnlocking...");
+            LOG.info("\tUnlocking subscription...");
             script.execute("unlock subscription;");
             LOG.info("\tComplete!");
             // Need to reset the bookmark after the repairs.
@@ -260,8 +261,10 @@ public class Repairman implements Runnable {
             }
         }
 
-        LOG.info("Selected table(s) {} in subscription(s) {} for recovery",
-                selectedTables, getPendingSubs());
+        if (! selectedTables.isEmpty()) {
+            LOG.info("Selected table(s) {} in subscription(s) {} for recovery",
+                    selectedTables, getPendingSubs());
+        }
     }
 
     private boolean grabTableColumns(Monitor m) {

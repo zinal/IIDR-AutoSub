@@ -73,7 +73,7 @@ public class RemoteTool {
                 command[i] = s;
             }
         }
-        LOG.info("Running the command {}", (Object) command);
+        LOG.debug("Running the command {}", (Object) command);
         try {
             final Process proc = new ProcessBuilder(command)
                     .redirectErrorStream(true)
@@ -86,14 +86,14 @@ public class RemoteTool {
                     if (output!=null) {
                         output.append(line).append("\n");
                     }
-                    LOG.info("{}: {}", logPrefix, line);
+                    LOG.debug("{}: {}", logPrefix, line);
                 }
             }
             int retCode = proc.waitFor();
-            LOG.info("Command completed with code {}", retCode);
+            LOG.debug("Command completed with code {}", retCode);
             return retCode;
         } catch(Exception ex) {
-            LOG.error("Command execution failed", ex);
+            LOG.error("Execution failed for command {}", (Object) command, ex);
             return -1;
         }
     }

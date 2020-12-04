@@ -194,7 +194,7 @@ public class PendingChecker {
         // Seems to be a supported case.
         m.resetCannotRepair();
         m.getAlteredTables().add(tableName);
-        LOG.info("Probably able to repair the failed subscription {}, tables {}",
+        LOG.debug("Probably able to repair the failed subscription {}, tables {}",
                 m.getSubscription(), m.getAlteredTables());
         return true;
     }
