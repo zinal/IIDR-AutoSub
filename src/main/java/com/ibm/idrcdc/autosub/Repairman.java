@@ -26,7 +26,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
@@ -77,19 +76,19 @@ public class Repairman implements Runnable {
             if (getPendingSubs().isEmpty())
                 return;
 
-            // 2. Stop all the running subscriptions on the source datastore
-            // (necessary for dmclearstagingstore)
-            stopAllSubscriptions();
-
-            // 3. Clear the staging store
-            if ( ! clearStagingStore() )
-                return;
-
-            // 4. Reading the column states
+            // 2. Reading the column states
             for (Monitor m : getPendingSubs()) {
                 grabTableColumns(m);
             }
             if (getPendingSubs().isEmpty())
+                return;
+
+            // 3. Stop all the running subscriptions on the source datastore
+            // (necessary for dmclearstagingstore)
+            stopAllSubscriptions();
+
+            // 4. Clear the staging store
+            if ( ! clearStagingStore() )
                 return;
 
             // 5. Re-adding the altered tables
@@ -318,6 +317,7 @@ public class Repairman implements Runnable {
     }
 
     private boolean clearStagingStore() {
+        LOG.info("Clearing the staging store for {}", origin);
         final String command = origin.getSource().getCommandClear();
         Map<String,String> subst = new HashMap<>();
         subst.put("SOURCE", origin.getSource().getName());
@@ -328,6 +328,7 @@ public class Repairman implements Runnable {
                     + "Skipping the recovery of all affected subscriptions...", retval);
             return false;
         }
+        LOG.info("Staging store cleared!");
         return true;
     }
 

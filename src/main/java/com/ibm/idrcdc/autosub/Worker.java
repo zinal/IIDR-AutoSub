@@ -114,14 +114,16 @@ public class Worker implements Runnable {
             // Validate the configuration, if not yet done.
             if (validate()) {
                 // Find the subscriptions to repair
-                List<PerSource> pending = checkPending(false);
+                List<PerSource> pending = checkPending();
                 if (pending!=null && !pending.isEmpty()) {
                     LOG.debug("Pending recovery for datastores {}...", pending);
                     if ( pauseBeforeRepair() )
                         continue; // May get a shutdown flag
                     // Re-check after a small delay
-                    pending = checkPending(true);
-                    if (pending==null || pending.isEmpty()) {
+                    ChangeSignature sig1 = new ChangeSignature(pending);
+                    pending = checkPending();
+                    ChangeSignature sig2 = new ChangeSignature(pending);
+                    if (! sig1.equals(sig2)) {
                         LOG.debug("... changed by other means, going back to monitoring.");
                         continue;
                     }
@@ -189,7 +191,7 @@ public class Worker implements Runnable {
      * Identify any fixable failed subscriptions
      * @return List of source datastores containing fixable subscriptions
      */
-    private List<PerSource> checkPending(boolean thorough) {
+    private List<PerSource> checkPending() {
         List<PerSource> pending = null;
         for (PerSource ps : groups.getData()) {
             if (ps.isDisabled())
@@ -198,7 +200,7 @@ public class Worker implements Runnable {
             try (Script script = openScript()) {
                 if (script!=null) {
                     // Validate monitors in each group
-                    if ( new PendingChecker(globals, ps, script).check(thorough) ) {
+                    if ( new PendingChecker(globals, ps, script).check(true) ) {
                         if (pending==null)
                             pending = new ArrayList<>();
                         pending.add(ps);

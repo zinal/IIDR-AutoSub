@@ -219,6 +219,9 @@ public class PendingChecker {
      * @return List of tables to be re-added.
      */
     private void selectTables() {
+        List<Monitor> pendingMonitors = origin.pendingMonitors();
+        if (pendingMonitors.isEmpty())
+            return; // nothing to do
         // Grab the names of all the replicated tables in all subscriptions
         final List<Monitor> monitors = origin.allMonitors();
         for (Monitor m : monitors) {
@@ -235,7 +238,7 @@ public class PendingChecker {
         }
         // Collect the names of all altered tables we've detected.
         final Map<String, List<Monitor>> candidates = new HashMap<>();
-        for (Monitor m : origin.pendingMonitors()) {
+        for (Monitor m : pendingMonitors) {
             for (String tabName : m.getAlteredTables()) {
                 List<Monitor> x = candidates.get(tabName);
                 if (x==null) {
@@ -248,7 +251,7 @@ public class PendingChecker {
 
         LOG.debug("selectTables: candidates {}", candidates);
 
-        final Set<String> selectedTables = new HashSet<String>();
+        final Set<String> selectedTables = new HashSet<>();
 
         // We have a list of altered tables,
         // plus the list of all replicated tables per subscription.
