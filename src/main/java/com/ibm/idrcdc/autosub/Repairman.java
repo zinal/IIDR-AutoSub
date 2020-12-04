@@ -364,6 +364,7 @@ public class Repairman implements Runnable {
     }
 
     private boolean resetBookmark(Monitor m) {
+        LOG.info("Re-setting a bookmark for subscription {}", m.getSubscription());
         final String command = m.getSource().getCommandBookmarkPut();
         if (StringUtils.isBlank(command)) {
             LOG.warn("Put bookmark command not configured for source {}", m.getSource().getName());
@@ -376,6 +377,7 @@ public class Repairman implements Runnable {
                     m.getSubscription().getName(), retval);
             return false;
         }
+        LOG.info("Bookmark reset successful!");
         return true;
     }
 

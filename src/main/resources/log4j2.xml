@@ -12,9 +12,9 @@
         <Logger name="com.ibm.idrcdc.autosub.RemoteTool" level="info"/>
         <Logger name="com.ibm.idrcdc.autosub.Worker" level="info"/>
         <Logger name="com.ibm.idrcdc.autosub.Monitor" level="info"/>
-        <Logger name="com.ibm.idrcdc.autosub.Repairman" level="debug"/>
+        <Logger name="com.ibm.idrcdc.autosub.Repairman" level="info"/>
         <Logger name="com.ibm.idrcdc.autosub.ConfigValidator" level="info"/>
-        <Logger name="com.ibm.idrcdc.autosub.PendingChecker" level="debug"/>
+        <Logger name="com.ibm.idrcdc.autosub.PendingChecker" level="info"/>
 
         <Root level="info">
             <AppenderRef ref="STDOUT"/>

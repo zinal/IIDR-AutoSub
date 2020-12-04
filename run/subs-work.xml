@@ -4,6 +4,7 @@
     <idrcdc-subscription name='O2K2' source='WRK1' target='KAFKA1' />
     <idrcdc-subscription name='O2M1' source='WRK1' target='META' skipNewBlobs='true' />
     <idrcdc-subscription name='O2M2' source='WRK1' target='META' skipNewBlobs='true' />
+    <idrcdc-subscription name='O2D1' source='WRK1' target='DS' />
     <!--
     <idrcdc-subscription name='P2O1' source='PG1' target='META' skipNewBlobs='true' />
     -->
@@ -20,5 +21,8 @@
     </idrcdc-engine>
     <idrcdc-engine name='META' type='Target'>
         <cmd-bmk-get>ssh cdcuser@zodak /datum/sw/cdc-oracle/bin/dmshowbookmark -I meta -s ${SUB}</cmd-bmk-get>
+    </idrcdc-engine>
+    <idrcdc-engine name='DS' type='Target'>
+        <cmd-bmk-get>ssh cdcuser@zodak /datum/sw/cdc-ds/bin/dmshowbookmark -I DS -s ${SUB}</cmd-bmk-get>
     </idrcdc-engine>
 </idrcdc-autosub>
