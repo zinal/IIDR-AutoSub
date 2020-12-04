@@ -23,7 +23,10 @@ package com.ibm.idrcdc.autosub;
 
 import com.ibm.idrcdc.autosub.model.AsEngine;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Monitors for one source datastore, grouped by target datastore
@@ -83,6 +86,55 @@ public class PerSource {
                 return pst;
         }
         return null;
+    }
+
+    /**
+     * Return the list of all monitored subscriptions for this source datastore.
+     * @return List of subscription monitors.
+     */
+    public List<Monitor> allMonitors() {
+        if (targets.isEmpty())
+            return Collections.emptyList();
+        if (targets.size() == 1)
+            return targets.get(0).getMonitors();
+        final List<Monitor> v = new ArrayList<>();
+        for (PerTarget pst : targets) {
+            v.addAll(pst.getMonitors());
+        }
+        return v;
+    }
+
+   /**
+     * Return the list of pending monitored subscriptions for this source datastore.
+     * @return List of pending subscription monitors.
+     */
+    public List<Monitor> pendingMonitors() {
+        final List<Monitor> v = new ArrayList<>();
+        for (PerTarget pst : targets) {
+            for (Monitor m : pst.getMonitors())
+                if (m.isRepair())
+                    v.add(m);
+        }
+        return v;
+    }
+
+    /**
+     * Collect all altered tables from the subscriptions waiting for recovery.
+     * @return Set of altered table names.
+     */
+    public Set<String> alteredTables() {
+        final Set<String> v = new HashSet<>();
+        for (PerTarget pst : targets) {
+            for (Monitor m : pst.getMonitors())
+                if (m.isRepair())
+                    v.addAll(m.getAlteredTables());
+        }
+        return v;
+    }
+
+    @Override
+    public String toString() {
+        return source.getName();
     }
 
 }

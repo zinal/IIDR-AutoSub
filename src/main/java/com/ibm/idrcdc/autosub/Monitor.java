@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Monitored subscription, including its configuration settings
@@ -116,6 +117,17 @@ public class Monitor {
 
     public List<String> getAlteredTables() {
         return alteredTables;
+    }
+
+    public void filterAlteredTables(Set<String> allowed) {
+        if (alteredTables.isEmpty() || allowed.isEmpty()
+                || allowed.containsAll(alteredTables))
+            return;
+        List<String> temp = new ArrayList<>(alteredTables);
+        alteredTables.clear();
+        for (String v : temp)
+            if (allowed.contains(v))
+                alteredTables.add(v);
     }
 
     public List<String> getSourceTables() {

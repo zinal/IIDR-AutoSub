@@ -22,6 +22,12 @@
 package com.ibm.idrcdc.autosub;
 
 import com.ibm.idrcdc.autosub.model.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -36,13 +42,13 @@ public class PendingChecker {
 
     private final long startTime;
     private final AsGlobals globals;
-    private final PerSource source;
+    private final PerSource origin;
     private final Script script;
 
-    public PendingChecker(AsGlobals globals, PerSource source, Script script) {
+    public PendingChecker(AsGlobals globals, PerSource origin, Script script) {
         this.startTime = System.currentTimeMillis();
         this.globals = globals;
-        this.source = source;
+        this.origin = origin;
         this.script = script;
     }
 
@@ -50,24 +56,27 @@ public class PendingChecker {
      * Check if there are some subscriptions to be recovered.
      * Update the per-subscription flags (known/recover),
      * save the names of the altered tables in the Monitor objects.
+     *
+     * @param thorough true, if depencency checks are to be done.
      * @return true, if there are subscriptions for recovery, and false otherwise
      */
-    public boolean check() {
+    public boolean check(boolean thorough) {
         // Clean up all flags to their initial states
         clearSubFlags();
         // Grab the subscription states
-        int countPending = 0;
-        script.dataStore(source.getSource(), EngineType.Source);
+        script.dataStore(origin.getSource(), EngineType.Source);
         script.execute("monitor replication;");
         final ScriptOutput table = script.getTable();
         for (int irow = 0; irow < table.getRowCount(); ++irow) {
-            if ( checkRow(table, irow) )
-                ++ countPending;
+            checkRow(table, irow);
         }
         // Signal lost & found subscriptions
         checkMissingSubs();
+        // Select altered tables based on dependencies
+        if (thorough)
+           selectTables();
         // Return true, if we have subscriptions to be recovered.
-        return (countPending > 0);
+        return ! origin.pendingMonitors().isEmpty();
     }
 
     /**
@@ -82,7 +91,7 @@ public class PendingChecker {
         String subname = table.getValueAt(irow, "SUBSCRIPTION");
         String substate = table.getValueAt(irow, "STATE");
         String target = table.getValueAt(irow, "TARGET DATASTORE");
-        PerTarget pst = source.findTarget(target);
+        PerTarget pst = origin.findTarget(target);
         if (pst==null)
             return false; // Skip the unknown targets
         Monitor m = pst.findMonitor(subname);
@@ -206,10 +215,89 @@ public class PendingChecker {
     }
 
     /**
+     * Identify which tables can be re-added safely.
+     * @return List of tables to be re-added.
+     */
+    private void selectTables() {
+        // Grab the names of all the replicated tables in all subscriptions
+        final List<Monitor> monitors = origin.allMonitors();
+        for (Monitor m : monitors) {
+            m.getSourceTables().clear();
+            script.dataStore(m.getTarget().getName(), EngineType.Target);
+            script.execute("select subscription name \"{0}\";",
+                    m.getSubscription().getName());
+            script.execute("list table mappings;");
+            ScriptOutput mappings = script.getTable();
+            for ( int irow = 0; irow < mappings.getRowCount(); ++irow ) {
+                String tableName = mappings.getValueAt(irow, "SOURCE TABLE");
+                m.getSourceTables().add(tableName);
+            }
+        }
+        // Collect the names of all altered tables we've detected.
+        final Map<String, List<Monitor>> candidates = new HashMap<>();
+        for (Monitor m : origin.pendingMonitors()) {
+            for (String tabName : m.getAlteredTables()) {
+                List<Monitor> x = candidates.get(tabName);
+                if (x==null) {
+                    x = new ArrayList<>();
+                    candidates.put(tabName, x);
+                }
+                x.add(m);
+            }
+        }
+
+        LOG.debug("selectTables: candidates {}", candidates);
+
+        final Set<String> selectedTables = new HashSet<String>();
+
+        // We have a list of altered tables,
+        // plus the list of all replicated tables per subscription.
+        // To re-add the table, all the subscriptions with it should stop on it.
+        for (Map.Entry<String, List<Monitor>> me : candidates.entrySet()) {
+            boolean allow = true;
+            for (Monitor m : monitors) {
+                if (m.getAlteredTables().contains(me.getKey()))
+                    continue; // Sub stopped at this table
+                if (m.getSourceTables().contains(me.getKey())) {
+                    // Sub replicates this table, and is not stopped on it.
+                    // Safe recovery is not possible.
+                    allow = false;
+                    // Disable the repairs for the affected subscriptions, and
+                    // print the warning messages.
+                    for (Monitor lockedMon : me.getValue()) {
+                        lockedMon.setRepair(false);
+                        lockedMon.reportRecoveryLocked(me.getKey(), m);
+                    }
+                }
+            }
+            if (allow) {
+                selectedTables.add(me.getKey());
+                for (Monitor m : me.getValue())
+                    m.resetRecoveryLocked();
+            }
+        }
+
+        if (! selectedTables.isEmpty()) {
+            LOG.info("Selected table(s) {} in subscription(s) {} for recovery",
+                    selectedTables, origin.pendingMonitors());
+        }
+
+        // Leave only the selected tables as altered in all pending monitors.
+        // If the list of altered tables becomes empty, exclude the monitor from repairs.
+        for (Monitor m : origin.pendingMonitors()) {
+            m.filterAlteredTables(selectedTables);
+            if (m.getAlteredTables().isEmpty()) {
+                LOG.debug("Excluded all altered tables for sub {}", m);
+                m.setRepair(false);
+            }
+        }
+    }
+
+    /**
      * Remove all known/repair flags and list of tables for all monitors.
      */
     private void clearSubFlags() {
-        for (PerTarget pst : source.getTargets()) {
+        for (PerTarget pst : origin.getTargets()) {
             for (Monitor m : pst.getMonitors()) {
                 m.clearSubFlags();
             }
@@ -220,7 +308,7 @@ public class PendingChecker {
      * Detect lost & found subscriptions - for logging only.
      */
     private void checkMissingSubs() {
-        for (PerTarget pst : source.getTargets()) {
+        for (PerTarget pst : origin.getTargets()) {
             for (Monitor m : pst.getMonitors()) {
                 m.checkMissingSub();
             }

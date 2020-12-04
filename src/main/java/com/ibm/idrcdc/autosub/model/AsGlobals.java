@@ -35,9 +35,10 @@ public class AsGlobals {
     private String accessServerPassword = null;
     private String configDirectory = null;
     private String dataFile = null;
-    private long mainSleep = -1L;
+    private long mainPeriod = -1L;
     private int waitStartMirroring = -1;
     private long pauseAfterError = -1L;
+    private long pauseBeforeRepair = -1L;
 
     /**
      * Constructor for the manual setup.
@@ -56,11 +57,13 @@ public class AsGlobals {
         this.accessServerPassword = props.getProperty("as.password", "password");
         this.configDirectory = props.getProperty("subs.config", "subs-config");
         this.dataFile = props.getProperty("subs.work", "subs-work.xml");
-        this.mainSleep = Long.parseLong(props.getProperty("tool.sleep", "1000"));
-        this.pauseAfterError =
-                Long.parseLong(props.getProperty("tool.pause_after_error", "30000"));
+        this.mainPeriod = Long.parseLong(props.getProperty("tool.period", "10000"));
         this.waitStartMirroring =
                 Integer.parseInt(props.getProperty("tool.wait_start_mirroring", "30"));
+        this.pauseAfterError =
+                Long.parseLong(props.getProperty("tool.pause_after_error", "30000"));
+        this.pauseBeforeRepair =
+                Long.parseLong(props.getProperty("tool.pause_before_repair", "5000"));
     }
 
     public String getAccessServerAddress() {
@@ -111,12 +114,12 @@ public class AsGlobals {
         this.dataFile = dataFile;
     }
 
-    public long getMainSleep() {
-        return mainSleep;
+    public long getMainPeriod() {
+        return mainPeriod;
     }
 
-    public void setMainSleep(long mainSleep) {
-        this.mainSleep = mainSleep;
+    public void setMainPeriod(long mainSleep) {
+        this.mainPeriod = mainSleep;
     }
 
     public long getPauseAfterError() {
@@ -133,6 +136,14 @@ public class AsGlobals {
 
     public void setWaitStartMirroring(int waitStartMirroring) {
         this.waitStartMirroring = waitStartMirroring;
+    }
+
+    public long getPauseBeforeRepair() {
+        return pauseBeforeRepair;
+    }
+
+    public void setPauseBeforeRepair(long pauseBeforeRepair) {
+        this.pauseBeforeRepair = pauseBeforeRepair;
     }
 
 }

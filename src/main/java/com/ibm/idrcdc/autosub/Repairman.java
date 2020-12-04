@@ -47,24 +47,18 @@ public class Repairman implements Runnable {
     private final Script script;
 
     private final Map<String, String> subsToStart = new HashMap<>();
-    private final Set<String> selectedTables = new HashSet<>();
+    private final Set<String> selectedTables;
 
     public Repairman(AsGlobals globals, PerSource origin, Script script) {
         this.startTime = System.currentTimeMillis();
         this.globals = globals;
         this.origin = origin;
         this.script = script;
+        this.selectedTables = origin.alteredTables();
     }
 
     @Override
     public void run() {
-        // Connect to the source datastore
-        script.dataStore(origin.getSource(), EngineType.Source);
-
-        // 1. Identify the tables to be re-added.
-        // As a side-effect, update the list of subscriptions to be repaired,
-        // excluding those which cannot be repaired safely due to dependencies.
-        selectTables();
         if (selectedTables.isEmpty())
             return;
 
@@ -72,30 +66,33 @@ public class Repairman implements Runnable {
                 + "subscriptions {}, tables {}",
                 origin.getSource(), getPendingSubs(), selectedTables);
 
+        // Connect to the source datastore
+        script.dataStore(origin.getSource(), EngineType.Source);
+
         boolean repairSucceeded = false;
 
         try {
-            // 2. Grab the bookmarks on target datastores.
+            // 1. Grab the bookmarks on target datastores.
             grabAllBookmarks();
             if (getPendingSubs().isEmpty())
                 return;
 
-            // 3. Stop all the running subscriptions on the source datastore
+            // 2. Stop all the running subscriptions on the source datastore
             // (necessary for dmclearstagingstore)
             stopAllSubscriptions();
 
-            // 4. Clear the staging store
+            // 3. Clear the staging store
             if ( ! clearStagingStore() )
                 return;
 
-            // 5. Reading the column states
+            // 4. Reading the column states
             for (Monitor m : getPendingSubs()) {
                 grabTableColumns(m);
             }
             if (getPendingSubs().isEmpty())
                 return;
 
-            // 6. Re-adding the altered tables
+            // 5. Re-adding the altered tables
             for (String tableFull : selectedTables) {
                 if (!readdTable(tableFull)) {
                     // Mark all dependant subscriptions as non-recoverable
@@ -105,7 +102,7 @@ public class Repairman implements Runnable {
             if (getPendingSubs().isEmpty())
                 return;
 
-            // 7. Repairing the subscriptions
+            // 6. Repairing the subscriptions
             for (Monitor m : getPendingSubs()) {
                 // Update the subscription and reset the bookmark
                 if ( repair(m) ) {
@@ -118,7 +115,7 @@ public class Repairman implements Runnable {
             if (getPendingSubs().isEmpty())
                 return;
 
-            // 8. Restarting the subscriptions
+            // 7. Restarting the subscriptions
             restartSubscriptions();
 
             LOG.info("Repair sequence COMPLETED for source datastore {}, subscriptions {}",
@@ -197,73 +194,6 @@ public class Repairman implements Runnable {
             m.markRepairFailed(startTime);
             LOG.info("\tFailed!", ex);
             return false;
-        }
-    }
-
-    /**
-     * Identify which tables can be re-added safely.
-     * @return List of tables to be re-added.
-     */
-    private void selectTables() {
-        // Grab the names of all the replicated tables in all subscriptions
-        final List<Monitor> monitors = getAllSubs();
-        for (Monitor m : monitors) {
-            m.getSourceTables().clear();
-            script.dataStore(m.getTarget().getName(), EngineType.Target);
-            script.execute("select subscription name \"{0}\";",
-                    m.getSubscription().getName());
-            script.execute("list table mappings;");
-            ScriptOutput mappings = script.getTable();
-            for ( int irow = 0; irow < mappings.getRowCount(); ++irow ) {
-                String tableName = mappings.getValueAt(irow, "SOURCE TABLE");
-                m.getSourceTables().add(tableName);
-            }
-        }
-        // Collect the names of all altered tables we've detected.
-        final Map<String, List<Monitor>> candidates = new HashMap<>();
-        for (Monitor m : getPendingSubs()) {
-            for (String tabName : m.getAlteredTables()) {
-                List<Monitor> x = candidates.get(tabName);
-                if (x==null) {
-                    x = new ArrayList<>();
-                    candidates.put(tabName, x);
-                }
-                x.add(m);
-            }
-        }
-
-        selectedTables.clear();
-
-        // We have a list of altered tables,
-        // plus the list of all replicated tables per subscription.
-        // To re-add the table, all the subscriptions with it should stop on it.
-        for (Map.Entry<String, List<Monitor>> me : candidates.entrySet()) {
-            boolean allow = true;
-            for (Monitor m : monitors) {
-                if (m.getAlteredTables().contains(me.getKey()))
-                    continue; // Sub stopped at this table
-                if (m.getSourceTables().contains(me.getKey())) {
-                    // Sub replicates this table, and is not stopped on it.
-                    // Safe recovery is not possible.
-                    allow = false;
-                    // Disable the repairs for the affected subscriptions, and
-                    // print the warning messages.
-                    for (Monitor lockedMon : me.getValue()) {
-                        lockedMon.setRepair(false);
-                        lockedMon.reportRecoveryLocked(me.getKey(), m);
-                    }
-                }
-            }
-            if (allow) {
-                selectedTables.add(me.getKey());
-                for (Monitor m : me.getValue())
-                    m.resetRecoveryLocked();
-            }
-        }
-
-        if (! selectedTables.isEmpty()) {
-            LOG.info("Selected table(s) {} in subscription(s) {} for recovery",
-                    selectedTables, getPendingSubs());
         }
     }
 
