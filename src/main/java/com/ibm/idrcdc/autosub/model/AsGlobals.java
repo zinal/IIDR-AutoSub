@@ -152,7 +152,7 @@ public class AsGlobals {
     public static AsGlobals fromArgs(String[] args) throws Exception {
         String configFile = args.length == 0 ? null : args[0];
         if (StringUtils.isBlank(configFile))
-            configFile = "cdc-autosub.properties";
+            configFile = "autosub.properties";
         final Properties props = new Properties();
         try (InputStream is
                 = new FileInputStream(configFile)) {
