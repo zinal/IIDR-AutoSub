@@ -57,10 +57,9 @@ public class PendingChecker {
      * Update the per-subscription flags (known/recover),
      * save the names of the altered tables in the Monitor objects.
      *
-     * @param thorough true, if depencency checks are to be done.
      * @return true, if there are subscriptions for recovery, and false otherwise
      */
-    public boolean check(boolean thorough) {
+    public boolean check() {
         // Clean up all flags to their initial states
         clearSubFlags();
         // Grab the subscription states
@@ -73,8 +72,7 @@ public class PendingChecker {
         // Signal lost & found subscriptions
         checkMissingSubs();
         // Select altered tables based on dependencies
-        if (thorough)
-           selectTables();
+        selectTables();
         // Return true, if we have subscriptions to be recovered.
         return ! origin.pendingMonitors().isEmpty();
     }
