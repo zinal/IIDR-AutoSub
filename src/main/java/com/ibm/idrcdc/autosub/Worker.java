@@ -23,11 +23,8 @@ package com.ibm.idrcdc.autosub;
 
 import com.ibm.idrcdc.autosub.model.*;
 import com.ibm.replication.cdc.scripting.EmbeddedScriptException;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Application entry point and main working cycle.
@@ -65,8 +62,7 @@ public class Worker implements Runnable {
     public static void main(String[] args) {
         LOG.info("autosub Worker version {}", VERSION);
         try {
-            final AsGlobals globals = makeGlobals(
-                    args.length == 0 ? "cdc-autosub.properties" : args[0] );
+            final AsGlobals globals = AsGlobals.fromArgs(args);
             final FileFlag flagShutdown = FileFlag.newShutdown(globals.getDataFile());
             flagShutdown.disable();
             // Main working cycle
@@ -78,19 +74,11 @@ public class Worker implements Runnable {
             }
             flagShutdown.disable();
             LOG.info("Service shutting down...");
+            System.exit(0);
         } catch(Exception ex) {
             LOG.error("Service execution failed", ex);
             System.exit(1);
         }
-    }
-
-    private static AsGlobals makeGlobals(String configFile) throws Exception {
-        final Properties props = new Properties();
-        try (InputStream is
-                = new FileInputStream(configFile)) {
-            props.load(is);
-        }
-        return new AsGlobals(props);
     }
 
     /**

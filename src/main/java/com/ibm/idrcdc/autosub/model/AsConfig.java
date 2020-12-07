@@ -272,4 +272,8 @@ public class AsConfig {
         return load(globals.getDataFile());
     }
 
+    public static AsConfig loadDir(AsGlobals globals) {
+        return loadDir(globals.getConfigDirectory());
+    }
+
 }

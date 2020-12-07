@@ -21,7 +21,10 @@
  */
 package com.ibm.idrcdc.autosub.model;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Global configuration properties for the application.
@@ -144,6 +147,18 @@ public class AsGlobals {
 
     public void setPauseBeforeRepair(long pauseBeforeRepair) {
         this.pauseBeforeRepair = pauseBeforeRepair;
+    }
+
+    public static AsGlobals fromArgs(String[] args) throws Exception {
+        String configFile = args.length == 0 ? null : args[0];
+        if (StringUtils.isBlank(configFile))
+            configFile = "cdc-autosub.properties";
+        final Properties props = new Properties();
+        try (InputStream is
+                = new FileInputStream(configFile)) {
+            props.load(is);
+        }
+        return new AsGlobals(props);
     }
 
 }
