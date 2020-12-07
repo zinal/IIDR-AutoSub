@@ -14,6 +14,6 @@ if [ -f "$AUTOSUB_DIR"/autosub-config.sh ]; then
 fi
 
 cd $AUTOSUB_DIR
-$JAVA_CMD -classpath "classes:lib/*:$AUTOSUB_IIDR/*" $JAVA_FLAGS com.ibm.idrcdc.autosub.Worker
+$JAVA_CMD -classpath "classes:lib/*:$AUTOSUB_IIDR/*" $JAVA_FLAGS com.ibm.idrcdc.autosub.Worker $@
 
 # End Of File

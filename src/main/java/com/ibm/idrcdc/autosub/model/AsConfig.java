@@ -249,7 +249,7 @@ public class AsConfig {
 
     public static void save(AsConfig config, OutputStream os) {
         try {
-            new XMLOutputter(Format.getCompactFormat())
+            new XMLOutputter(Format.getPrettyFormat())
                     .output(new Document(save(config)), os);
         } catch(IOException ix) {
             throw new RuntimeException("Cannot write configuration", ix);
