@@ -60,9 +60,10 @@ public class Worker implements Runnable {
      * @param args Command line arguments
      */
     public static void main(String[] args) {
-        LOG.info("autosub Worker version {}", VERSION);
+        LOG.info("autosub version {} Worker", VERSION);
         try {
             final AsGlobals globals = AsGlobals.fromArgs(args);
+            LOG.info("Working data file is {}", globals.getDataFile());
             final FileFlag flagShutdown = FileFlag.newShutdown(globals.getDataFile());
             flagShutdown.disable();
             // Main working cycle
@@ -90,15 +91,16 @@ public class Worker implements Runnable {
         // Enter the monitoring cycle.
         while (true) {
             long tvStart = System.currentTimeMillis();
+            // If shutdown is requested, exit to the main loop, which will exit too.
+            if (flagShutdown.isEnabled())
+                break;
             // If configuration reload is requested, just exit to the main loop,
             // which will re-create the Worker object and re-run this method.
             if (flagReload.isEnabled()) {
                 flagReload.disable();
+                LOG.info("Re-loading configuration...");
                 break;
             }
-            // If shutdown is requested, exit to the main loop, which will exit too.
-            if (flagShutdown.isEnabled())
-                break;
             // Validate the configuration, if not yet done.
             if (validate()) {
                 // Find the subscriptions to repair
@@ -209,12 +211,10 @@ public class Worker implements Runnable {
     private void repair(PerSource ps) {
         try (Script script = openScript()) {
             if (script != null)
-                try {
-                    new Repairman(globals, ps, script) . run();
-                } catch(Exception ex) {
-                    LOG.error("Repair sequence failed for datastore {}",
-                            ps.getSource().getName(), ex);
-                }
+                new Repairman(globals, ps, script) . run();
+        } catch(Exception ex) {
+            LOG.error("Repair sequence failed for datastore {}",
+                    ps.getSource().getName(), ex);
         }
     }
 

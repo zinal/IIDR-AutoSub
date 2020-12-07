@@ -33,9 +33,12 @@ public class DoShutdown {
             = org.slf4j.LoggerFactory.getLogger(DoShutdown.class);
 
     public static void main(String[] args) {
+        LOG.info("autosub version {} DoShutdown", Worker.VERSION);
         try {
             final AsGlobals globals = AsGlobals.fromArgs(args);
+            LOG.info("Working data file is {}", globals.getDataFile());
             FileFlag.newShutdown(globals.getDataFile()) . enable();
+            LOG.info("Shutdown signaled.");
         } catch(Exception ex) {
             LOG.error("Command execution failed", ex);
             System.exit(1);

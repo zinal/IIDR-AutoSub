@@ -34,15 +34,20 @@ public class DoReload {
             = org.slf4j.LoggerFactory.getLogger(DoReload.class);
 
     public static void main(String[] args) {
+        LOG.info("autosub version {} DoReload", Worker.VERSION);
         try {
             final AsGlobals globals = AsGlobals.fromArgs(args);
+            LOG.info("Working data file is {}", globals.getDataFile());
             final AsConfig config = AsConfig.loadDir(globals);
+            // TODO: check the configuration for validity
             final File sourceFile = new File(globals.getDataFile() + ".tmp");
             final File targetFile = new File(globals.getDataFile());
             AsConfig.save(config, sourceFile);
             targetFile.delete();
             sourceFile.renameTo(targetFile);
+            LOG.info("Configuration merged.");
             FileFlag.newReload(globals.getDataFile()) . enable();
+            LOG.info("Reload signaled.");
         } catch(Exception ex) {
             LOG.error("Command execution failed", ex);
             System.exit(1);
