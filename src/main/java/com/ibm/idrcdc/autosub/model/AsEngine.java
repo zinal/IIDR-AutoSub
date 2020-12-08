@@ -22,6 +22,7 @@
 package com.ibm.idrcdc.autosub.model;
 
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Source or target engine configuration.
@@ -31,6 +32,13 @@ public class AsEngine {
 
     private final String name;
     private final EngineType type;
+
+    private String remoteExec;
+    private String engineInstallDir;
+    private String instanceName;
+
+    private String commandVersion;
+    private String commandEvents;
     private String commandClear;
     private String commandBookmarkGet;
     private String commandBookmarkPut;
@@ -46,6 +54,46 @@ public class AsEngine {
 
     public EngineType getType() {
         return type;
+    }
+
+    public String getRemoteExec() {
+        return remoteExec;
+    }
+
+    public void setRemoteExec(String remoteExec) {
+        this.remoteExec = remoteExec;
+    }
+
+    public String getEngineInstallDir() {
+        return engineInstallDir;
+    }
+
+    public void setEngineInstallDir(String engineInstallDir) {
+        this.engineInstallDir = engineInstallDir;
+    }
+
+    public String getInstanceName() {
+        return instanceName;
+    }
+
+    public void setInstanceName(String instanceName) {
+        this.instanceName = instanceName;
+    }
+
+    public String getCommandVersion() {
+        return commandVersion;
+    }
+
+    public void setCommandVersion(String commandVersion) {
+        this.commandVersion = commandVersion;
+    }
+
+    public String getCommandEvents() {
+        return commandEvents;
+    }
+
+    public void setCommandEvents(String commandEvents) {
+        this.commandEvents = commandEvents;
     }
 
     public String getCommandClear() {
@@ -94,6 +142,21 @@ public class AsEngine {
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
+        if (!Objects.equals(this.remoteExec, other.remoteExec)) {
+            return false;
+        }
+        if (!Objects.equals(this.engineInstallDir, other.engineInstallDir)) {
+            return false;
+        }
+        if (!Objects.equals(this.instanceName, other.instanceName)) {
+            return false;
+        }
+        if (!Objects.equals(this.commandVersion, other.commandVersion)) {
+            return false;
+        }
+        if (!Objects.equals(this.commandEvents, other.commandEvents)) {
+            return false;
+        }
         if (!Objects.equals(this.commandClear, other.commandClear)) {
             return false;
         }
@@ -112,6 +175,67 @@ public class AsEngine {
     @Override
     public String toString() {
         return name;
+    }
+
+    public String cmdVersion() {
+        if (! StringUtils.isBlank(commandVersion))
+            return commandVersion;
+        final StringBuilder sb = new StringBuilder();
+        sb.append(remoteExec).append(' ')
+                .append(engineInstallDir)
+                .append("/bin/dmshowversion");
+        return sb.toString();
+    }
+
+    public String cmdEvents() {
+        if (! StringUtils.isBlank(commandEvents))
+            return commandEvents;
+        final StringBuilder sb = new StringBuilder();
+        sb.append(remoteExec).append(' ')
+                .append(engineInstallDir)
+                .append("/bin/dmshowevents")
+                .append(" -I ")
+                .append(instanceName)
+                .append(" -a -c 2");
+        return sb.toString();
+    }
+
+    public String cmdClear() {
+        if (! StringUtils.isBlank(commandClear))
+            return commandClear;
+        final StringBuilder sb = new StringBuilder();
+        sb.append(remoteExec).append(' ')
+                .append(engineInstallDir)
+                .append("/bin/dmclearstagingstore")
+                .append(" -I ")
+                .append(instanceName);
+        return sb.toString();
+    }
+
+    public String cmdBookmarkGet() {
+        if (! StringUtils.isBlank(commandBookmarkGet))
+            return commandBookmarkGet;
+        final StringBuilder sb = new StringBuilder();
+        sb.append(remoteExec).append(' ')
+                .append(engineInstallDir)
+                .append("/bin/dmshowbookmark")
+                .append(" -I ")
+                .append(instanceName)
+                .append(" -s ${SUB}");
+        return sb.toString();
+    }
+
+    public String cmdBookmarkPut() {
+        if (! StringUtils.isBlank(commandBookmarkPut))
+            return commandBookmarkPut;
+        final StringBuilder sb = new StringBuilder();
+        sb.append(remoteExec).append(' ')
+                .append(engineInstallDir)
+                .append("/bin/dmsetbookmark")
+                .append(" -I ")
+                .append(instanceName)
+                .append(" -s ${SUB} -a -b ${BOOKMARK}");
+        return sb.toString();
     }
 
 }

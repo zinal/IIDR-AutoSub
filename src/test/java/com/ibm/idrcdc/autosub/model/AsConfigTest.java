@@ -26,11 +26,14 @@ public class AsConfigTest {
             + "  <idrcdc-subscription name='SUB3' source='SRC1' target='DST1' skipNewBlobs='false'>\n"
             + "  </idrcdc-subscription>\n"
             + "  <idrcdc-engine name='SRC1' type='Source'>\n"
-            + "    <cmd-clear>ssh cdcuser@src1-host autosub-clear.sh SRC1</cmd-clear>\n"
-            + "    <cmd-bmk-put>ssh cdcuser@src1-host autosub-bmk-put.sh SRC1 ${SUBSCRIPTION} ${BOOKMARK}</cmd-bmk-put>\n"
+            + "    <cdc-rsh>ssh cdcuser@zodak</cdc-rsh>\n"
+            + "    <cdc-path>/datum/sw/cdc-oracle</cdc-path>\n"
+            + "    <cdc-instance>wrk1</cdc-instance>\n"
             + "  </idrcdc-engine>\n"
             + "  <idrcdc-engine name='DST1' type='Target'>\n"
-            + "    <cmd-bmk-get>ssh cdcuser@dst1-host autosub-bmk-get.sh DST1 ${SUBSCRIPTION}</cmd-bmk-get>\n"
+            + "    <cdc-rsh>ssh cdcuser@zodak</cdc-rsh>\n"
+            + "    <cdc-path>/datum/sw/cdc-ds</cdc-path>\n"
+            + "    <cdc-instance>DS</cdc-instance>\n"
             + "  </idrcdc-engine>\n"
             + "</idrcdc-autosub>";
 

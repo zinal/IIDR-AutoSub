@@ -33,13 +33,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import org.apache.commons.lang3.StringUtils;
+import org.jdom2.CDATA;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Monitoring configuration.
@@ -50,6 +51,11 @@ public class AsConfig {
     public static final String EL_ROOT = "idrcdc-autosub";
     public static final String EL_ENGINE = "idrcdc-engine";
     public static final String EL_SUB = "idrcdc-subscription";
+    public static final String EL_ENG_RSH = "cdc-rsh";
+    public static final String EL_ENG_INST = "cdc-instance";
+    public static final String EL_ENG_PATH = "cdc-path";
+    public static final String EL_CMD_VERSION = "cmd-version";
+    public static final String EL_CMD_EVENTS = "cmd-events";
     public static final String EL_CMD_CLEAR = "cmd-clear";
     public static final String EL_CMD_BMK_GET = "cmd-bmk-get";
     public static final String EL_CMD_BMK_PUT = "cmd-bmk-put";
@@ -133,6 +139,21 @@ public class AsConfig {
                 Misc.getAttr(el, "name"),
                 EngineType.valueOf(Misc.getAttr(el, "type")));
         Element cur;
+        cur = el.getChild(EL_ENG_RSH);
+        if (cur!=null)
+            ae.setRemoteExec(Misc.getText(cur));
+        cur = el.getChild(EL_ENG_PATH);
+        if (cur!=null)
+            ae.setEngineInstallDir(Misc.getText(cur));
+        cur = el.getChild(EL_ENG_INST);
+        if (cur!=null)
+            ae.setInstanceName(Misc.getText(cur));
+        cur = el.getChild(EL_CMD_VERSION);
+        if (cur!=null)
+            ae.setCommandVersion(Misc.getText(cur));
+        cur = el.getChild(EL_CMD_EVENTS);
+        if (cur!=null)
+            ae.setCommandEvents(Misc.getText(cur));
         cur = el.getChild(EL_CMD_CLEAR);
         if (cur!=null)
             ae.setCommandClear(Misc.getText(cur));
@@ -149,22 +170,23 @@ public class AsConfig {
         Element cur = new Element(EL_ENGINE);
         cur.setAttribute("name", ae.getName());
         cur.setAttribute("type", ae.getType().name());
-        if (! StringUtils.isBlank(ae.getCommandClear()) ) {
-            Element cmd = new Element(EL_CMD_CLEAR);
-            cmd.setText(ae.getCommandClear());
-            cur.addContent(cmd);
-        }
-        if (! StringUtils.isBlank(ae.getCommandBookmarkGet()) ) {
-            Element cmd = new Element(EL_CMD_BMK_GET);
-            cmd.setText(ae.getCommandBookmarkGet());
-            cur.addContent(cmd);
-        }
-        if (! StringUtils.isBlank(ae.getCommandBookmarkPut()) ) {
-            Element cmd = new Element(EL_CMD_BMK_PUT);
-            cmd.setText(ae.getCommandBookmarkPut());
-            cur.addContent(cmd);
-        }
+        addNonBlankText(cur, EL_ENG_RSH, ae.getRemoteExec());
+        addNonBlankText(cur, EL_ENG_PATH, ae.getEngineInstallDir());
+        addNonBlankText(cur, EL_ENG_INST, ae.getInstanceName());
+        addNonBlankText(cur, EL_CMD_VERSION, ae.getCommandVersion());
+        addNonBlankText(cur, EL_CMD_EVENTS, ae.getCommandEvents());
+        addNonBlankText(cur, EL_CMD_CLEAR, ae.getCommandClear());
+        addNonBlankText(cur, EL_CMD_BMK_GET, ae.getCommandBookmarkGet());
+        addNonBlankText(cur, EL_CMD_BMK_PUT, ae.getCommandBookmarkPut());
         return cur;
+    }
+
+    private static void addNonBlankText(Element cur, String tag, String text) {
+        if (!StringUtils.isBlank(text)) {
+            Element cmd = new Element(tag);
+            cmd.addContent(new CDATA(text));
+            cur.addContent(cmd);
+        }
     }
 
     private static AsSubscription parseSubscription(AsConfig config, Element el) {

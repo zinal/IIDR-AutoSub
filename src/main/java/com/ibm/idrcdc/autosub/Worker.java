@@ -21,10 +21,10 @@
  */
 package com.ibm.idrcdc.autosub;
 
-import com.ibm.idrcdc.autosub.model.*;
-import com.ibm.replication.cdc.scripting.EmbeddedScriptException;
 import java.util.ArrayList;
 import java.util.List;
+import com.ibm.replication.cdc.scripting.EmbeddedScriptException;
+import com.ibm.idrcdc.autosub.model.*;
 
 /**
  * Application entry point and main working cycle.

@@ -9,20 +9,28 @@
     <idrcdc-subscription name='P2O1' source='PG1' target='META' skipNewBlobs='true' />
     -->
     <idrcdc-engine name='WRK1' type='Source'>
-        <cmd-clear>ssh cdcuser@zodak /datum/sw/cdc-oracle/bin/dmclearstagingstore -I wrk1</cmd-clear>
-        <cmd-bmk-put>ssh cdcuser@zodak /datum/sw/cdc-oracle/bin/dmsetbookmark -I wrk1 -s ${SUB} -a -b ${BOOKMARK}</cmd-bmk-put>
+        <cdc-rsh>ssh cdcuser@zodak</cdc-rsh>
+        <cdc-path>/datum/sw/cdc-oracle</cdc-path>
+        <cdc-instance>wrk1</cdc-instance>
     </idrcdc-engine>
     <idrcdc-engine name='PG1' type='Source'>
-        <cmd-clear>ssh cdcuser@kafko cdc-postgres/bin/dmclearstagingstore -I pg1</cmd-clear>
-        <cmd-bmk-put>ssh cdcuser@kafko cdc-postgres/bin/dmsetbookmark -I pg1 -s ${SUB} -a -b ${BOOKMARK}</cmd-bmk-put>
+        <cdc-rsh>ssh cdcuser@kafko</cdc-rsh>
+        <cdc-path>/home/cdcuser/cdc-postgres</cdc-path>
+        <cdc-instance>pg1</cdc-instance>
     </idrcdc-engine>
     <idrcdc-engine name='KAFKA1' type='Target'>
-        <cmd-bmk-get>ssh cdcuser@kafko cdc-kafka/bin/dmshowbookmark -I kafka1 -s ${SUB}</cmd-bmk-get>
+        <cdc-rsh>ssh cdcuser@kafko</cdc-rsh>
+        <cdc-path>/home/cdcuser/cdc-kafka</cdc-path>
+        <cdc-instance>kafka1</cdc-instance>
     </idrcdc-engine>
     <idrcdc-engine name='META' type='Target'>
-        <cmd-bmk-get>ssh cdcuser@zodak /datum/sw/cdc-oracle/bin/dmshowbookmark -I meta -s ${SUB}</cmd-bmk-get>
+        <cdc-rsh>ssh cdcuser@zodak</cdc-rsh>
+        <cdc-path>/datum/sw/cdc-oracle</cdc-path>
+        <cdc-instance>meta</cdc-instance>
     </idrcdc-engine>
     <idrcdc-engine name='DS' type='Target'>
-        <cmd-bmk-get>ssh cdcuser@zodak /datum/sw/cdc-ds/bin/dmshowbookmark -I DS -s ${SUB}</cmd-bmk-get>
+        <cdc-rsh>ssh cdcuser@zodak</cdc-rsh>
+        <cdc-path>/datum/sw/cdc-ds</cdc-path>
+        <cdc-instance>DS</cdc-instance>
     </idrcdc-engine>
 </idrcdc-autosub>

@@ -318,7 +318,7 @@ public class Repairman implements Runnable {
 
     private boolean clearStagingStore() {
         LOG.info("Clearing the staging store for {}", origin);
-        final String command = origin.getSource().getCommandClear();
+        final String command = origin.getSource().cmdClear();
         Map<String,String> subst = new HashMap<>();
         subst.put("SOURCE", origin.getSource().getName());
         int retval = new RemoteTool("cmd-clear-staging", command, subst) . execute();
@@ -347,7 +347,7 @@ public class Repairman implements Runnable {
     }
 
     private String grabBookmark(Monitor m) {
-        final String command = m.getTarget().getCommandBookmarkGet();
+        final String command = m.getTarget().cmdBookmarkGet();
         if (StringUtils.isBlank(command))
             throw new RuntimeException("Get bookmark command not configured");
         final StringBuilder data = new StringBuilder();
@@ -365,7 +365,7 @@ public class Repairman implements Runnable {
 
     private boolean resetBookmark(Monitor m) {
         LOG.info("Re-setting a bookmark for subscription {}", m.getSubscription());
-        final String command = m.getSource().getCommandBookmarkPut();
+        final String command = m.getSource().cmdBookmarkPut();
         if (StringUtils.isBlank(command)) {
             LOG.warn("Put bookmark command not configured for source {}", m.getSource().getName());
             return false;
