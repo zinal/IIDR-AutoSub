@@ -54,12 +54,12 @@ public class ConfigValidator implements Runnable {
                     try {
                         validate(m);
                     } catch(Exception ex) {
-                        m.setDisabled(true);
+                        m.setEnabled(false);
                         LOG.warn("Disabled handling for subscription {}\n\t{}",
                                 m.getSubscription().getName(), ex.getMessage());
                     }
                     // Count the enabled subscriptions
-                    if (!m.isDisabled())
+                    if (m.isEnabled())
                         ++countValid;
                 }
             }
@@ -72,7 +72,7 @@ public class ConfigValidator implements Runnable {
     }
 
     private void validate(Monitor m) {
-        m.setDisabled(false);
+        m.setEnabled(false);
         // Switch to proper datastores
         if ( m.getTarget() == m.getSource() ) {
             script.dataStore(m.getSource(), EngineType.Both);
@@ -89,6 +89,7 @@ public class ConfigValidator implements Runnable {
             throw new RuntimeException("Missing table mappings in the subscription");
         }
         LOG.info("\tFound {} table mapping(s)", mappingsCount);
+        m.setEnabled(true);
     }
 
 }

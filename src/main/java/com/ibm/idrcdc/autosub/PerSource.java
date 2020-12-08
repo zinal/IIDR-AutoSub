@@ -50,15 +50,15 @@ public class PerSource {
     }
 
     /**
-     * Check is the whole source disabled
-     * @return true, if all corresponding monitors are disabled
+     * Check is the whole source enabled
+     * @return true, if at least one corresponding monitor is enabled
      */
-    public boolean isDisabled() {
+    public boolean isEnabled() {
         for (PerTarget pst : targets) {
-            if (!pst.isDisabled())
-                return false;
+            if (pst.isEnabled())
+                return true;
         }
-        return true;
+        return false;
     }
 
     /**

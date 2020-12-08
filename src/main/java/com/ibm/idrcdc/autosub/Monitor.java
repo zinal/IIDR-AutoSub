@@ -41,7 +41,7 @@ public class Monitor {
 
     private final AsSubscription subscription;
 
-    private boolean disabled; // incorrect configuration (not found on startup)
+    private boolean enabled;  // correct configuration (checked on startup)
     private boolean known;    // does subscription exist?
     private boolean repair;   // should the subscription be repaired?
 
@@ -68,7 +68,7 @@ public class Monitor {
      */
     public Monitor(AsSubscription subscription) {
         this.subscription = subscription;
-        this.disabled = false;
+        this.enabled = false;
         this.known = false;
         this.repair = false;
         this.bookmark = null;
@@ -91,12 +91,12 @@ public class Monitor {
         return subscription.getTarget();
     }
 
-    public boolean isDisabled() {
-        return disabled;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public boolean isKnown() {

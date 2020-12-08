@@ -47,12 +47,16 @@ public class PerTarget {
         return monitors;
     }
 
-    public boolean isDisabled() {
+    /**
+     * Check whether the per-source-target is enabled for monitoring
+     * @return true, if at least one corresponding monitor is enabled
+     */
+    public boolean isEnabled() {
         for (Monitor m : monitors) {
-            if (!m.isDisabled())
-                return false;
+            if (m.isEnabled())
+                return true;
         }
-        return true;
+        return false;
     }
 
     /**

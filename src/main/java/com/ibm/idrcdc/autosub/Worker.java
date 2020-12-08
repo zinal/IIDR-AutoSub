@@ -184,7 +184,7 @@ public class Worker implements Runnable {
     private List<PerSource> checkPending() {
         List<PerSource> pending = null;
         for (PerSource ps : groups.getData()) {
-            if (ps.isDisabled())
+            if (!ps.isEnabled())
                 continue; // skip groups without valid monitors
             // Connect to access server for each source datastore
             try (Script script = openScript()) {
