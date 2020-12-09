@@ -19,7 +19,7 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub;
+package com.ibm.idrcdc.autosub.impl;
 
 /**
  * Wrapper interface around ResultStringTable to allow mock tests.

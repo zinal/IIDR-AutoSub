@@ -19,9 +19,8 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub;
+package com.ibm.idrcdc.autosub.monitor;
 
-import com.ibm.idrcdc.autosub.model.AsEngine;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,14 +31,16 @@ import java.util.List;
  */
 public class PerTarget {
 
-    private final AsEngine target;
+    private final PerEngine target;
     private final List<Monitor> monitors = new ArrayList<>();
+    private boolean enabled;
 
-    public PerTarget(AsEngine target) {
+    public PerTarget(PerEngine target) {
         this.target = target;
+        this.enabled = true;
     }
 
-    public AsEngine getTarget() {
+    public PerEngine getTarget() {
         return target;
     }
 
@@ -47,14 +48,24 @@ public class PerTarget {
         return monitors;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     /**
      * Check whether the per-source-target is enabled for monitoring
      * @return true, if at least one corresponding monitor is enabled
      */
-    public boolean isEnabled() {
-        for (Monitor m : monitors) {
-            if (m.isEnabled())
-                return true;
+    public boolean isFullyEnabled() {
+        if (enabled) {
+            for (Monitor m : monitors) {
+                if (m.isEnabled())
+                    return true;
+            }
         }
         return false;
     }

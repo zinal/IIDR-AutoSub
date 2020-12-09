@@ -19,7 +19,7 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub.model;
+package com.ibm.idrcdc.autosub.config;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jdom2.Element;

@@ -19,7 +19,7 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub;
+package com.ibm.idrcdc.autosub.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +29,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
-import com.ibm.idrcdc.autosub.model.*;
+import com.ibm.idrcdc.autosub.monitor.*;
+import com.ibm.idrcdc.autosub.config.*;
 
 /**
  * Algorithm to repair subscriptions of a single source datastore.

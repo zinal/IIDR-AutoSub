@@ -24,7 +24,9 @@ package com.ibm.idrcdc.autosub;
 import java.util.ArrayList;
 import java.util.List;
 import com.ibm.replication.cdc.scripting.EmbeddedScriptException;
-import com.ibm.idrcdc.autosub.model.*;
+import com.ibm.idrcdc.autosub.config.*;
+import com.ibm.idrcdc.autosub.monitor.*;
+import com.ibm.idrcdc.autosub.impl.*;
 
 /**
  * Application entry point and main working cycle.
@@ -39,7 +41,7 @@ public class Worker implements Runnable {
 
     private final AsGlobals globals;
     private final AsConfig config;
-    private final AsGroups groups;
+    private final MonitorGroups groups;
     private final FileFlag flagShutdown;
     private final FileFlag flagReload;
 
@@ -50,7 +52,7 @@ public class Worker implements Runnable {
     public Worker(AsGlobals globals, FileFlag flagShutdown) {
         this.globals = globals;
         this.config = AsConfig.load(globals);
-        this.groups = new AsGroups(config);
+        this.groups = new MonitorGroups(config);
         this.flagShutdown = flagShutdown;
         this.flagReload = FileFlag.newReload(globals.getDataFile());
     }
@@ -184,7 +186,7 @@ public class Worker implements Runnable {
     private List<PerSource> checkPending() {
         List<PerSource> pending = null;
         for (PerSource ps : groups.getData()) {
-            if (!ps.isEnabled())
+            if (!ps.isFullyEnabled())
                 continue; // skip groups without valid monitors
             // Connect to access server for each source datastore
             try (Script script = openScript()) {

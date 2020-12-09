@@ -19,7 +19,7 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub;
+package com.ibm.idrcdc.autosub.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
-import com.ibm.idrcdc.autosub.model.*;
+import com.ibm.idrcdc.autosub.monitor.*;
+import com.ibm.idrcdc.autosub.config.*;
 
 /**
  * Algorithm to check subscriptions of a single source datastore
@@ -93,7 +94,7 @@ public class PendingChecker {
         if (pst==null)
             return false; // Skip the unknown targets
         Monitor m = pst.findMonitor(subname);
-        if (m==null) // Skip the unknown subscriptions
+        if (m==null) // Skip the unmonitored subscription
             return false;
         // Mark the subscription as known
         m.setKnown(true);
@@ -123,12 +124,13 @@ public class PendingChecker {
      */
     private boolean checkMonitor(Monitor m) {
         if (m.getFailureTime() != 0L) {
+            // Pause recovery analysis attempts if there was a failed recovery.
             final long diff = startTime - m.getFailureTime();
             if (diff < globals.getPauseAfterError())
                 return false;
         }
         // Supported event sequence: {9505 or 9602}, 1463.
-        // Table name is extracted from message.
+        // Table name is extracted from the event text.
         script.execute("list subscription events name \"{0}\" type source;",
                 m.getSubscription().getName());
         final ScriptOutput table = script.getTable();

@@ -19,15 +19,14 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub;
+package com.ibm.idrcdc.autosub.monitor;
 
-import com.ibm.idrcdc.autosub.model.AsEngine;
-import com.ibm.idrcdc.autosub.model.AsSubscription;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import com.ibm.idrcdc.autosub.config.*;
 
 /**
  * Monitored subscription, including its configuration settings
@@ -40,6 +39,8 @@ public class Monitor {
             org.slf4j.LoggerFactory.getLogger(Monitor.class);
 
     private final AsSubscription subscription;
+    private final PerEngine source;
+    private final PerEngine target;
 
     private boolean enabled;  // correct configuration (checked on startup)
     private boolean known;    // does subscription exist?
@@ -65,9 +66,14 @@ public class Monitor {
     /**
      * Create object by parsing XML data element
      * @param subscription Subscription configuration
+     * @param source Source engine information
+     * @param target Target engine information
      */
-    public Monitor(AsSubscription subscription) {
+    public Monitor(AsSubscription subscription,
+            PerEngine source, PerEngine target) {
         this.subscription = subscription;
+        this.source = source;
+        this.target = target;
         this.enabled = false;
         this.known = false;
         this.repair = false;
@@ -83,12 +89,12 @@ public class Monitor {
         return subscription;
     }
 
-    public AsEngine getSource() {
-        return subscription.getSource();
+    public PerEngine getSource() {
+        return source;
     }
 
-    public AsEngine getTarget() {
-        return subscription.getTarget();
+    public PerEngine getTarget() {
+        return target;
     }
 
     public boolean isEnabled() {
@@ -178,8 +184,8 @@ public class Monitor {
      * Used by the PendingChecker.
      */
     public void clearSubFlags() {
-        known = false;
-        repair = false;
+        known = false; // the subscription will become known if found
+        repair = false; // can be set to true if failed and repairable
         alteredTables.clear();
         sourceTables.clear();
         bookmark = null;
@@ -202,6 +208,9 @@ public class Monitor {
         return m;
     }
 
+    /**
+     * Print lost & found messages for subscriptions when the "known" flag changes.
+     */
     public void checkMissingSub() {
         if (known) {
             if (suppressMissing) {

@@ -19,7 +19,7 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub;
+package com.ibm.idrcdc.autosub.impl;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
@@ -28,8 +28,9 @@ import com.ibm.replication.cdc.scripting.EmbeddedScript;
 import com.ibm.replication.cdc.scripting.EmbeddedScriptException;
 import com.ibm.replication.cdc.scripting.Result;
 import com.ibm.replication.cdc.scripting.ResultStringTable;
-import com.ibm.idrcdc.autosub.model.*;
 import com.ibm.replication.cdc.scripting.ResultStringValue;
+import com.ibm.idrcdc.autosub.monitor.*;
+import com.ibm.idrcdc.autosub.config.*;
 
 /**
  * Supporting helper class to execute commands through embedded
@@ -90,6 +91,15 @@ public class Script implements AutoCloseable {
      */
     public String getCurrentTarget() {
         return currentTarget;
+    }
+
+    /**
+     * Connect or select a data store.
+     * @param engine Data store configuration object
+     * @param mode Source, Target or Both
+     */
+    public void dataStore(PerEngine engine, EngineType mode) {
+        dataStore(engine.getName(), mode);
     }
 
     /**

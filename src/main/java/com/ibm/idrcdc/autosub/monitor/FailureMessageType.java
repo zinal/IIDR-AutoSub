@@ -1,7 +1,7 @@
 /*
  * AutoSub sample code
  */
-package com.ibm.idrcdc.autosub;
+package com.ibm.idrcdc.autosub.monitor;
 
 /**
  *

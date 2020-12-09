@@ -19,7 +19,7 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub.model;
+package com.ibm.idrcdc.autosub.config;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -81,6 +81,28 @@ public class AsConfig {
 
     public void addSubscription(AsSubscription as) {
         subscriptions.add(as);
+    }
+
+    public boolean isEngineUsed(AsEngine engine) {
+        for (AsSubscription sub : subscriptions) {
+            if (engine == sub.getSource())
+                return true;
+            if (engine == sub.getTarget())
+                return true;
+        }
+        return false;
+    }
+
+    public boolean isEngineUsed(String name) {
+        if (name==null)
+            name = "";
+        for (AsSubscription sub : subscriptions) {
+            if (name.equalsIgnoreCase(sub.getSource().getName()))
+                return true;
+            if (name.equalsIgnoreCase(sub.getTarget().getName()))
+                return true;
+        }
+        return false;
     }
 
     @Override

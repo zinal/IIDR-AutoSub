@@ -3,6 +3,7 @@
  */
 package com.ibm.idrcdc.autosub.model;
 
+import com.ibm.idrcdc.autosub.config.AsConfig;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;

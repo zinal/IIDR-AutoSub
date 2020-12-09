@@ -19,9 +19,10 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub;
+package com.ibm.idrcdc.autosub.impl;
 
-import com.ibm.idrcdc.autosub.model.*;
+import com.ibm.idrcdc.autosub.monitor.*;
+import com.ibm.idrcdc.autosub.config.*;
 
 /**
  * Algorithm to validate configuration settings of subscription monitors.
@@ -32,17 +33,24 @@ public class ConfigValidator implements Runnable {
     private static final org.slf4j.Logger LOG =
             org.slf4j.LoggerFactory.getLogger(ConfigValidator.class);
 
-    private final AsGroups groups;
+    private final MonitorGroups groups;
     private final Script script;
 
-    public ConfigValidator(AsGroups groups, Script script) {
+    public ConfigValidator(MonitorGroups groups, Script script) {
         this.groups = groups;
         this.script = script;
     }
 
     @Override
     public void run() {
-        LOG.info("Validating configuration settings...");
+        LOG.info("Validating datastores...");
+        for (AsEngine engine : groups.getConfig().getEngines().values()) {
+            if (! groups.getConfig().isEngineUsed(engine)) {
+                LOG.info("\tSpipping unused datastore {}.", engine.getName());
+                continue;
+            }
+        }
+        LOG.info("Validating subscriptions...");
         int countValid = 0;
         for ( PerSource ps : groups.getData() ) {
             for ( PerTarget pst : ps.getTargets() ) {

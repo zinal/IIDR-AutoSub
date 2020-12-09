@@ -19,58 +19,77 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub.model;
+package com.ibm.idrcdc.autosub.monitor;
 
-import com.ibm.idrcdc.autosub.Monitor;
-import com.ibm.idrcdc.autosub.PerTarget;
-import com.ibm.idrcdc.autosub.PerSource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import com.ibm.idrcdc.autosub.config.*;
 
 /**
  * Collection of monitors grouped by source, then by target.
  * @author zinal
  */
-public class AsGroups {
+public class MonitorGroups {
 
+    private final AsConfig config;
+    private final Map<String, PerEngine> engines = new HashMap<>();
     private final List<PerSource> data = new ArrayList<>();
 
     /**
      * Build the monitor groups based on the configuration.
      * @param config Configuration
      */
-    public AsGroups(AsConfig config) {
+    public MonitorGroups(AsConfig config) {
+        this.config = config;
+        for (AsEngine engine : config.getEngines().values()) {
+            engines.put(engine.getName(), new PerEngine(engine));
+        }
         for (AsSubscription as : config.getSubscriptions()) {
+            // vars to hold the per-source and per-target engine refs
+            PerEngine sourceEngine = engines.get(as.getSource().getName());
+            PerEngine targetEngine = engines.get(as.getTarget().getName());;
+            if (sourceEngine==null || targetEngine==null)
+                throw new IllegalStateException("Illegal config for sub " + as);
             // find the existing source group
             PerSource ps = null;
             for (PerSource cur : data) {
-                if (cur.getSource() == as.getSource()) {
+                if (cur.getSource().getEngine() == as.getSource()) {
                     ps = cur;
                     break;
                 }
             }
             // make new source group if one not found
             if (ps==null) {
-                ps = new PerSource(as.getSource());
+                ps = new PerSource(sourceEngine);
                 data.add(ps);
             }
             // find the existing target group
             PerTarget pst = null;
             for (PerTarget cur : ps.getTargets()) {
-                if (cur.getTarget() == as.getTarget()) {
+                if (cur.getTarget().getEngine() == as.getTarget()) {
                     pst = cur;
                     break;
                 }
             }
             // make new target group if one not found
             if (pst==null) {
-                pst = new PerTarget(as.getTarget());
+                pst = new PerTarget(targetEngine);
                 ps.getTargets().add(pst);
             }
             // add the new monitor to the target group
-            Monitor m = new Monitor(as);
+            Monitor m = new Monitor(as, sourceEngine, targetEngine);
             pst.getMonitors().add(m);
         }
+    }
+
+    public AsConfig getConfig() {
+        return config;
+    }
+
+    public Map<String, PerEngine> getEngines() {
+        return engines;
     }
 
     public List<PerSource> getData() {

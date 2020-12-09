@@ -21,8 +21,9 @@
  */
 package com.ibm.idrcdc.autosub;
 
-import com.ibm.idrcdc.autosub.model.*;
 import java.io.File;
+import com.ibm.idrcdc.autosub.config.*;
+import com.ibm.idrcdc.autosub.impl.*;
 
 /**
  * Initiate the configuration reload of the Autosub service.

@@ -21,7 +21,8 @@
  */
 package com.ibm.idrcdc.autosub;
 
-import com.ibm.idrcdc.autosub.model.*;
+import com.ibm.idrcdc.autosub.config.*;
+import com.ibm.idrcdc.autosub.impl.*;
 
 /**
  * Initiate the shutdown of the Autosub service.

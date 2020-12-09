@@ -19,14 +19,14 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub;
+package com.ibm.idrcdc.autosub.monitor;
 
-import com.ibm.idrcdc.autosub.model.AsEngine;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.ibm.idrcdc.autosub.config.*;
 
 /**
  * Monitors for one source datastore, grouped by target datastore
@@ -34,29 +34,45 @@ import java.util.Set;
  */
 public class PerSource {
 
-    private final AsEngine source;
+    private final PerEngine source;
     private final List<PerTarget> targets = new ArrayList<>();
+    private boolean enabled;
 
-    public PerSource(AsEngine source) {
+    public PerSource(PerEngine source) {
         this.source = source;
+        this.enabled = true;
     }
 
-    public AsEngine getSource() {
+    public PerEngine getSource() {
         return source;
+    }
+
+    public AsEngine getEngine() {
+        return source.getEngine();
     }
 
     public List<PerTarget> getTargets() {
         return targets;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     /**
      * Check is the whole source enabled
      * @return true, if at least one corresponding monitor is enabled
      */
-    public boolean isEnabled() {
-        for (PerTarget pst : targets) {
-            if (pst.isEnabled())
-                return true;
+    public boolean isFullyEnabled() {
+        if (enabled) {
+            for (PerTarget pst : targets) {
+                if (pst.isFullyEnabled())
+                    return true;
+            }
         }
         return false;
     }
