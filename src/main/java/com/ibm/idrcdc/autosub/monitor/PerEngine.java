@@ -22,8 +22,6 @@ public class PerEngine {
     private String cmdBookmarkGetCache = null;
     private String cmdBookmarkPutCache = null;
     private String cmdReAddTableCache = null;
-    private String cmdDescribeCache = null;
-    private String cmdReAssignTableCache = null;
 
     public PerEngine(AsEngine engine) {
         this.engine = engine;
@@ -146,40 +144,10 @@ public class PerEngine {
         command = engine.getCommandReAddTable();
         if (StringUtils.isBlank(command)) {
             command = startCommandInstance("/bin/dmreaddtable")
-                    .append(" -t \"${TABLE}\"")
+                    .append(" -t \"${TABLE}\" -a")
                     .toString();
         }
         cmdReAddTableCache = command;
-        return command;
-    }
-
-    public String cmdDescribe() {
-        String command = cmdDescribeCache;
-        if (!StringUtils.isBlank(command)) {
-            return command;
-        }
-        command = engine.getCommandDescribe();
-        if (StringUtils.isBlank(command)) {
-            command = startCommandInstance("/bin/dmdescribe")
-                    .append(" -s \"${SUB}\"")
-                    .toString();
-        }
-        cmdDescribeCache = command;
-        return command;
-    }
-
-    public String cmdReAssignTable() {
-        String command = cmdReAssignTableCache;
-        if (!StringUtils.isBlank(command)) {
-            return command;
-        }
-        command = engine.getCommandReAssignTable();
-        if (StringUtils.isBlank(command)) {
-            command = startCommandInstance("/bin/dmreassigntable")
-                    .append(" -s \"${SUB}\" -t \"${TABLE}\"")
-                    .toString();
-        }
-        cmdReAssignTableCache = command;
         return command;
     }
 

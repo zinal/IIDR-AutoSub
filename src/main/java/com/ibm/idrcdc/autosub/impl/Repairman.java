@@ -73,16 +73,18 @@ public class Repairman implements Runnable {
 
         try {
             // 1. Grab the bookmarks on target datastores.
+            // The bookmarks are grabbed even in command mode, where they are not used
+            // for anything rather than being logged - this is the basis for manual recovery.
             grabAllBookmarks();
             if (getPendingSubs().isEmpty())
-                return;
+                return; // Exit if the bookmarks cannot be retrieved
 
             // 2. Reading the column states
             for (Monitor m : getPendingSubs()) {
                 grabTableColumns(m);
             }
             if (getPendingSubs().isEmpty())
-                return;
+                return; // Exit if we failed to read the column states
 
             // 3. Stop all the running subscriptions on the source datastore
             // (necessary for dmclearstagingstore)
@@ -134,16 +136,34 @@ public class Repairman implements Runnable {
     }
 
     private boolean readdTable(String tableFull) {
-        String[] table = tableFull2Pair(tableFull);
         LOG.info("Re-adding table {}...", tableFull);
-        try {
-            script.execute("readd replication table name \"{0}\" "
-                    + "schema \"{1}\" table \"{2}\";",
-                    origin.getSource().getName(), table[0], table[1]);
+        if (globals.isUseCommands()) {
+            // Command-based option
+            final Map<String,String> subst = new HashMap<>();
+            subst.put("TABLE", tableFull);
+            final StringBuilder output = new StringBuilder();
+            int code = RemoteTool.run("readd-table",
+                    origin.getSource().cmdReAddTable(), subst, output);
+            if (code!=0) {
+                LOG.error("Failed to re-add table {}, status code {}.\n"
+                        + "---- BEGIN OUTPUT ----\n"
+                        + "{}\n"
+                        + "----- END OUTPUT -----", tableFull, code, output);
+                return false;
+            }
             return true;
-        } catch(Exception ex) {
-            LOG.error("Failed to re-add table {}", tableFull, ex);
-            return false;
+        } else {
+            // CHCCLP-based option
+            String[] table = tableFull2Pair(tableFull);
+            try {
+                script.execute("readd replication table name \"{0}\" "
+                        + "schema \"{1}\" table \"{2}\";",
+                        origin.getSource().getName(), table[0], table[1]);
+                return true;
+            } catch(Exception ex) {
+                LOG.error("Failed to re-add table {}", tableFull, ex);
+                return false;
+            }
         }
     }
 
@@ -159,9 +179,9 @@ public class Repairman implements Runnable {
                 script.execute("unlock subscription;");
             } catch(Exception ex) {}
             // We must lock the subscription before any modifications
-            LOG.info("\tLocking...");
+            LOG.info("\tLocking subscription...");
             script.execute("lock subscription;");
-            LOG.info("\tDescribing...");
+            LOG.info("\tDescribing subscription...");
             script.execute("describe subscription;");
             for (String tableFull : m.getAlteredTables()) {
                 if (!selectedTables.contains(tableFull))
@@ -176,19 +196,25 @@ public class Repairman implements Runnable {
                     state = Collections.emptyMap();
                 script.execute("reassign table mapping;");
                 updateReplicatedColumns(m, state);
-                LOG.info("\t\tParking...");
-                script.execute("park table mapping;");
-                LOG.info("\t\tSwitching to REFRESH...");
-                script.execute("modify table mapping method refresh;");
-                LOG.info("\t\tSwitching to MIRROR...");
-                script.execute("modify table mapping method mirror;");
-                LOG.info("\t\tMarking capture point...");
-                script.execute("mark capture point;");
+                if (! globals.isUseCommands()) {
+                    // The following operations are skipped in the command mode.
+                    // This is allowed by using the "-a" flag of dmreaddtable command.
+                    LOG.info("\t\tParking...");
+                    script.execute("park table mapping;");
+                    LOG.info("\t\tSwitching to REFRESH...");
+                    script.execute("modify table mapping method refresh;");
+                    LOG.info("\t\tSwitching to MIRROR...");
+                    script.execute("modify table mapping method mirror;");
+                    LOG.info("\t\tMarking capture point...");
+                    script.execute("mark capture point;");
+                }
             }
             LOG.info("\tUnlocking subscription...");
             script.execute("unlock subscription;");
             LOG.info("\tComplete!");
-            // Need to reset the bookmark after the repairs.
+            if (globals.isUseCommands())
+                return true; // Done for command mode.
+            // Need to reset the bookmark after the CHCCLP repairs.
             return resetBookmark(m);
         } catch(Exception ex) {
             m.markRepairFailed(startTime);

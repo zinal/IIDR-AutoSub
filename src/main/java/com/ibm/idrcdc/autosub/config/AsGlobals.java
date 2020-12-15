@@ -27,26 +27,38 @@ import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Global configuration properties for the application.
+ * Global configuration properties for the AutoSub application.
  * @author zinal
  */
 public class AsGlobals {
 
-    private String accessServerAddress = null;
-    private int accessServerPort = -1;
-    private String accessServerLogin = null;
-    private String accessServerPassword = null;
-    private String configDirectory = null;
-    private String dataFile = null;
-    private long mainPeriod = -1L;
-    private int waitStartMirroring = -1;
-    private long pauseAfterError = -1L;
-    private long pauseBeforeRepair = -1L;
+    private String accessServerAddress;
+    private int accessServerPort;
+    private String accessServerLogin;
+    private String accessServerPassword;
+    private String configDirectory;
+    private String dataFile;
+    private long mainPeriod;
+    private int waitStartMirroring;
+    private long pauseAfterError;
+    private long pauseBeforeRepair;
+    private boolean useCommands;
 
     /**
      * Constructor for the manual setup.
      */
     public AsGlobals() {
+        this.accessServerAddress = "localhost";
+        this.accessServerPort = 10101;
+        this.accessServerLogin = null;
+        this.accessServerPassword = null;
+        this.configDirectory = "subs-config";
+        this.dataFile = "subs-work.xml";
+        this.mainPeriod = 10000L;
+        this.waitStartMirroring = 30;
+        this.pauseAfterError = 30000L;
+        this.pauseBeforeRepair = 5000L;
+        this.useCommands = true;
     }
 
     /**
@@ -67,6 +79,8 @@ public class AsGlobals {
                 Long.parseLong(props.getProperty("tool.pause_after_error", "30000"));
         this.pauseBeforeRepair =
                 Long.parseLong(props.getProperty("tool.pause_before_repair", "5000"));
+        this.useCommands =
+                Boolean.parseBoolean(props.getProperty("tool.use_commands", "true"));
     }
 
     public String getAccessServerAddress() {
@@ -147,6 +161,14 @@ public class AsGlobals {
 
     public void setPauseBeforeRepair(long pauseBeforeRepair) {
         this.pauseBeforeRepair = pauseBeforeRepair;
+    }
+
+    public boolean isUseCommands() {
+        return useCommands;
+    }
+
+    public void setUseCommands(boolean useCommands) {
+        this.useCommands = useCommands;
     }
 
     public static AsGlobals fromArgs(String[] args) throws Exception {

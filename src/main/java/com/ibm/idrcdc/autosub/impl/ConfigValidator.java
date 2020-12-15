@@ -104,8 +104,6 @@ public class ConfigValidator implements Runnable {
                 LOG.debug("\tdmclearstagingstore\t{}", e.cmdClear());
                 LOG.debug("\tdmsetbookmark\t{}",       e.cmdBookmarkPut());
                 LOG.debug("\tdmreaddtable\t{}",        e.cmdReAddTable());
-                LOG.debug("\tdmdescribe\t{}",          e.cmdDescribe());
-                LOG.debug("\tdmreassigntable\t{}",     e.cmdReAssignTable());
             }
             if (EngineType.Both==e.getType() || EngineType.Target==e.getType()) {
                 LOG.debug("\tdmshowbookmark\t{}",      e.cmdBookmarkGet());

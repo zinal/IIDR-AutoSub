@@ -42,8 +42,6 @@ public class AsEngine {
     private String commandBookmarkGet;
     private String commandBookmarkPut;
     private String commandReAddTable;
-    private String commandDescribe;
-    private String commandReAssignTable;
 
     public AsEngine(String name, EngineType type) {
         this.name = name;
@@ -130,22 +128,6 @@ public class AsEngine {
         this.commandReAddTable = commandReAddTable;
     }
 
-    public String getCommandDescribe() {
-        return commandDescribe;
-    }
-
-    public void setCommandDescribe(String commandDescribe) {
-        this.commandDescribe = commandDescribe;
-    }
-
-    public String getCommandReAssignTable() {
-        return commandReAssignTable;
-    }
-
-    public void setCommandReAssignTable(String commandReAssignTable) {
-        this.commandReAssignTable = commandReAssignTable;
-    }
-
     @Override
     public int hashCode() {
         int hash = 3;
@@ -193,12 +175,6 @@ public class AsEngine {
             return false;
         }
         if (!Objects.equals(this.commandReAddTable, other.commandReAddTable)) {
-            return false;
-        }
-        if (!Objects.equals(this.commandDescribe, other.commandDescribe)) {
-            return false;
-        }
-        if (!Objects.equals(this.commandReAssignTable, other.commandReAssignTable)) {
             return false;
         }
         if (this.type != other.type) {
