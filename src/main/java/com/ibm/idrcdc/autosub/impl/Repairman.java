@@ -61,6 +61,8 @@ public class Repairman implements Runnable {
     public void run() {
         if (selectedTables.isEmpty())
             return;
+        if (getPendingSubs().isEmpty())
+            return;
 
         LOG.info("Repair sequence STARTED for source datastore {}, "
                 + "subscriptions {}, tables {}",
