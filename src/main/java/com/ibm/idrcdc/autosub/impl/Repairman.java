@@ -322,7 +322,7 @@ public class Repairman implements Runnable {
         final String command = origin.getSource().cmdClear();
         Map<String,String> subst = new HashMap<>();
         subst.put("SOURCE", origin.getSource().getName());
-        int retval = new RemoteTool("cmd-clear-staging", command, subst) . execute();
+        int retval = RemoteTool.run("clear-staging", command, subst);
         if (retval != 0) {
             markRepairFailed(null); // mark repair failure for all subscriptions
             LOG.error("Cannot clear the staging store on source, status code {}. "
@@ -352,8 +352,7 @@ public class Repairman implements Runnable {
         if (StringUtils.isBlank(command))
             throw new RuntimeException("Get bookmark command not configured");
         final StringBuilder data = new StringBuilder();
-        int retval = new RemoteTool("cmd-get-bookmark",
-                command, m.substGetBookmark()) . execute(data);
+        int retval = RemoteTool.run("get-bookmark", command, m.substGetBookmark(), data);
         if (retval!=0)
             throw new RuntimeException("Get bookmark command failed with code " + retval);
         Pattern p = Pattern.compile("^[0-9A-F]{8,512}$");
@@ -371,8 +370,7 @@ public class Repairman implements Runnable {
             LOG.warn("Put bookmark command not configured for source {}", m.getSource().getName());
             return false;
         }
-        int retval = new RemoteTool("cmd-put-bookmark",
-                command, m.substPutBookmark()) . execute();
+        int retval = RemoteTool.run("put-bookmark", command, m.substPutBookmark());
         if (retval != 0) {
             LOG.warn("Failed to set bookmark for subscription {} with status code {}",
                     m.getSubscription().getName(), retval);

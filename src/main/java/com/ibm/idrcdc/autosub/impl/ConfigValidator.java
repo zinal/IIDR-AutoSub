@@ -21,6 +21,8 @@
  */
 package com.ibm.idrcdc.autosub.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import com.ibm.idrcdc.autosub.monitor.*;
 import com.ibm.idrcdc.autosub.config.*;
 
@@ -92,6 +94,45 @@ public class ConfigValidator implements Runnable {
         e.setEnabled(false);
         if (! groups.isEngineUsed(e) ) {
             LOG.info("\tSkipping unused datastore {}.", e.getName());
+            return;
+        }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Datastore {} ({}) access commands below:", e.getName(), e.getType());
+            LOG.debug("\tdmshowversion\t{}",           e.cmdVersion());
+            LOG.debug("\tdmshowevents\t{}",            e.cmdEvents());
+            if (EngineType.Both==e.getType() || EngineType.Source==e.getType()) {
+                LOG.debug("\tdmclearstagingstore\t{}", e.cmdClear());
+                LOG.debug("\tdmsetbookmark\t{}",       e.cmdBookmarkPut());
+                LOG.debug("\tdmreaddtable\t{}",        e.cmdReAddTable());
+                LOG.debug("\tdmdescribe\t{}",          e.cmdDescribe());
+                LOG.debug("\tdmreassigntable\t{}",     e.cmdReAssignTable());
+            }
+            if (EngineType.Both==e.getType() || EngineType.Target==e.getType()) {
+                LOG.debug("\tdmshowbookmark\t{}",      e.cmdBookmarkGet());
+            }
+        }
+
+        int code;
+        StringBuilder output;
+        Map<String,String> subst;
+
+        code = RemoteTool.run("show-version", e.cmdVersion(), (output = new StringBuilder()));
+        if (code != 0) {
+            LOG.warn("Failed to run dmshowversion, status code {}. Command output below..."
+                    + "\n---- BEGIN OUTPUT ----\n"
+                    + "{}"
+                    + "\n----- END OUTPUT -----", code, output);
+            return;
+        }
+
+        subst = new HashMap<>();
+        subst.put("INSTANCE", e.getEngine().getInstanceName());
+        code = RemoteTool.run("get-events", e.cmdEvents(), (output = new StringBuilder()));
+        if (code != 0) {
+            LOG.warn("Failed to run dmshowevents, status code {}. Command output below..."
+                    + "\n---- BEGIN OUTPUT ----\n"
+                    + "{}"
+                    + "\n----- END OUTPUT -----", code, output);
             return;
         }
 

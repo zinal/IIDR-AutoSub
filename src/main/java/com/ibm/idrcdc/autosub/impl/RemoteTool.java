@@ -58,7 +58,8 @@ public class RemoteTool {
     }
 
     public int execute(StringBuilder output) {
-        final String[] command = new StringTokenizer(commandText).getTokenArray();
+        final String[] command = new StringTokenizer(commandText)
+                .setQuoteChar('"').getTokenArray();
         if (substitutions.isEmpty() == false) {
             for (int i=0; i<command.length; ++i) {
                 String s = command[i];
@@ -96,6 +97,24 @@ public class RemoteTool {
             LOG.error("Execution failed for command {}", (Object) command, ex);
             return -1;
         }
+    }
+
+    public static int run(String logPrefix, String commandText,
+            Map<String, String> substitutions, StringBuilder output) {
+        return new RemoteTool(logPrefix, commandText, substitutions) . execute(output);
+    }
+
+    public static int run(String logPrefix, String commandText,
+            Map<String, String> substitutions) {
+        return new RemoteTool(logPrefix, commandText, substitutions) . execute(null);
+    }
+
+    public static int run(String logPrefix, String commandText, StringBuilder output) {
+        return new RemoteTool(logPrefix, commandText, Collections.emptyMap()) . execute(output);
+    }
+
+    public static int run(String logPrefix, String commandText) {
+        return new RemoteTool(logPrefix, commandText, Collections.emptyMap()) . execute(null);
     }
 
 }

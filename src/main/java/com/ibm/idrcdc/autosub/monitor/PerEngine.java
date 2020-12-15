@@ -59,8 +59,9 @@ public class PerEngine {
     private StringBuilder startCommandInstance(String command) {
         return startCommand()
                 .append(command)
-                .append(" -I ")
-                .append(engine.getInstanceName());
+                .append(" -I \"")
+                .append(engine.getInstanceName())
+                .append("\"");
     }
 
     public String cmdVersion() {

@@ -96,6 +96,8 @@ public class PendingChecker {
         Monitor m = pst.findMonitor(subname);
         if (m==null) // Skip the unmonitored subscription
             return false;
+        if (! m.getTarget().isEnabled())
+            return false; // The target datastore is not enabled
         // Mark the subscription as known
         m.setKnown(true);
         if ("Mirror Continuous".equalsIgnoreCase(substate)) {
