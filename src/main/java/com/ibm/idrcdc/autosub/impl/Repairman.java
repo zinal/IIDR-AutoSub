@@ -73,9 +73,10 @@ public class Repairman implements Runnable {
 
         try {
             // 1. Grab the bookmarks on target datastores.
-            // The bookmarks are grabbed even in command mode, where they are not used
-            // for anything rather than being logged - this is the basis for manual recovery.
-            grabAllBookmarks();
+            if (globals.isUseCommands())
+                printAllBookmarks();
+            else
+                grabAllBookmarks();
             if (getPendingSubs().isEmpty())
                 return; // Exit if the bookmarks cannot be retrieved
 
@@ -359,6 +360,16 @@ public class Repairman implements Runnable {
         return true;
     }
 
+    private void printAllBookmarks() {
+        for (Monitor m : getPendingSubs()) {
+            try {
+                m.setBookmark(grabBookmark(m));
+                LOG.info("Bookmark value for subscription {} is {}",
+                        m.getSubscription().getName(), m.getBookmark());
+            } catch(Exception ex) {}
+        }
+    }
+
     private void grabAllBookmarks() {
         for (Monitor m : getPendingSubs()) {
             try {
@@ -379,8 +390,13 @@ public class Repairman implements Runnable {
             throw new RuntimeException("Get bookmark command not configured");
         final StringBuilder data = new StringBuilder();
         int retval = RemoteTool.run("get-bookmark", command, m.substGetBookmark(), data);
-        if (retval!=0)
+        if (retval!=0) {
+            LOG.warn("Get bookmark command failed with code {}.\n"
+                    + "---- BEGIN OUTPUT ----\n"
+                    + "{}\n"
+                    + "----- END OUTPUT -----", retval, data);
             throw new RuntimeException("Get bookmark command failed with code " + retval);
+        }
         Pattern p = Pattern.compile("^[0-9A-F]{8,512}$");
         for (String v : data.toString().split("[\n]")) {
             if (p.matcher(v).matches())
