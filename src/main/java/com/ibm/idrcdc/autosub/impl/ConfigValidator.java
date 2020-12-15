@@ -43,18 +43,27 @@ public class ConfigValidator implements Runnable {
 
     @Override
     public void run() {
-        LOG.info("Validating datastores...");
-        for (AsEngine engine : groups.getConfig().getEngines().values()) {
-            if (! groups.getConfig().isEngineUsed(engine)) {
-                LOG.info("\tSpipping unused datastore {}.", engine.getName());
-                continue;
+        LOG.info("*** Validating datastores...");
+        for (PerEngine engine : groups.getEngines().values()) {
+            LOG.info("Datastore {}...", engine.getName());
+            try {
+                validate(engine);
+            } catch(Exception ex) {
+                engine.setEnabled(false);
+                LOG.warn("Disabled handling for datastore {}\n\t{}",
+                        engine.getName(), Misc.liteMessage(ex));
             }
         }
-        LOG.info("Validating subscriptions...");
+        LOG.info("*** Validating subscriptions...");
         int countValid = 0;
         for ( PerSource ps : groups.getData() ) {
             for ( PerTarget pst : ps.getTargets() ) {
                 for ( Monitor m : pst.getMonitors() ) {
+                    if (m.getSource().isEnabled()==false
+                            || m.getTarget().isEnabled()==false) {
+                        // Skipping subscriptions for disabled engines
+                        continue;
+                    }
                     LOG.info("Subscription {}: {} -> {}",
                             m.getSubscription().getName(),
                             m.getSource().getName(),
@@ -64,7 +73,7 @@ public class ConfigValidator implements Runnable {
                     } catch(Exception ex) {
                         m.setEnabled(false);
                         LOG.warn("Disabled handling for subscription {}\n\t{}",
-                                m.getSubscription().getName(), ex.getMessage());
+                                m.getSubscription().getName(), Misc.liteMessage(ex));
                     }
                     // Count the enabled subscriptions
                     if (m.isEnabled())
@@ -73,10 +82,20 @@ public class ConfigValidator implements Runnable {
             }
         }
         if (countValid > 0) {
-            LOG.info("Configuration validated, monitoring {} subscription(s).", countValid);
+            LOG.info("*** Configuration validated, monitoring {} subscription(s).", countValid);
         } else {
-            LOG.info("Empty configuration, nothing to do");
+            LOG.info("*** Empty configuration, nothing to do");
         }
+    }
+
+    private void validate(PerEngine e) {
+        e.setEnabled(false);
+        if (! groups.isEngineUsed(e) ) {
+            LOG.info("\tSkipping unused datastore {}.", e.getName());
+            return;
+        }
+
+        e.setEnabled(true);
     }
 
     private void validate(Monitor m) {

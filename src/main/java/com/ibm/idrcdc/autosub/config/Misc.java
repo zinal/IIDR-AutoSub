@@ -70,4 +70,53 @@ public class Misc {
             return null;
         return text;
     }
+
+    /**
+     * Collect the exception chain as a string, with some debug data.
+     * @param ex Exception which has been caught.
+     * @return Generated exception chain description.
+     */
+    public static String fullMessage(Throwable ex) {
+        final StringBuilder sb = new StringBuilder();
+        while (ex != null) {
+            sb.append(ex.getClass().getName());
+            if (ex.getStackTrace()!=null && ex.getStackTrace().length > 0) {
+                sb.append(" at ");
+                StackTraceElement ste = ex.getStackTrace()[0];
+                sb.append(ste.getFileName()).append(":")
+                        .append(ste.getLineNumber());
+                sb.append(", method ").append(ste.getClassName())
+                        .append("/").append(ste.getMethodName());
+            }
+            sb.append(" -> ").append(ex.getMessage());
+            if (ex.getCause()!=null)
+                sb.append(" *** | ");
+            ex = ex.getCause();
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Collect the exception chain as a string.
+     * @param ex Exception which has been caught.
+     * @return Generated exception chain description.
+     */
+    public static String liteMessage(Throwable ex) {
+        final StringBuilder sb = new StringBuilder();
+        while (ex != null) {
+            sb.append(ex.getClass().getName());
+            String message = ex.getMessage();
+            if (message==null)
+                message = "";
+            message = message.trim().replaceAll("[\n\r]{1,}", " ");
+            if (message.length() > 0) {
+                sb.append(": ").append(message);
+            }
+            if (ex.getCause()!=null)
+                sb.append(" | ");
+            ex = ex.getCause();
+        }
+        return sb.toString();
+    }
+
 }

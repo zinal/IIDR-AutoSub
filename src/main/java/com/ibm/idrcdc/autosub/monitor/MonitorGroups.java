@@ -96,4 +96,10 @@ public class MonitorGroups {
         return data;
     }
 
+    public boolean isEngineUsed(PerEngine engine) {
+        if (engine==null)
+            return false;
+        return config.isEngineUsed(engine.getEngine());
+    }
+
 }

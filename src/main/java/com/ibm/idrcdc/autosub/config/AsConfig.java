@@ -59,6 +59,9 @@ public class AsConfig {
     public static final String EL_CMD_CLEAR = "cmd-clear";
     public static final String EL_CMD_BMK_GET = "cmd-bmk-get";
     public static final String EL_CMD_BMK_PUT = "cmd-bmk-put";
+    public static final String EL_CMD_READD = "cmd-readd";
+    public static final String EL_CMD_REASSIGN = "cmd-reassign";
+    public static final String EL_CMD_DESCRIBE = "cmd-describe";
 
     private final Map<String, AsEngine> engines = new HashMap<>();
     private final List<AsSubscription> subscriptions = new ArrayList<>();
@@ -84,6 +87,8 @@ public class AsConfig {
     }
 
     public boolean isEngineUsed(AsEngine engine) {
+        if (engine==null)
+            return false;
         for (AsSubscription sub : subscriptions) {
             if (engine == sub.getSource())
                 return true;
@@ -185,6 +190,15 @@ public class AsConfig {
         cur = el.getChild(EL_CMD_BMK_PUT);
         if (cur!=null)
             ae.setCommandBookmarkPut(Misc.getText(cur));
+        cur = el.getChild(EL_CMD_READD);
+        if (cur!=null)
+            ae.setCommandReAddTable(Misc.getText(cur));
+        cur = el.getChild(EL_CMD_REASSIGN);
+        if (cur!=null)
+            ae.setCommandReAssignTable(Misc.getText(cur));
+        cur = el.getChild(EL_CMD_DESCRIBE);
+        if (cur!=null)
+            ae.setCommandDescribe(Misc.getText(cur));
         return ae;
     }
 
@@ -200,6 +214,9 @@ public class AsConfig {
         addNonBlankText(cur, EL_CMD_CLEAR, ae.getCommandClear());
         addNonBlankText(cur, EL_CMD_BMK_GET, ae.getCommandBookmarkGet());
         addNonBlankText(cur, EL_CMD_BMK_PUT, ae.getCommandBookmarkPut());
+        addNonBlankText(cur, EL_CMD_READD, ae.getCommandReAddTable());
+        addNonBlankText(cur, EL_CMD_REASSIGN, ae.getCommandReAssignTable());
+        addNonBlankText(cur, EL_CMD_DESCRIBE, ae.getCommandDescribe());
         return cur;
     }
 

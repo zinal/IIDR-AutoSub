@@ -22,7 +22,6 @@
 package com.ibm.idrcdc.autosub.config;
 
 import java.util.Objects;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Source or target engine configuration.
@@ -42,6 +41,9 @@ public class AsEngine {
     private String commandClear;
     private String commandBookmarkGet;
     private String commandBookmarkPut;
+    private String commandReAddTable;
+    private String commandDescribe;
+    private String commandReAssignTable;
 
     public AsEngine(String name, EngineType type) {
         this.name = name;
@@ -120,6 +122,30 @@ public class AsEngine {
         this.commandBookmarkPut = commandBookmarkPut;
     }
 
+    public String getCommandReAddTable() {
+        return commandReAddTable;
+    }
+
+    public void setCommandReAddTable(String commandReAddTable) {
+        this.commandReAddTable = commandReAddTable;
+    }
+
+    public String getCommandDescribe() {
+        return commandDescribe;
+    }
+
+    public void setCommandDescribe(String commandDescribe) {
+        this.commandDescribe = commandDescribe;
+    }
+
+    public String getCommandReAssignTable() {
+        return commandReAssignTable;
+    }
+
+    public void setCommandReAssignTable(String commandReAssignTable) {
+        this.commandReAssignTable = commandReAssignTable;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -166,6 +192,15 @@ public class AsEngine {
         if (!Objects.equals(this.commandBookmarkPut, other.commandBookmarkPut)) {
             return false;
         }
+        if (!Objects.equals(this.commandReAddTable, other.commandReAddTable)) {
+            return false;
+        }
+        if (!Objects.equals(this.commandDescribe, other.commandDescribe)) {
+            return false;
+        }
+        if (!Objects.equals(this.commandReAssignTable, other.commandReAssignTable)) {
+            return false;
+        }
         if (this.type != other.type) {
             return false;
         }
@@ -175,67 +210,6 @@ public class AsEngine {
     @Override
     public String toString() {
         return name;
-    }
-
-    public String cmdVersion() {
-        if (! StringUtils.isBlank(commandVersion))
-            return commandVersion;
-        final StringBuilder sb = new StringBuilder();
-        sb.append(remoteExec).append(' ')
-                .append(engineInstallDir)
-                .append("/bin/dmshowversion");
-        return sb.toString();
-    }
-
-    public String cmdEvents() {
-        if (! StringUtils.isBlank(commandEvents))
-            return commandEvents;
-        final StringBuilder sb = new StringBuilder();
-        sb.append(remoteExec).append(' ')
-                .append(engineInstallDir)
-                .append("/bin/dmshowevents")
-                .append(" -I ")
-                .append(instanceName)
-                .append(" -a -c 2");
-        return sb.toString();
-    }
-
-    public String cmdClear() {
-        if (! StringUtils.isBlank(commandClear))
-            return commandClear;
-        final StringBuilder sb = new StringBuilder();
-        sb.append(remoteExec).append(' ')
-                .append(engineInstallDir)
-                .append("/bin/dmclearstagingstore")
-                .append(" -I ")
-                .append(instanceName);
-        return sb.toString();
-    }
-
-    public String cmdBookmarkGet() {
-        if (! StringUtils.isBlank(commandBookmarkGet))
-            return commandBookmarkGet;
-        final StringBuilder sb = new StringBuilder();
-        sb.append(remoteExec).append(' ')
-                .append(engineInstallDir)
-                .append("/bin/dmshowbookmark")
-                .append(" -I ")
-                .append(instanceName)
-                .append(" -s ${SUB}");
-        return sb.toString();
-    }
-
-    public String cmdBookmarkPut() {
-        if (! StringUtils.isBlank(commandBookmarkPut))
-            return commandBookmarkPut;
-        final StringBuilder sb = new StringBuilder();
-        sb.append(remoteExec).append(' ')
-                .append(engineInstallDir)
-                .append("/bin/dmsetbookmark")
-                .append(" -I ")
-                .append(instanceName)
-                .append(" -s ${SUB} -a -b ${BOOKMARK}");
-        return sb.toString();
     }
 
 }
