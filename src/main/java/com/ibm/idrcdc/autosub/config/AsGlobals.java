@@ -80,7 +80,7 @@ public class AsGlobals {
         this.pauseBeforeRepair =
                 Long.parseLong(props.getProperty("tool.pause_before_repair", "5000"));
         this.useCommands =
-                Boolean.parseBoolean(props.getProperty("tool.use_commands", "true"));
+                Misc.parseBoolean(props.getProperty("tool.use_commands", "true"), true);
     }
 
     public String getAccessServerAddress() {
