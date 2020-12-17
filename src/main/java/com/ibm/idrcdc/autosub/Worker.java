@@ -51,7 +51,7 @@ public class Worker implements Runnable {
 
     public Worker(AsGlobals globals, FileFlag flagShutdown) {
         this.globals = globals;
-        this.config = AsConfig.load(globals);
+        this.config = AsParser.load(globals);
         this.groups = new MonitorGroups(config);
         this.flagShutdown = flagShutdown;
         this.flagReload = FileFlag.newReload(globals.getDataFile());

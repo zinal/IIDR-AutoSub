@@ -39,11 +39,11 @@ public class DoReload {
         try {
             final AsGlobals globals = AsGlobals.fromArgs(args);
             LOG.info("Working data file is {}", globals.getDataFile());
-            final AsConfig config = AsConfig.loadDir(globals);
+            final AsConfig config = AsParser.loadDir(globals);
             // TODO: check the configuration for validity
             final File sourceFile = new File(globals.getDataFile() + ".tmp");
             final File targetFile = new File(globals.getDataFile());
-            AsConfig.save(config, sourceFile);
+            AsParser.save(config, sourceFile);
             targetFile.delete();
             sourceFile.renameTo(targetFile);
             LOG.info("Configuration merged.");
