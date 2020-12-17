@@ -197,10 +197,12 @@ public class Worker implements Runnable {
                             pending = new ArrayList<>();
                         pending.add(ps);
                     }
+                    // log the recovery if there were previous errors
+                    ps.setCheckSuccess();
                 }
             } catch(Exception ex) {
-                LOG.error("Error checking state for subscriptions in "
-                        + "source datastore {}", ps.getSource().getName(), ex);
+                // log the error with suppressions
+                ps.reportCheckError(ex);
             }
         }
         return pending;

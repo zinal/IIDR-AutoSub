@@ -34,9 +34,15 @@ import com.ibm.idrcdc.autosub.config.*;
  */
 public class PerSource {
 
+    private static final org.slf4j.Logger LOG
+            = org.slf4j.LoggerFactory.getLogger(PerSource.class);
+
     private final PerEngine source;
     private final List<PerTarget> targets = new ArrayList<>();
     private boolean enabled;
+
+    // Message suppression flags, to avoid endless duplicates in the log.
+    private boolean suppressCheckErrors = false; // Error checking state for subscriptions ...
 
     public PerSource(PerEngine source) {
         this.source = source;
@@ -146,6 +152,22 @@ public class PerSource {
                     v.addAll(m.getAlteredTables());
         }
         return v;
+    }
+
+    public void reportCheckError(Throwable ex) {
+        if (! suppressCheckErrors) {
+            suppressCheckErrors = true;
+            LOG.error("Error checking state for subscriptions in "
+                    + "source datastore {}", source.getName(), ex);
+        }
+    }
+
+    public void setCheckSuccess() {
+        if (suppressCheckErrors) {
+            suppressCheckErrors = false;
+            LOG.info("State checking recovered for subscriptions in "
+                    + "source datastore {}", source.getName());
+        }
     }
 
     @Override
