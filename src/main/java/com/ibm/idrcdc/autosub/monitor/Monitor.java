@@ -125,6 +125,11 @@ public class Monitor {
         return alteredTables;
     }
 
+    /**
+     * Keep only allowed altered tables in the list of altered tables for this subscription,
+     * removing all other (not allowed) altered tables.
+     * @param allowed Set of allowed altered tables.
+     */
     public void filterAlteredTables(Set<String> allowed) {
         if (alteredTables.isEmpty() || allowed.isEmpty()
                 || allowed.containsAll(alteredTables))
@@ -205,7 +210,8 @@ public class Monitor {
     }
 
     /**
-     * Print lost & found messages for subscriptions when the "known" flag changes.
+     * Prints lost & found messages for subscriptions when the "known" flag changes.
+     * Updates the message suppression flag.
      */
     public void checkMissingSub() {
         if (known) {
@@ -221,6 +227,11 @@ public class Monitor {
         }
     }
 
+    /**
+     * Log the "Locked recovery..." event with duplicate suppression.
+     * @param tabName Table name changed in the subscription
+     * @param other Other subscription which also contains that table
+     */
     public void reportRecoveryLocked(String tabName, Monitor other) {
         if (! suppressLocked) {
             suppressLocked = true;
@@ -230,10 +241,16 @@ public class Monitor {
         }
     }
 
+    /**
+     * Reset the suppression flag for "Locked recovery..." event.
+     */
     public void resetRecoveryLocked() {
         suppressLocked = false;
     }
 
+    /**
+     * Log the "Subscription recovered" event, adjusting the suppression flags.
+     */
     public void reportSubscriptionRecovered() {
         if (suppressStopped) {
             suppressStopped = false;
@@ -244,6 +261,10 @@ public class Monitor {
         suppressLocked = false;
     }
 
+    /**
+     * Log the "Subscription not working" event with duplicate suppression.
+     * @param substate
+     */
     public void reportSubscriptionFailed(String substate) {
         if (! suppressStopped ) {
             suppressStopped = true;
@@ -252,6 +273,9 @@ public class Monitor {
         }
     }
 
+    /**
+     * Log the "Cannot repair" event with duplicate suppression.
+     */
     public void reportCannotRepair() {
         if (! suppressNoRepair ) {
             suppressNoRepair = true;
@@ -259,13 +283,23 @@ public class Monitor {
         }
     }
 
+    /**
+     * Clear the suppression flag after the subscription recovery.
+     */
     public void resetCannotRepair() {
         suppressNoRepair = false;
     }
 
+    /**
+     * Limit the refresh mode by source engine type.
+     * @return The adjusted RefreshMode value.
+     */
     public RefreshMode getRefreshMode() {
-        // TODO: limit the refresh mode by source engine type
-        return subscription.getRefreshMode();
+        if (source.isDdlAware())
+            return subscription.getRefreshMode();
+        // For non-DDL-aware sources we should only monitor subscriptions
+        // for which Refresh can be safely used.
+        return RefreshMode.Force;
     }
 
 }
