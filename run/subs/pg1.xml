@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<idrcdc-autosub>
+    <idrcdc-engine name='PG1' type='Source'>
+        <cdc-rsh>ssh cdcuser@kafko</cdc-rsh>
+        <cdc-path>/home/cdcuser/cdc-postgres</cdc-path>
+        <cdc-instance>pg1</cdc-instance>
+    </idrcdc-engine>
+
+    <!--
+    <idrcdc-subscription name='P2O1' source='PG1' target='META' skipNewBlobs='true' />
+    -->
+
+</idrcdc-autosub>

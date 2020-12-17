@@ -16,6 +16,7 @@ public class PerEngine {
     private final AsEngine engine;
     private boolean enabled;
 
+    private String pathSeparator = null;
     private String cmdVersionCache = null;
     private String cmdEventsCache = null;
     private String cmdClearCache = null;
@@ -48,18 +49,37 @@ public class PerEngine {
         return engine.getType();
     }
 
-    private StringBuilder startCommand() {
+    private StringBuilder startCommand(String command) {
         return new StringBuilder()
-                    .append(engine.getRemoteExec()).append(' ')
-                    .append(engine.getEngineInstallDir());
+                .append(engine.getRemoteExec()).append(' ')
+                .append(engine.getEngineInstallDir())
+                .append(getPathSeparator())
+                .append("bin")
+                .append(getPathSeparator())
+                .append(command);
     }
 
     private StringBuilder startCommandInstance(String command) {
-        return startCommand()
-                .append(command)
+        return startCommand(command)
                 .append(" -I \"")
                 .append(engine.getInstanceName())
                 .append("\"");
+    }
+
+    private String getPathSeparator() {
+        if (pathSeparator == null) {
+            String sample = engine.getEngineInstallDir();
+            if (StringUtils.isBlank(sample)) {
+                sample = engine.getCommandVersion();
+            }
+            if (sample.startsWith("/")
+                    || (StringUtils.countMatches(sample, '/') >
+                            StringUtils.countMatches(sample, '\\')) )
+                pathSeparator = "/";
+            else
+                pathSeparator = "\\";
+        }
+        return pathSeparator;
     }
 
     public String cmdVersion() {
@@ -69,9 +89,7 @@ public class PerEngine {
         }
         command = engine.getCommandVersion();
         if (StringUtils.isBlank(command)) {
-            command = startCommand()
-                    .append("/bin/dmshowversion")
-                    .toString();
+            command = startCommand("dmshowversion").toString();
         }
         cmdVersionCache = command;
         return command;
@@ -84,7 +102,7 @@ public class PerEngine {
         }
         command = engine.getCommandEvents();
         if (StringUtils.isBlank(command)) {
-            command = startCommandInstance("/bin/dmshowevents")
+            command = startCommandInstance("dmshowevents")
                     .append(" -a -c 2")
                     .toString();
         }
@@ -99,7 +117,7 @@ public class PerEngine {
         }
         command = engine.getCommandClear();
         if (StringUtils.isBlank(command)) {
-            command = startCommandInstance("/bin/dmclearstagingstore")
+            command = startCommandInstance("dmclearstagingstore")
                     .toString();
         }
         cmdClearCache = command;
@@ -113,7 +131,7 @@ public class PerEngine {
         }
         command = engine.getCommandBookmarkGet();
         if (StringUtils.isBlank(command)) {
-            command = startCommandInstance("/bin/dmshowbookmark")
+            command = startCommandInstance("dmshowbookmark")
                     .append(" -s \"${SUB}\"")
                     .toString();
         }
@@ -128,7 +146,7 @@ public class PerEngine {
         }
         command = engine.getCommandBookmarkPut();
         if (StringUtils.isBlank(command)) {
-            command = startCommandInstance("/bin/dmsetbookmark")
+            command = startCommandInstance("dmsetbookmark")
                     .append(" -s \"${SUB}\" -a -b ${BOOKMARK}")
                     .toString();
         }
@@ -143,7 +161,7 @@ public class PerEngine {
         }
         command = engine.getCommandReAddTable();
         if (StringUtils.isBlank(command)) {
-            command = startCommandInstance("/bin/dmreaddtable")
+            command = startCommandInstance("dmreaddtable")
                     .append(" -t \"${TABLE}\" -a")
                     .toString();
         }

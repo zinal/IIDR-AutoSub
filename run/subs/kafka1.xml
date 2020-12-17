@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<idrcdc-autosub>
+    <idrcdc-engine name='KAFKA1' type='Target'>
+        <cdc-rsh>ssh cdcuser@kafko</cdc-rsh>
+        <cdc-path>/home/cdcuser/cdc-kafka</cdc-path>
+        <cdc-instance>kafka1</cdc-instance>
+    </idrcdc-engine>
+</idrcdc-autosub>

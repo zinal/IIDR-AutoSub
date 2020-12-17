@@ -39,8 +39,10 @@ public class ChangeSignature {
 
     public ChangeSignature(Collection<PerSource> sources) {
         if (sources!=null) {
-            for (PerSource ps : sources)
-                records.put(ps.getSource().getName(), new Record(ps));
+            for (PerSource ps : sources) {
+                if (ps.isFullyEnabled())
+                    records.put(ps.getSource().getName(), new Record(ps));
+            }
         }
     }
 
