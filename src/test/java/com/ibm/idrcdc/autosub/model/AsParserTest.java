@@ -3,19 +3,19 @@
  */
 package com.ibm.idrcdc.autosub.model;
 
-import com.ibm.idrcdc.autosub.config.AsConfig;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import org.junit.Test;
 import org.junit.Assert;
+import com.ibm.idrcdc.autosub.config.*;
 
 /**
  *
  * @author zinal
  */
-public class AsConfigTest {
+public class AsParserTest {
 
     private static final String XML_CONFIG =
             "<?xml version='1.0' encoding='UTF-8'?>\n"
@@ -38,7 +38,7 @@ public class AsConfigTest {
             + "  </idrcdc-engine>\n"
             + "</idrcdc-autosub>";
 
-    public AsConfigTest() {
+    public AsParserTest() {
     }
 
     private InputStream getInputXml1() {
@@ -47,7 +47,7 @@ public class AsConfigTest {
 
     @Test
     public void test1() {
-        AsConfig config1 = AsConfig.load(getInputXml1());
+        AsConfig config1 = AsParser.load(getInputXml1());
         Assert.assertEquals(2, config1.getEngines().size());
         Assert.assertEquals(3, config1.getSubscriptions().size());
         Assert.assertEquals(false, config1.getSubscriptions().get(0).isSkipNewBlobs());
@@ -58,8 +58,8 @@ public class AsConfigTest {
         Assert.assertNotEquals(config1.getSubscriptions().get(0).getSource(),
                 config1.getSubscriptions().get(0).getTarget());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        AsConfig.save(config1, baos);
-        AsConfig config2 = AsConfig.load(new ByteArrayInputStream(baos.toByteArray()));
+        AsParser.save(config1, baos);
+        AsConfig config2 = AsParser.load(new ByteArrayInputStream(baos.toByteArray()));
         Assert.assertTrue(config1 != config2);
         Assert.assertEquals(config1, config2);
     }

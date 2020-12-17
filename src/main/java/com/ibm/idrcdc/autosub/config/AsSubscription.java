@@ -33,12 +33,14 @@ public class AsSubscription {
     private final AsEngine source;
     private final AsEngine target;
     private boolean skipNewBlobs;
+    private RefreshMode refreshMode;
 
     public AsSubscription(String name, AsEngine source, AsEngine target) {
         this.name = name;
         this.source = source;
         this.target = target;
         this.skipNewBlobs = false;
+        this.refreshMode = RefreshMode.Never;
     }
 
     public String getName() {
@@ -59,6 +61,14 @@ public class AsSubscription {
 
     public void setSkipNewBlobs(boolean skipNewBlobs) {
         this.skipNewBlobs = skipNewBlobs;
+    }
+
+    public RefreshMode getRefreshMode() {
+        return refreshMode;
+    }
+
+    public void setRefreshMode(RefreshMode refreshMode) {
+        this.refreshMode = refreshMode;
     }
 
     @Override
@@ -90,6 +100,9 @@ public class AsSubscription {
             return false;
         }
         if (!Objects.equals(this.target, other.target)) {
+            return false;
+        }
+        if (this.refreshMode != other.refreshMode) {
             return false;
         }
         return true;

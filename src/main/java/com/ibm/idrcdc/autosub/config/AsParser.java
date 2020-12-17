@@ -147,6 +147,10 @@ public class AsParser {
         if (source==null || target==null)
             throw new RuntimeException("Source or target missing for subscription " + as.getName());
         as.setSkipNewBlobs(Misc.getAttr(el, "skipNewBlobs", false));
+        String val = Misc.getAttr(el, "refreshMode", null);
+        if (! StringUtils.isBlank(val)) {
+            as.setRefreshMode(RefreshMode.valueOf(val));
+        }
         return as;
     }
 
@@ -156,6 +160,7 @@ public class AsParser {
         cur.setAttribute("source", as.getSource().getName());
         cur.setAttribute("target", as.getTarget().getName());
         cur.setAttribute("skipNewBlobs", as.isSkipNewBlobs() ? "true" : "false");
+        cur.setAttribute("refreshMode", as.getRefreshMode().name());
         return cur;
     }
 

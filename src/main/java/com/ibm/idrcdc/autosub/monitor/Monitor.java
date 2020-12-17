@@ -263,4 +263,9 @@ public class Monitor {
         suppressNoRepair = false;
     }
 
+    public RefreshMode getRefreshMode() {
+        // TODO: limit the refresh mode by source engine type
+        return subscription.getRefreshMode();
+    }
+
 }
