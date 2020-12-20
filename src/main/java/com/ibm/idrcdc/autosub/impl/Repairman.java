@@ -206,6 +206,7 @@ public class Repairman implements Runnable {
                 script.execute("reassign table mapping;");
                 updateReplicatedColumns(m, state);
                 if (RepairMode.Refresh == mode) {
+                    LOG.info("\tFlagging {} for Refresh...", tableFull);
                     script.execute("flag refresh;");
                 }
             }

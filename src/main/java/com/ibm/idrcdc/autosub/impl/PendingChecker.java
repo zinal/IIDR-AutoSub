@@ -159,7 +159,7 @@ public class PendingChecker {
         if (messageType != null) {
             switch (messageType) {
                 case M9505: {
-// Oracle:
+// Oracle, Db2:
 // IBM XXX has encountered a critical data definition (DDL) change for source table
 // METADEMO.TAB0 and will shutdown. Please re-add the table definition ...
                     String text = messageToLine(messageText);
@@ -175,7 +175,7 @@ public class PendingChecker {
                     break;
                 }
                 case M9506: {
-// PostgreSQL:
+// Oracle, PostgreSQL:
 // IBM XXX will be shutdown due to an error while parsing logs 
 // for table myuser.pgtab1 at position 00000000/017235d8. 
 // The table definition may have changed.
@@ -188,6 +188,7 @@ public class PendingChecker {
                     } else {
                         tabBegin += textBegin.length();
                         tableName = text.substring(tabBegin, tabEnd);
+                        // For Oracle this message means DDL->DML-DDL
                         requireRefresh = true;
                     }
                     break;
