@@ -239,6 +239,24 @@ public class PendingChecker {
             m.reportCannotRepair();
             return RepairMode.Disabled;
         }
+        if (! m.getSource().isDdlAware()) {
+            // We need a refresh for non-DDL-aware sources.
+            requireRefresh = true;
+        }
+        switch ( m.getRefreshMode() ) {
+            case Never:
+                if (requireRefresh) {
+                     // We need a Refresh, but settings prohibit it.
+                    m.reportCannotRepair();
+                    return RepairMode.Disabled;
+                }
+                break;
+            case Allow:
+                break;
+            case Force:
+                requireRefresh = true;
+                break;
+        }
         // Seems to be a supported case.
         m.resetCannotRepair();
         m.getAlteredTables().add(tableName);

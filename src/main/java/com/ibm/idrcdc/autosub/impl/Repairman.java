@@ -176,7 +176,7 @@ public class Repairman implements Runnable {
     }
 
     private boolean repair(Monitor m) {
-        final RepairMode mode = m.getFixedRepair();
+        final RepairMode mode = m.getRepair();
         if (mode == null || mode == RepairMode.Disabled)
             return false;
         LOG.info("Repairing the subscription {}", m.getSubscription());

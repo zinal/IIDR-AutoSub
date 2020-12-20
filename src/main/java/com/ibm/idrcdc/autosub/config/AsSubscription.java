@@ -40,7 +40,7 @@ public class AsSubscription {
         this.source = source;
         this.target = target;
         this.skipNewBlobs = false;
-        this.refreshMode = RefreshMode.Never;
+        this.refreshMode = RefreshMode.Allow;
     }
 
     public String getName() {

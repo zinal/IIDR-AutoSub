@@ -125,25 +125,6 @@ public class Monitor {
         return (repair != null ) && (repair != RepairMode.Disabled);
     }
 
-    /**
-     * Adjust the subscription recovery mode according 
-     * to the source engine DDL awareness flag.
-     * @return Adjusted recovery mode.
-     */
-    public RepairMode getFixedRepair() {
-        switch (repair) {
-            case Disabled:
-                return RepairMode.Disabled;
-            case Normal:
-                if ( getSource().isDdlAware() )
-                    return RepairMode.Normal;
-                return RepairMode.Refresh;
-            case Refresh:
-                return RepairMode.Refresh;
-        }
-        return RepairMode.Disabled;
-    }
-
     public List<String> getAlteredTables() {
         return alteredTables;
     }
