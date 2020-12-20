@@ -37,12 +37,12 @@ public class AsGlobals {
     private String accessServerLogin;
     private String accessServerPassword;
     private String configDirectory;
+    private String recoveryDirectory;
     private String dataFile;
     private long mainPeriod;
     private int waitStartMirroring;
     private long pauseAfterError;
     private long pauseBeforeRepair;
-    private boolean useCommands;
 
     /**
      * Constructor for the manual setup.
@@ -53,12 +53,12 @@ public class AsGlobals {
         this.accessServerLogin = null;
         this.accessServerPassword = null;
         this.configDirectory = "subs-config";
-        this.dataFile = "subs-work.xml";
+        this.recoveryDirectory = "subs-recovery";
+        this.dataFile = "subs-datafile.xml";
         this.mainPeriod = 10000L;
         this.waitStartMirroring = 30;
         this.pauseAfterError = 30000L;
         this.pauseBeforeRepair = 5000L;
-        this.useCommands = true;
     }
 
     /**
@@ -71,7 +71,8 @@ public class AsGlobals {
         this.accessServerLogin = props.getProperty("as.user", "admin");
         this.accessServerPassword = props.getProperty("as.password", "password");
         this.configDirectory = props.getProperty("subs.config", "subs-config");
-        this.dataFile = props.getProperty("subs.work", "subs-work.xml");
+        this.recoveryDirectory = props.getProperty("subs.config", "subs-recovery");
+        this.dataFile = props.getProperty("subs.work", "subs-datafile.xml");
         this.mainPeriod = Long.parseLong(props.getProperty("tool.period", "10000"));
         this.waitStartMirroring =
                 Integer.parseInt(props.getProperty("tool.wait_start_mirroring", "30"));
@@ -79,8 +80,6 @@ public class AsGlobals {
                 Long.parseLong(props.getProperty("tool.pause_after_error", "30000"));
         this.pauseBeforeRepair =
                 Long.parseLong(props.getProperty("tool.pause_before_repair", "5000"));
-        this.useCommands =
-                Misc.parseBoolean(props.getProperty("tool.use_commands", "true"), true);
     }
 
     public String getAccessServerAddress() {
@@ -123,6 +122,14 @@ public class AsGlobals {
         this.configDirectory = configDirectory;
     }
 
+    public String getRecoveryDirectory() {
+        return recoveryDirectory;
+    }
+
+    public void setRecoveryDirectory(String recoveryDirectory) {
+        this.recoveryDirectory = recoveryDirectory;
+    }
+
     public String getDataFile() {
         return dataFile;
     }
@@ -161,14 +168,6 @@ public class AsGlobals {
 
     public void setPauseBeforeRepair(long pauseBeforeRepair) {
         this.pauseBeforeRepair = pauseBeforeRepair;
-    }
-
-    public boolean isUseCommands() {
-        return useCommands;
-    }
-
-    public void setUseCommands(boolean useCommands) {
-        this.useCommands = useCommands;
     }
 
     public static AsGlobals fromArgs(String[] args) throws Exception {

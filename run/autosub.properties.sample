@@ -6,6 +6,8 @@ as.user = automon
 as.password = P@ssw0rd
 # Directory with configuration files for subscriptions and agents
 subs.config = subs
+# Output directory for recovery logs
+subs.recovery = recovery
 # File with the combined and validated configuration data
 subs.work = subs-work.xml
 # Check period, milliseconds
@@ -16,7 +18,5 @@ tool.wait_start_mirroring = 20
 tool.pause_after_error = 60000
 # Delay before any recovery actions when failure is detected, milliseconds
 tool.pause_before_repair = 10000
-# Use commands (dmreaddtable & friends) where possible
-tool.use_commands = true
 
 # End Of File

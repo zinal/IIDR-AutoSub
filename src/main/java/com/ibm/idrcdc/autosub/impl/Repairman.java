@@ -74,11 +74,8 @@ public class Repairman implements Runnable {
         boolean repairSucceeded = false;
 
         try {
-            // 1. Grab the bookmarks on target datastores.
-            if (globals.isUseCommands())
-                printAllBookmarks();
-            else
-                grabAllBookmarks();
+            // 1. Grab and print the bookmarks on target datastores.
+            printAllBookmarks();
             if (getPendingSubs().isEmpty())
                 return; // Exit if the bookmarks cannot be retrieved
 
@@ -140,34 +137,19 @@ public class Repairman implements Runnable {
 
     private boolean readdTable(String tableFull) {
         LOG.info("Re-adding table {}...", tableFull);
-        if (globals.isUseCommands()) {
-            // Command-based option
-            final Map<String,String> subst = new HashMap<>();
-            subst.put("TABLE", tableFull);
-            final StringBuilder output = new StringBuilder();
-            int code = RemoteTool.run("readd-table",
-                    origin.getSource().cmdReAddTable(), subst, output);
-            if (code!=0) {
-                LOG.error("Failed to re-add table {}, status code {}.\n"
-                        + "---- BEGIN OUTPUT ----\n"
-                        + "{}\n"
-                        + "----- END OUTPUT -----", tableFull, code, output);
-                return false;
-            }
-            return true;
-        } else {
-            // CHCCLP-based option
-            String[] table = tableFull2Pair(tableFull);
-            try {
-                script.execute("readd replication table name \"{0}\" "
-                        + "schema \"{1}\" table \"{2}\";",
-                        origin.getSource().getName(), table[0], table[1]);
-                return true;
-            } catch(Exception ex) {
-                LOG.error("Failed to re-add table {}", tableFull, ex);
-                return false;
-            }
+        final Map<String,String> subst = new HashMap<>();
+        subst.put("TABLE", tableFull);
+        final StringBuilder output = new StringBuilder();
+        int code = RemoteTool.run("readd-table",
+                origin.getSource().cmdReAddTable(), subst, output);
+        if (code!=0) {
+            LOG.error("Failed to re-add table {}, status code {}.\n"
+                    + "---- BEGIN OUTPUT ----\n"
+                    + "{}\n"
+                    + "----- END OUTPUT -----", tableFull, code, output);
+            return false;
         }
+        return true;
     }
 
     private boolean repair(Monitor m) {
@@ -199,26 +181,11 @@ public class Repairman implements Runnable {
                     state = Collections.emptyMap();
                 script.execute("reassign table mapping;");
                 updateReplicatedColumns(m, state);
-                if (! globals.isUseCommands()) {
-                    // The following operations are skipped in the command mode.
-                    // This is allowed by using the "-a" flag of dmreaddtable command.
-                    LOG.info("\t\tParking...");
-                    script.execute("park table mapping;");
-                    LOG.info("\t\tSwitching to REFRESH...");
-                    script.execute("modify table mapping method refresh;");
-                    LOG.info("\t\tSwitching to MIRROR...");
-                    script.execute("modify table mapping method mirror;");
-                    LOG.info("\t\tMarking capture point...");
-                    script.execute("mark capture point;");
-                }
             }
             LOG.info("\tUnlocking subscription...");
             script.execute("unlock subscription;");
             LOG.info("\tComplete!");
-            if (globals.isUseCommands())
-                return true; // Done for command mode.
-            // Need to reset the bookmark after the CHCCLP repairs.
-            return resetBookmark(m);
+            return true;
         } catch(Exception ex) {
             m.markRepairFailed(startTime);
             LOG.info("\tFailed!", ex);
@@ -372,20 +339,6 @@ public class Repairman implements Runnable {
         }
     }
 
-    private void grabAllBookmarks() {
-        for (Monitor m : getPendingSubs()) {
-            try {
-                m.setBookmark(grabBookmark(m));
-                LOG.info("Bookmark value for subscription {} is {}",
-                        m.getSubscription().getName(), m.getBookmark());
-            } catch(Exception ex) {
-                m.markRepairFailed(startTime); // mark repair failure
-                LOG.error("Cannot retrieve bookmark for subscription {}. "
-                        + "Skipping the recovery...", m.getSubscription().getName(), ex);
-            }
-        }
-    }
-
     private String grabBookmark(Monitor m) {
         final String command = m.getTarget().cmdBookmarkGet();
         if (StringUtils.isBlank(command))
@@ -405,23 +358,6 @@ public class Repairman implements Runnable {
                 return v;
         }
         throw new RuntimeException("Get bookmark command returned illegal output");
-    }
-
-    private boolean resetBookmark(Monitor m) {
-        LOG.info("Re-setting a bookmark for subscription {}", m.getSubscription());
-        final String command = m.getSource().cmdBookmarkPut();
-        if (StringUtils.isBlank(command)) {
-            LOG.warn("Put bookmark command not configured for source {}", m.getSource().getName());
-            return false;
-        }
-        int retval = RemoteTool.run("put-bookmark", command, m.substPutBookmark());
-        if (retval != 0) {
-            LOG.warn("Failed to set bookmark for subscription {} with status code {}",
-                    m.getSubscription().getName(), retval);
-            return false;
-        }
-        LOG.info("Bookmark reset successful!");
-        return true;
     }
 
     private void markRepairFailed(String tableName) {
@@ -458,7 +394,13 @@ public class Repairman implements Runnable {
         return origin.pendingMonitors();
     }
 
-    private static String[] tableFull2Pair(String tableFull) {
+    /**
+     * Convert the table name from schema.tabname notation 
+     * to a pair of schema and tabname.
+     * @param tableFull Full table name, dot-separated
+     * @return An array of schema and table name
+     */
+    public static String[] tableFull2Pair(String tableFull) {
         String[] parsedName = tableFull.split("[.]");
         if (parsedName.length == 2)
             return parsedName;

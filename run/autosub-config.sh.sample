@@ -1,7 +1,7 @@
 # Autosub environment settings
 
 JAVA_CMD=java
-JAVA_FLAGS="-Xmx256M -Xms256M"
+JAVA_FLAGS="-Xms32M -Xmx256M"
 AUTOSUB_IIDR=lib-iidr
 
 # End Of File
