@@ -1,23 +1,37 @@
 AutoSub application
 
-Example implementation of a tool to automate the recovery of subscriptions 
-in the event of DDL operation over the source tables.
-Uses CHCCLP embedded scripting to do its job.
+IBM Data Replication sample implementation of a tool to automate 
+the recovery of subscriptions in the event of DDL operation 
+over the source tables.
 
-Data loss is possible (missing changes on target) between the point
-of the first DDL operation and the point of subscription re-start.
-By re-programming this sample to use Refresh instead of Mark capture point
-it is possible to avoid the data loss, at the cost of an automated
-Refresh (which is also probably not a best option for all cases).
+This tool uses CHCCLP embedded scripting and CDC engine commands to do its job. 
+It periodically monitors the defined list of subscriptions. 
+If it detects a recoverable failure, it tries to repair it.
 
-Third-party (Access Server) jars need to be installed into 
-the lib-iidr subdirectory.
+Environment variables are configured through autosub-config.sh.
+See the provided file autosub-config.sh.sample for example values.
 
-Application settings are specified in the cdc-autosub.properties file.
-Each monitored subscription has its own configuration file with its name,
-source and target datastore names, and the list of columns replicated.
+Global settings are defined in autosub.properties file.
+See the provided file autosub.properties.sample for the list of parameters,
+their definition and example values.
 
-Staging store cleanup is implemented by calling an external script
-(normally clear-staging-store.sh), which gets the datastore name
-as its argument. It is expected that this script connect to the CDC
-agent's host through SSH and runs dmclearstagingstore tool.
+It is necessary to create a separate IBM CDC Access Server account
+for each instance of this AutoSub tool connecting the Access Server.
+Using a separate Access Server account allows the tool to operate
+without interventing with the work of human administrators.
+Connection credentials are specified in the autosub.properties file.
+
+Datastore connections and the list of monitored subscriptions are specified
+in the XML files located by default in the "subs" subdirectory.
+Examples for different datastore types are provided in "subs-sample".
+
+Multiple XML files are combined into a single active configuration
+through the "autosub-refresh.sh" command.
+This allows to safely edit the current configuration without affecting
+the operations of the running monitor copy.
+
+The tool is started through the "autosub-worker.sh" script.
+It can be safely shut down though the "autosub-shutdown.sh" script.
+Terminating the tool by entering Control-C or sending other signals is not
+recommended, as this can leave the recovery and monitoring procedures 
+uncompleted.
