@@ -110,11 +110,8 @@ public class PendingChecker {
         m.reportSubscriptionFailed(substate);
         // Check the actual failure reason
         if ("Failed".equalsIgnoreCase(substate)) {
-            if ( checkMonitor(m) ) {
-                // Mark the subscription for recovery.
-                m.setRepair(true);
-                return true;
-            }
+            m.setRepair( checkMonitor(m) );
+            return m.isRepairNeeded();
         }
         return false;
     }
@@ -124,12 +121,12 @@ public class PendingChecker {
      * @param m Monitor object for a subscription
      * @return true if the subscription should be recovered, false otherwise.
      */
-    private boolean checkMonitor(Monitor m) {
+    private RepairMode checkMonitor(Monitor m) {
         if (m.getFailureTime() != 0L) {
             // Pause recovery analysis attempts if there was a failed recovery.
             final long diff = startTime - m.getFailureTime();
             if (diff < globals.getPauseAfterError())
-                return false;
+                return RepairMode.Disabled;
         }
         // Supported event sequence: {9505 or 9602}, 1463.
         // Table name is extracted from the event text.
@@ -158,6 +155,7 @@ public class PendingChecker {
         }
         // Retrieve the altered table name from the messages.
         String tableName = null;
+        boolean requireRefresh = false;
         if (messageType != null) {
             switch (messageType) {
                 case M9505: {
@@ -195,19 +193,38 @@ public class PendingChecker {
                     }
                     break;
                 }
+                case M9519: {
+// MSSQL:
+// IBM XXX will be shutdown because the latest table definition
+// for table metademo.tab0 is newer than the table definition 
+// for the current operation. Refresh the table, ...
+                    String msg9519 = messageToLine(messageText).trim();
+                    final String textBegin = "table definition for table ";
+                    int tabBegin = msg9519.indexOf(textBegin);
+                    int tabEnd = msg9519.indexOf(" is newer than the table definition ");
+                    if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
+                        LOG.warn("Failed to parse the 9519 message text:\n\t{}", msg9519);
+                    } else {
+                        tabBegin += textBegin.length();
+                        tableName = msg9519.substring(tabBegin, tabEnd);
+                        tableName = tableName.replace("\"", "");
+                        requireRefresh = true;
+                    }
+                    break;
+                }
             }
         }
         if (StringUtils.isBlank(tableName)) {
             // Not a case we support.
             m.reportCannotRepair();
-            return false;
+            return RepairMode.Disabled;
         }
         // Seems to be a supported case.
         m.resetCannotRepair();
         m.getAlteredTables().add(tableName);
         LOG.debug("Probably able to repair the failed subscription {}, tables {}",
                 m.getSubscription(), m.getAlteredTables());
-        return true;
+        return requireRefresh ? RepairMode.Refresh : RepairMode.Normal;
     }
 
     private static String messageToLine(String msg) {
@@ -270,7 +287,7 @@ public class PendingChecker {
                     // Disable the repairs for the affected subscriptions, and
                     // print the warning messages.
                     for (Monitor lockedMon : me.getValue()) {
-                        lockedMon.setRepair(false);
+                        lockedMon.setRepair(RepairMode.Disabled);
                         lockedMon.reportRecoveryLocked(me.getKey(), m);
                     }
                 }
@@ -293,7 +310,7 @@ public class PendingChecker {
             m.filterAlteredTables(selectedTables);
             if (m.getAlteredTables().isEmpty()) {
                 LOG.debug("Excluded all altered tables for sub {}", m);
-                m.setRepair(false);
+                m.setRepair(RepairMode.Disabled);
             }
         }
     }

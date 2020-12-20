@@ -174,7 +174,8 @@ public class Repairman implements Runnable {
     }
 
     private boolean repair(Monitor m) {
-        if (! m.isRepair())
+        final RepairMode mode = m.getFixedRepair();
+        if (mode == null || mode == RepairMode.Disabled)
             return false;
         LOG.info("Repairing the subscription {}", m.getSubscription());
         try {
@@ -202,6 +203,9 @@ public class Repairman implements Runnable {
                     state = Collections.emptyMap();
                 script.execute("reassign table mapping;");
                 updateReplicatedColumns(m, state);
+                if (RepairMode.Refresh == mode) {
+                    script.execute("flag refresh;");
+                }
             }
             LOG.info("\tUnlocking subscription...");
             script.execute("unlock subscription;");
@@ -215,7 +219,7 @@ public class Repairman implements Runnable {
     }
 
     private boolean grabTableColumns(Monitor m) {
-        if (! m.isRepair())
+        if (! m.isRepairNeeded())
             return false;
         LOG.info("Reading column data for subscription {}", m.getSubscription());
         try {

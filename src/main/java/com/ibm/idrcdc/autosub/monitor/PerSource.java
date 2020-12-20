@@ -138,7 +138,7 @@ public class PerSource {
         final List<Monitor> v = new ArrayList<>();
         for (PerTarget pst : targets) {
             for (Monitor m : pst.getMonitors())
-                if (m.isRepair())
+                if (m.isRepairNeeded())
                     v.add(m);
         }
         return v;
@@ -152,7 +152,7 @@ public class PerSource {
         final Set<String> v = new HashSet<>();
         for (PerTarget pst : targets) {
             for (Monitor m : pst.getMonitors())
-                if (m.isRepair())
+                if (m.isRepairNeeded())
                     v.addAll(m.getAlteredTables());
         }
         return v;

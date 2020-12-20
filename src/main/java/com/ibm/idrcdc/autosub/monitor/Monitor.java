@@ -42,9 +42,9 @@ public class Monitor {
     private final PerEngine source;
     private final PerEngine target;
 
-    private boolean enabled;  // correct configuration (checked on startup)
-    private boolean known;    // does subscription exist?
-    private boolean repair;   // should the subscription be repaired?
+    private boolean enabled;    // correct configuration (checked on startup)
+    private boolean known;      // does subscription exist?
+    private RepairMode repair;  // should the subscription be repaired?
 
     // all replicated source tables
     private final List<String> sourceTables = new ArrayList<>();
@@ -76,7 +76,7 @@ public class Monitor {
         this.target = target;
         this.enabled = false;
         this.known = false;
-        this.repair = false;
+        this.repair = RepairMode.Disabled;
         this.bookmark = null;
         this.failureTime = 0L;
         this.suppressMissing = false;
@@ -113,12 +113,35 @@ public class Monitor {
         this.known = known;
     }
 
-    public boolean isRepair() {
+    public RepairMode getRepair() {
         return repair;
     }
 
-    public void setRepair(boolean repair) {
+    public void setRepair(RepairMode repair) {
         this.repair = repair;
+    }
+
+    public boolean isRepairNeeded() {
+        return (repair == null ) && (repair != RepairMode.Disabled);
+    }
+
+    /**
+     * Adjust the subscription recovery mode according 
+     * to the source engine DDL awareness flag.
+     * @return Adjusted recovery mode.
+     */
+    public RepairMode getFixedRepair() {
+        switch (repair) {
+            case Disabled:
+                return RepairMode.Disabled;
+            case Normal:
+                if ( getSource().isDdlAware() )
+                    return RepairMode.Normal;
+                return RepairMode.Refresh;
+            case Refresh:
+                return RepairMode.Refresh;
+        }
+        return RepairMode.Disabled;
     }
 
     public List<String> getAlteredTables() {
@@ -181,7 +204,7 @@ public class Monitor {
      */
     public void markRepairFailed(long failureTime) {
         this.failureTime = failureTime;
-        this.repair = false;
+        this.repair = RepairMode.Disabled;
     }
 
     /**
@@ -190,7 +213,7 @@ public class Monitor {
      */
     public void clearSubFlags() {
         known = false; // the subscription will become known if found
-        repair = false; // can be set to true if failed and repairable
+        repair = RepairMode.Disabled; // will be reset if failed and repairable
         alteredTables.clear();
         sourceTables.clear();
         bookmark = null;
