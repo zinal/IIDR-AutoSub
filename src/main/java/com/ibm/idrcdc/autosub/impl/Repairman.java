@@ -63,10 +63,26 @@ public class Repairman implements Runnable {
             return;
         if (getPendingSubs().isEmpty())
             return;
-
+        RecoveryReport.enable(globals, origin);
+        try {
+            repair();
+        } finally {
+            RecoveryReport.disable();
+        }
+    }
+    
+    private void repair() {
+        List<Monitor> pending = getPendingSubs();
+        
         LOG.info("Repair sequence STARTED for source datastore {}, "
                 + "subscriptions {}, tables {}",
-                origin.getSource(), getPendingSubs(), selectedTables);
+                origin.getSource(), pending, selectedTables);
+
+        if (RecoveryReport.isEnabled()) {
+            RecoveryReport.logIf("metadata", "Datastore " + origin.getName()
+                    + ", subs " + pending.toString() 
+                    + ", tables " + selectedTables.toString());
+        }
 
         // Connect to the source datastore
         script.dataStore(origin.getSource(), EngineMode.Source);
@@ -119,11 +135,16 @@ public class Repairman implements Runnable {
 
             // 7. Restarting the subscriptions
             restartSubscriptions();
-
-            LOG.info("Repair sequence COMPLETED for source datastore {}, subscriptions {}",
-                    origin.getSource(), getPendingSubs());
-
             repairSucceeded = true;
+
+            pending = getPendingSubs();
+            LOG.info("Repair sequence COMPLETED for source datastore {}, subscriptions {}",
+                    origin.getSource(), pending);
+
+            if (RecoveryReport.isEnabled()) {
+                RecoveryReport.logIf("success", "Datastore " + origin.getName()
+                        + ", subs " + pending.toString());
+            }
 
         } finally {
             if (! repairSucceeded) {

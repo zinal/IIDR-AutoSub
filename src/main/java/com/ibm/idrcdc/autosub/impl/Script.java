@@ -42,6 +42,9 @@ public class Script implements AutoCloseable {
     private static final org.slf4j.Logger LOG =
             org.slf4j.LoggerFactory.getLogger(Script.class);
 
+    private static final String CATEGORY = "chcclp";
+    private static final String CATEGORY_FAIL = "chcclp-error";
+
     private final EmbeddedScript es;
 
     private final Set<String> connections = new HashSet<>();
@@ -178,10 +181,12 @@ public class Script implements AutoCloseable {
                 MessageFormat.format(command, args) : command;
         try {
             LOG.debug("CHCCLP> {}", cmd);
+            RecoveryReport.logIf(CATEGORY, cmd);
             es.execute(cmd);
         } catch(EmbeddedScriptException ese) {
             String messageAndCode = ese.getResultCodeAndMessage();
             LOG.debug("CHCCLP ERROR: {}", messageAndCode);
+            RecoveryReport.logIf(CATEGORY_FAIL, messageAndCode);
             throw new RuntimeException(messageAndCode, ese);
         }
     }

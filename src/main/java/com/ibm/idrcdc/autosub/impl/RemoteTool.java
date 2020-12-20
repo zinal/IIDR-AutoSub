@@ -23,6 +23,7 @@ package com.ibm.idrcdc.autosub.impl;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import org.apache.commons.text.StringTokenizer;
@@ -36,6 +37,10 @@ public class RemoteTool {
 
     private static final org.slf4j.Logger LOG =
             org.slf4j.LoggerFactory.getLogger(RemoteTool.class);
+
+    private static final String CATEGORY_COMMAND = "shell-command";
+    private static final String CATEGORY_OUTPUT = "shell-output";
+    private static final String CATEGORY_STATUS = "shell-status";
 
     private final String logPrefix;
     private final String commandText;
@@ -75,6 +80,7 @@ public class RemoteTool {
             }
         }
         LOG.debug("Running the command {}", (Object) command);
+        RecoveryReport.logIf(CATEGORY_COMMAND, Arrays.toString(command));
         try {
             final Process proc = new ProcessBuilder(command)
                     .redirectErrorStream(true)
@@ -88,10 +94,12 @@ public class RemoteTool {
                         output.append(line).append("\n");
                     }
                     LOG.debug("{}: {}", logPrefix, line);
+                    RecoveryReport.logIf(CATEGORY_OUTPUT, line);
                 }
             }
             int retCode = proc.waitFor();
             LOG.debug("Command completed with code {}", retCode);
+            RecoveryReport.logIf(CATEGORY_STATUS, String.valueOf(retCode));
             return retCode;
         } catch(Exception ex) {
             LOG.error("Execution failed for command {}", (Object) command, ex);

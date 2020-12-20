@@ -48,6 +48,10 @@ public class PerSource {
         this.source = source;
         this.enabled = true;
     }
+    
+    public String getName() {
+        return source.getName();
+    }
 
     public PerEngine getSource() {
         return source;
