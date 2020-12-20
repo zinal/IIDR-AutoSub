@@ -38,24 +38,4 @@ their versions should be validated against the particular Access Server version.
 
 ## Configuration
 
-Global application settings are specified in the cdc-autosub.properties file.
-These settings cannot be changed without the tool restart.
-
-The list of monitored subscriptions, plus the source and target datastore properties,
-are defined in the XML files, which are combined into a single configuration
-with the special mini-tool, which signals the main tool to reload its settings.
-This means that the list of subscriptions, datastores, and their addresses/names/commands
-can be altered at runtime, without the need for complete tool restart.
-
-All configuration examples are available in the "run" subdirectory.
-
-CDC engine commands are being run through the passwordless remote 
-shell invocation, so some sort of SSH needs to be installed and configured.
-This tool expects to be able to run CDC_DIR/bin/dmSOMETHING commands 
-with the CDC software owner used to run the CDC instances.
-No other commands are being executed, and therefore, SSH access can be
-restricted to the necessary CDC commands only.
-
-For Windows SSH access, a built-in function may be used, or, for older
-Windows versions, one can use the following software:
-https://github.com/PowerShell/openssh-portable/releases
+Please see the configuration information in the run/README.txt file.

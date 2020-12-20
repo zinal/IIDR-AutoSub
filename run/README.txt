@@ -35,3 +35,14 @@ It can be safely shut down though the "autosub-shutdown.sh" script.
 Terminating the tool by entering Control-C or sending other signals is not
 recommended, as this can leave the recovery and monitoring procedures 
 uncompleted.
+
+CDC engine commands are being run through the passwordless remote 
+shell invocation, so some sort of SSH needs to be installed and configured.
+This tool expects to be able to run CDC_DIR/bin/dmSOMETHING commands 
+with the CDC software owner used to run the CDC instances.
+No other commands are being executed, and therefore, SSH access can be
+restricted to the necessary CDC commands only.
+
+For Windows SSH access, a built-in function may be used, or, for older
+Windows versions, one can use the following software:
+https://github.com/PowerShell/openssh-portable/releases
