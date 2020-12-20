@@ -69,7 +69,7 @@ public class Repairman implements Runnable {
                 origin.getSource(), getPendingSubs(), selectedTables);
 
         // Connect to the source datastore
-        script.dataStore(origin.getSource(), EngineType.Source);
+        script.dataStore(origin.getSource(), EngineMode.Source);
 
         boolean repairSucceeded = false;
 
@@ -157,7 +157,7 @@ public class Repairman implements Runnable {
             return false;
         LOG.info("Repairing the subscription {}", m.getSubscription());
         try {
-            script.dataStore(m.getTarget(), EngineType.Target);
+            script.dataStore(m.getTarget(), EngineMode.Target);
             script.execute("select subscription name \"{0}\";",
                     m.getSubscription().getName());
             try { // Ignoring the possible unlock error
@@ -198,7 +198,7 @@ public class Repairman implements Runnable {
             return false;
         LOG.info("Reading column data for subscription {}", m.getSubscription());
         try {
-            script.dataStore(m.getTarget(), EngineType.Target);
+            script.dataStore(m.getTarget(), EngineMode.Target);
             script.execute("select subscription name \"{0}\";",
                     m.getSubscription().getName());
             for (String tableFull : m.getAlteredTables()) {
@@ -297,7 +297,7 @@ public class Repairman implements Runnable {
         LOG.info("Stopping all running subscriptions for datastore {}...", origin.getSource());
         for (Map.Entry<String, String> sub : runningSubs.entrySet()) {
             LOG.info("\tStopping subscription {}...", sub.getKey());
-            script.dataStore(sub.getValue(), EngineType.Target);
+            script.dataStore(sub.getValue(), EngineMode.Target);
             script.execute("select subscription name \"{0}\";", sub.getKey());
             script.execute("end replication method immediate wait {0};",
                     String.valueOf(globals.getWaitStartMirroring()));
@@ -376,7 +376,7 @@ public class Repairman implements Runnable {
         for (Map.Entry<String, String> sub : subsToStart.entrySet()) {
             LOG.info("Starting subscription {}", sub.getKey());
             try {
-                script.dataStore(sub.getValue(), EngineType.Target);
+                script.dataStore(sub.getValue(), EngineMode.Target);
                 script.execute("select subscription name \"{0}\";", sub.getKey());
                 try { // Locked subscriptions cannot be started
                     script.execute("unlock subscription;");

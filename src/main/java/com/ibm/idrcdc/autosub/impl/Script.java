@@ -98,7 +98,7 @@ public class Script implements AutoCloseable {
      * @param engine Data store configuration object
      * @param mode Source, Target or Both
      */
-    public void dataStore(PerEngine engine, EngineType mode) {
+    public void dataStore(PerEngine engine, EngineMode mode) {
         dataStore(engine.getName(), mode);
     }
 
@@ -107,7 +107,7 @@ public class Script implements AutoCloseable {
      * @param engine Data store configuration object
      * @param mode Source, Target or Both
      */
-    public void dataStore(AsEngine engine, EngineType mode) {
+    public void dataStore(AsEngine engine, EngineMode mode) {
         dataStore(engine.getName(), mode);
     }
 
@@ -116,7 +116,7 @@ public class Script implements AutoCloseable {
      * @param name Data store name
      * @param mode Source, Target or Both
      */
-    public void dataStore(String name, EngineType mode) {
+    public void dataStore(String name, EngineMode mode) {
         name = name.trim().toUpperCase();
         switch (mode) {
             case Source:

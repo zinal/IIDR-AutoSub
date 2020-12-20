@@ -6,7 +6,7 @@
      (b) https://github.com/PowerShell/openssh-portable/releases
          https://github.com/PowerShell/openssh-portable/wiki
     -->
-    <idrcdc-engine name='MSSQL1' type='Source'>
+    <idrcdc-engine name='MSSQL1' mode='Source'>
         <cdc-rsh>ssh Administrator@wind</cdc-rsh>
         <cdc-path>C:\IBM\cdc-mssql</cdc-path>
         <cdc-instance>repl</cdc-instance>

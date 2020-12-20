@@ -23,6 +23,8 @@ package com.ibm.idrcdc.autosub.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import com.ibm.idrcdc.autosub.monitor.*;
 import com.ibm.idrcdc.autosub.config.*;
 
@@ -97,15 +99,15 @@ public class ConfigValidator implements Runnable {
             return;
         }
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Datastore {} ({}) access commands below:", e.getName(), e.getType());
+            LOG.debug("Datastore {} ({}) access commands below:", e.getName(), e.getMode());
             LOG.debug("\tdmshowversion\t{}",           e.cmdVersion());
             LOG.debug("\tdmshowevents\t{}",            e.cmdEvents());
-            if (EngineType.Both==e.getType() || EngineType.Source==e.getType()) {
+            if (EngineMode.Both==e.getMode() || EngineMode.Source==e.getMode()) {
                 LOG.debug("\tdmclearstagingstore\t{}", e.cmdClear());
                 LOG.debug("\tdmsetbookmark\t{}",       e.cmdBookmarkPut());
                 LOG.debug("\tdmreaddtable\t{}",        e.cmdReAddTable());
             }
-            if (EngineType.Both==e.getType() || EngineType.Target==e.getType()) {
+            if (EngineMode.Both==e.getMode() || EngineMode.Target==e.getMode()) {
                 LOG.debug("\tdmshowbookmark\t{}",      e.cmdBookmarkGet());
             }
         }
@@ -134,8 +136,13 @@ public class ConfigValidator implements Runnable {
                     + "\n----- END OUTPUT -----", code, output);
             return;
         }
-
+        
         e.setEnabled(true);
+        
+        LOG.info("\tDatastore {} type {} (version {}) instance {}, {}", 
+                e.getName(), e.getEngineType(), e.getEngineVersion(), 
+                e.getEngine().getInstanceName(), 
+                e.isDdlAware() ? "not DDL-aware" : "DDL-aware");
     }
 
     private void parseVersionOutput(PerEngine e, StringBuilder output) {
@@ -144,23 +151,29 @@ public class ConfigValidator implements Runnable {
         String engine = "";
         for (String line : output.toString().split("\\r?\\n")) {
             if (line.startsWith("Product: ")) {
-
+                engine = line.substring(9).trim();
             } else if (line.startsWith("Version: ")) {
-
+                version = line.substring(9).trim();
             } else if (line.startsWith("Build: ")) {
                 build = line.substring(7).trim();
             }
         }
+        Matcher m = Pattern.compile("[(](.*?)[)]").matcher(engine);
+        if (m.find()) {
+            engine = m.group(1);
+        }
+        e.setEngineType(engine);
+        e.setEngineVersion(version + " " + build);
     }
 
     private void validate(Monitor m) {
         m.setEnabled(false);
         // Switch to proper datastores
         if ( m.getTarget() == m.getSource() ) {
-            script.dataStore(m.getSource(), EngineType.Both);
+            script.dataStore(m.getSource(), EngineMode.Both);
         } else {
-            script.dataStore(m.getSource(), EngineType.Source);
-            script.dataStore(m.getTarget(), EngineType.Target);
+            script.dataStore(m.getSource(), EngineMode.Source);
+            script.dataStore(m.getTarget(), EngineMode.Target);
         }
         // Check that the subscription exists
         script.execute("select subscription name \"{0}\";", m.getSubscription().getName());

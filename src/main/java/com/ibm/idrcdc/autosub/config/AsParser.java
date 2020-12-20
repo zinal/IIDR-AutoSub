@@ -83,7 +83,7 @@ public class AsParser {
     private static AsEngine parseEngine(Element el) {
         AsEngine ae = new AsEngine(
                 Misc.getAttr(el, "name"),
-                EngineType.valueOf(Misc.getAttr(el, "type")));
+                EngineMode.valueOf(Misc.getAttr(el, "mode")));
         Element cur;
         cur = el.getChild(EL_ENG_RSH);
         if (cur!=null)
@@ -118,7 +118,7 @@ public class AsParser {
     private static Element formatEngine(AsEngine ae) {
         Element cur = new Element(EL_ENGINE);
         cur.setAttribute("name", ae.getName());
-        cur.setAttribute("type", ae.getType().name());
+        cur.setAttribute("mode", ae.getMode().name());
         addNonBlankText(cur, EL_ENG_RSH, ae.getRemoteExec());
         addNonBlankText(cur, EL_ENG_PATH, ae.getEngineInstallDir());
         addNonBlankText(cur, EL_ENG_INST, ae.getInstanceName());

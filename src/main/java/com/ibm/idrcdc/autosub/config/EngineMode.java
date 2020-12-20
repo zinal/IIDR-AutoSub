@@ -22,13 +22,24 @@
 package com.ibm.idrcdc.autosub.config;
 
 /**
- * CDC Engine type
+ * CDC Engine mode
  * @author zinal
  */
-public enum EngineType {
+public enum EngineMode {
 
+    /**
+     * Able to act as a source.
+     */
     Source,
+    
+    /**
+     * Able to act as a target.
+     */
     Target,
+    
+    /**
+     * Able to act as both source and target.
+     */
     Both
 
 }

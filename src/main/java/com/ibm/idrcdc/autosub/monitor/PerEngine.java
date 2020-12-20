@@ -68,8 +68,12 @@ public class PerEngine {
         return engine.getName();
     }
 
-    public EngineType getType() {
-        return engine.getType();
+    public EngineMode getMode() {
+        return engine.getMode();
+    }
+
+    public String getInstanceName() {
+        return engine.getInstanceName();
     }
 
     public String getEngineVersion() {
@@ -93,7 +97,7 @@ public class PerEngine {
     public boolean isDdlAware() {
         return ddlAware;
     }
-
+    
     private StringBuilder startCommand(String command) {
         return new StringBuilder()
                 .append(engine.getRemoteExec()).append(' ')

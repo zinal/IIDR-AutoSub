@@ -30,7 +30,7 @@ import java.util.Objects;
 public class AsEngine {
 
     private final String name;
-    private final EngineType type;
+    private final EngineMode mode;
 
     private String remoteExec;
     private String engineInstallDir;
@@ -43,17 +43,17 @@ public class AsEngine {
     private String commandBookmarkPut;
     private String commandReAddTable;
 
-    public AsEngine(String name, EngineType type) {
+    public AsEngine(String name, EngineMode type) {
         this.name = name;
-        this.type = type;
+        this.mode = type;
     }
 
     public String getName() {
         return name;
     }
 
-    public EngineType getType() {
-        return type;
+    public EngineMode getMode() {
+        return mode;
     }
 
     public String getRemoteExec() {
@@ -177,7 +177,7 @@ public class AsEngine {
         if (!Objects.equals(this.commandReAddTable, other.commandReAddTable)) {
             return false;
         }
-        if (this.type != other.type) {
+        if (this.mode != other.mode) {
             return false;
         }
         return true;

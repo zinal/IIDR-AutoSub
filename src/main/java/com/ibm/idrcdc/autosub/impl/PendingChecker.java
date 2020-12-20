@@ -64,7 +64,7 @@ public class PendingChecker {
         // Clean up all flags to their initial states
         clearSubFlags();
         // Grab the subscription states
-        script.dataStore(origin.getSource(), EngineType.Source);
+        script.dataStore(origin.getSource(), EngineMode.Source);
         script.execute("monitor replication;");
         final ScriptOutput table = script.getTable();
         for (int irow = 0; irow < table.getRowCount(); ++irow) {
@@ -228,7 +228,7 @@ public class PendingChecker {
         final List<Monitor> monitors = origin.allMonitors();
         for (Monitor m : monitors) {
             m.getSourceTables().clear();
-            script.dataStore(m.getTarget().getName(), EngineType.Target);
+            script.dataStore(m.getTarget().getName(), EngineMode.Target);
             script.execute("select subscription name \"{0}\";",
                     m.getSubscription().getName());
             script.execute("list table mappings;");
