@@ -71,7 +71,7 @@ public class AsGlobals {
         this.accessServerLogin = props.getProperty("as.user", "admin");
         this.accessServerPassword = props.getProperty("as.password", "password");
         this.configDirectory = props.getProperty("subs.config", "subs-config");
-        this.recoveryDirectory = props.getProperty("subs.config", "subs-recovery");
+        this.recoveryDirectory = props.getProperty("subs.recovery", "subs-recovery");
         this.dataFile = props.getProperty("subs.work", "subs-datafile.xml");
         this.mainPeriod = Long.parseLong(props.getProperty("tool.period", "10000"));
         this.waitStartMirroring =

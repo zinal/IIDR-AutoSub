@@ -6,8 +6,6 @@
         <cdc-instance>pg1</cdc-instance>
     </idrcdc-engine>
 
-    <!--
     <idrcdc-subscription name='P2O1' source='PG1' target='META' skipNewBlobs='true' />
-    -->
 
 </idrcdc-autosub>

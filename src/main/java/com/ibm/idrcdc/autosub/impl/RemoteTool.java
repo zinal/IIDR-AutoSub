@@ -26,11 +26,12 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringTokenizer;
 
 /**
  * Remote tool execution.
- * Used to run dmclearstagingstore, dmgetbookmark, dmsetbookmark.
+ * Used to run dmclearstagingstore, dmgetbookmark, dmsetbookmark, etc.
  * @author zinal
  */
 public class RemoteTool {
@@ -38,9 +39,9 @@ public class RemoteTool {
     private static final org.slf4j.Logger LOG =
             org.slf4j.LoggerFactory.getLogger(RemoteTool.class);
 
-    private static final String CATEGORY_COMMAND = "shell-command";
-    private static final String CATEGORY_OUTPUT = "shell-output";
-    private static final String CATEGORY_STATUS = "shell-status";
+    private static final String CAT_COMMAND = "shell-command";
+    private static final String CAT_OUTPUT = "shell-output";
+    private static final String CAT_STATUS = "shell-status";
 
     private final String logPrefix;
     private final String commandText;
@@ -80,7 +81,7 @@ public class RemoteTool {
             }
         }
         LOG.debug("Running the command {}", (Object) command);
-        RecoveryReport.logIf(CATEGORY_COMMAND, Arrays.toString(command));
+        RecoveryReport.logIf(CAT_COMMAND, Arrays.toString(command));
         try {
             final Process proc = new ProcessBuilder(command)
                     .redirectErrorStream(true)
@@ -94,12 +95,13 @@ public class RemoteTool {
                         output.append(line).append("\n");
                     }
                     LOG.debug("{}: {}", logPrefix, line);
-                    RecoveryReport.logIf(CATEGORY_OUTPUT, line);
+                    if (! StringUtils.isBlank(line))
+                        RecoveryReport.logIf(CAT_OUTPUT, line);
                 }
             }
             int retCode = proc.waitFor();
             LOG.debug("Command completed with code {}", retCode);
-            RecoveryReport.logIf(CATEGORY_STATUS, String.valueOf(retCode));
+            RecoveryReport.logIf(CAT_STATUS, String.valueOf(retCode));
             return retCode;
         } catch(Exception ex) {
             LOG.error("Execution failed for command {}", (Object) command, ex);

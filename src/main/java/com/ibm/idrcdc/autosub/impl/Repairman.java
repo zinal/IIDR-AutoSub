@@ -21,6 +21,7 @@
  */
 package com.ibm.idrcdc.autosub.impl;
 
+import com.ibm.idrcdc.autosub.Worker;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -70,8 +71,8 @@ public class Repairman implements Runnable {
             RecoveryReport.disable();
         }
     }
-    
-    private void repair() {
+
+    public void repair() {
         List<Monitor> pending = getPendingSubs();
         
         LOG.info("Repair sequence STARTED for source datastore {}, "
@@ -79,6 +80,7 @@ public class Repairman implements Runnable {
                 origin.getSource(), pending, selectedTables);
 
         if (RecoveryReport.isEnabled()) {
+            RecoveryReport.logIf("version", "autosub " + Worker.VERSION);
             RecoveryReport.logIf("metadata", "Datastore " + origin.getName()
                     + ", subs " + pending.toString() 
                     + ", tables " + selectedTables.toString());

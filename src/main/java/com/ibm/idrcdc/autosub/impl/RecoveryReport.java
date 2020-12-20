@@ -85,7 +85,7 @@ public class RecoveryReport {
         }
         this.origin = origin;
         this.out = out;
-        this.sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        this.sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     }
 
     private void close() {

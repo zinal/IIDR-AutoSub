@@ -6,12 +6,10 @@
         <cdc-instance>wrk1</cdc-instance>
     </idrcdc-engine>
 
-    <!--
     <idrcdc-subscription name='O2K1' source='WRK1' target='KAFKA1' />
     <idrcdc-subscription name='O2K2' source='WRK1' target='KAFKA1' />
     <idrcdc-subscription name='O2M1' source='WRK1' target='META' skipNewBlobs='true' />
     <idrcdc-subscription name='O2M2' source='WRK1' target='META' skipNewBlobs='true' />
     <idrcdc-subscription name='O2D1' source='WRK1' target='DS' />
-    -->
 
 </idrcdc-autosub>

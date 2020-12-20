@@ -122,7 +122,7 @@ public class Monitor {
     }
 
     public boolean isRepairNeeded() {
-        return (repair == null ) && (repair != RepairMode.Disabled);
+        return (repair != null ) && (repair != RepairMode.Disabled);
     }
 
     /**
