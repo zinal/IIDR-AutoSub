@@ -49,12 +49,11 @@ public class ConfigValidator implements Runnable {
     public void run() {
         LOG.info("*** Validating datastores...");
         for (PerEngine engine : groups.getEngines().values()) {
-            LOG.info("Datastore {}...", engine.getName());
             try {
                 validate(engine);
             } catch(Exception ex) {
                 engine.setEnabled(false);
-                LOG.warn("Disabled handling for datastore {}\n\t{}",
+                LOG.warn("Disabled datastore {}\n\t{}",
                         engine.getName(), Misc.liteMessage(ex));
             }
         }
@@ -95,7 +94,7 @@ public class ConfigValidator implements Runnable {
     private void validate(PerEngine e) {
         e.setEnabled(false);
         if (! groups.isEngineUsed(e) ) {
-            LOG.info("\tSkipping unused datastore {}.", e.getName());
+            LOG.info("Datastore {} is not used, skipping.", e.getName());
             return;
         }
         if (LOG.isDebugEnabled()) {
@@ -139,7 +138,7 @@ public class ConfigValidator implements Runnable {
         
         e.setEnabled(true);
         
-        LOG.info("\tDatastore {} type {} (version {}) instance {}, {}", 
+        LOG.info("Datastore {} ({}) version {} instance {}, {}", 
                 e.getName(), e.getEngineType(), e.getEngineVersion(), 
                 e.getEngine().getInstanceName(), 
                 (e.getMode()==EngineMode.Target) ? "target only" :
