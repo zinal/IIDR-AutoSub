@@ -90,8 +90,12 @@ public class PerEngine {
 
     public void setEngineType(String engineType) {
         this.engineType = engineType;
-        this.ddlAware = ( "Oracle".equalsIgnoreCase(engineType)
-                || "IBM DB2".equalsIgnoreCase(engineType) );
+        if (engine!=null && engine.getMode()==EngineMode.Target) {
+            this.ddlAware = false;
+        } else {
+            this.ddlAware = ( "Oracle".equalsIgnoreCase(engineType)
+                    || "IBM DB2".equalsIgnoreCase(engineType) );
+        }
     }
 
     public boolean isDdlAware() {

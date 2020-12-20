@@ -142,7 +142,8 @@ public class ConfigValidator implements Runnable {
         LOG.info("\tDatastore {} type {} (version {}) instance {}, {}", 
                 e.getName(), e.getEngineType(), e.getEngineVersion(), 
                 e.getEngine().getInstanceName(), 
-                e.isDdlAware() ? "not DDL-aware" : "DDL-aware");
+                (e.getMode()==EngineMode.Target) ? "target only" :
+                        (e.isDdlAware() ? "DDL-aware" : "not DDL-aware"));
     }
 
     private void parseVersionOutput(PerEngine e, StringBuilder output) {
