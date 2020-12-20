@@ -122,6 +122,7 @@ public class ConfigValidator implements Runnable {
                     + "\n----- END OUTPUT -----", code, output);
             return;
         }
+        parseVersionOutput(e, output);
 
         subst = new HashMap<>();
         subst.put("INSTANCE", e.getEngine().getInstanceName());
@@ -135,6 +136,21 @@ public class ConfigValidator implements Runnable {
         }
 
         e.setEnabled(true);
+    }
+
+    private void parseVersionOutput(PerEngine e, StringBuilder output) {
+        String build = "";
+        String version = "";
+        String engine = "";
+        for (String line : output.toString().split("\\r?\\n")) {
+            if (line.startsWith("Product: ")) {
+
+            } else if (line.startsWith("Version: ")) {
+
+            } else if (line.startsWith("Build: ")) {
+                build = line.substring(7).trim();
+            }
+        }
     }
 
     private void validate(Monitor m) {
