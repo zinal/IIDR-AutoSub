@@ -1,0 +1,111 @@
+
+chcclp session set to cdc;
+
+# Turn on verbose output.
+set verbose;
+
+# Setting variables.
+set variable name "ACCESS_HOSTNAME" value "zodak";
+set variable name "ACCESS_PORT" value "10101";
+set variable name "ACCESS_USERNAME" value "automon";
+set variable name "ACCESS_PASSWORD" value "P@ssw0rd";
+set variable name "SOURCE_DATASTORE" value "WRK1";
+set variable name "TARGET_DATASTORE" value "DS";
+set variable name "SUBSCRIPTION" value "ORA2";
+
+# Connecting to Access Server.
+connect server
+    hostname "%ACCESS_HOSTNAME%"
+    port "%ACCESS_PORT%"
+    username "%ACCESS_USERNAME%"
+    password "%ACCESS_PASSWORD%";
+
+# Connecting to the source and target datastores.
+connect datastore name "%SOURCE_DATASTORE%";
+connect datastore name "%TARGET_DATASTORE%";
+
+# Setting the datastore context.
+select datastore name "%SOURCE_DATASTORE%" context source;
+select datastore name "%TARGET_DATASTORE%" context target;
+
+# Adding the subscription.
+add subscription name "%SUBSCRIPTION%";
+
+# Locking the subscription.
+lock subscription;
+
+# Adding table mapping TAB3 - InfoSphere DataStage
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB3"
+    type "flatfile"
+    directory "/datum/home/cdcuser/DsOut";
+mark capture point;
+
+# Adding table mapping TAB4 - InfoSphere DataStage
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB4"
+    type "flatfile"
+    directory "/datum/home/cdcuser/DsOut";
+mark capture point;
+
+# Adding table mapping TAB5 - InfoSphere DataStage
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB5"
+    type "flatfile"
+    directory "/datum/home/cdcuser/DsOut";
+mark capture point;
+
+# Adding table mapping TAB6 - InfoSphere DataStage
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB6"
+    type "flatfile"
+    directory "/datum/home/cdcuser/DsOut";
+mark capture point;
+
+# Adding table mapping TAB7 - InfoSphere DataStage
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB7"
+    type "flatfile"
+    directory "/datum/home/cdcuser/DsOut";
+mark capture point;
+
+# Adding table mapping TAB8 - InfoSphere DataStage
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB8"
+    type "flatfile"
+    directory "/datum/home/cdcuser/DsOut";
+mark capture point;
+
+# Adding table mapping TAB9 - InfoSphere DataStage
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB9"
+    type "flatfile"
+    directory "/datum/home/cdcuser/DsOut";
+mark capture point;
+
+# Setting DataStage properties
+modify subscription datastage properties
+    clobTruncationSize "8000"
+    blobTruncationSize "8000"
+    batchSizeMaxRows "100000"
+    batchSizeTimeSeconds "10"
+    includeRecordCount no;
+
+# Unlocking the subscription.
+unlock subscription;
+
+# Disconnecting from datastores and Access Server.
+disconnect datastore name "%SOURCE_DATASTORE%";
+disconnect datastore name "%TARGET_DATASTORE%";
+
+# Disconnect from Access Server and terminate the script.
+disconnect server;
+exit;
+
