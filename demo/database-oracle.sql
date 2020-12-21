@@ -84,3 +84,72 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE PROCEDURE cdcdemo.action1 AS
+  v_b VARCHAR2(100);
+  v_id PLS_INTEGER;
+BEGIN
+  v_id := DBMS_RANDOM.VALUE(1, 1000000);
+  SELECT b INTO v_b FROM cdcdemo.tab0 WHERE a=v_id;
+  UPDATE cdcdemo.tab2 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab4 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab6 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab8 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  COMMIT;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE cdcdemo.action2 AS
+  v_b VARCHAR2(100);
+  v_id PLS_INTEGER;
+BEGIN
+  v_id := DBMS_RANDOM.VALUE(1, 1000000);
+  SELECT b INTO v_b FROM cdcdemo.tab1 WHERE a=v_id;
+  UPDATE cdcdemo.tab3 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab5 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab7 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab9 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  COMMIT;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE cdcdemo.action3 AS
+  v_b VARCHAR2(100);
+  v_id PLS_INTEGER;
+BEGIN
+  v_id := DBMS_RANDOM.VALUE(1, 1000000);
+  SELECT b INTO v_b FROM cdcdemo.tab8 WHERE a=v_id;
+  UPDATE cdcdemo.tab0 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab2 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab4 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab6 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  COMMIT;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE cdcdemo.action4 AS
+  v_b VARCHAR2(100);
+  v_id PLS_INTEGER;
+BEGIN
+  v_id := DBMS_RANDOM.VALUE(1, 1000000);
+  SELECT b INTO v_b FROM cdcdemo.tab9 WHERE a=v_id;
+  UPDATE cdcdemo.tab1 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab3 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab5 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab7 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  COMMIT;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE cdcdemo.action5 AS
+  v_b VARCHAR2(100);
+  v_id PLS_INTEGER;
+BEGIN
+  v_id := DBMS_RANDOM.VALUE(1, 1000000);
+  SELECT b INTO v_b FROM cdcdemo.tab6 WHERE a=v_id;
+  UPDATE cdcdemo.tab0 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab1 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab2 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab3 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  COMMIT;
+END;
+/
