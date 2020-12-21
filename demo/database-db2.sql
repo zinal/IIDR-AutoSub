@@ -1,7 +1,7 @@
 
-CREATE TABLESPACE cdcdemo;
+CREATE TABLESPACE cdcdemo @
 
-CREATE SCHEMA cdcdemo;
+CREATE SCHEMA cdcdemo @
 
 /*
 DROP TABLE cdcdemo.tab0;
@@ -20,52 +20,61 @@ CREATE TABLE cdcdemo.tab0 (
   A INTEGER NOT NULL PRIMARY KEY,
   B VARCHAR(100) NOT NULL,
   C TIMESTAMP NOT NULL
-) IN cdcdemo;
+) IN cdcdemo @
+
 CREATE TABLE cdcdemo.tab1 (
   A INTEGER NOT NULL PRIMARY KEY,
   B VARCHAR(100) NOT NULL,
   C TIMESTAMP NOT NULL
-) IN cdcdemo;
+) IN cdcdemo @
+
 CREATE TABLE cdcdemo.tab2 (
   A INTEGER NOT NULL PRIMARY KEY,
   B VARCHAR(100) NOT NULL,
   C TIMESTAMP NOT NULL
-) IN cdcdemo;
+) IN cdcdemo @
+
 CREATE TABLE cdcdemo.tab3 (
   A INTEGER NOT NULL PRIMARY KEY,
   B VARCHAR(100) NOT NULL,
   C TIMESTAMP NOT NULL
-) IN cdcdemo;
+) IN cdcdemo @
+
 CREATE TABLE cdcdemo.tab4 (
   A INTEGER NOT NULL PRIMARY KEY,
   B VARCHAR(100) NOT NULL,
   C TIMESTAMP NOT NULL
-) IN cdcdemo;
+) IN cdcdemo @
+
 CREATE TABLE cdcdemo.tab5 (
   A INTEGER NOT NULL PRIMARY KEY,
   B VARCHAR(100) NOT NULL,
   C TIMESTAMP NOT NULL
-) IN cdcdemo;
+) IN cdcdemo @
+
 CREATE TABLE cdcdemo.tab6 (
   A INTEGER NOT NULL PRIMARY KEY,
   B VARCHAR(100) NOT NULL,
   C TIMESTAMP NOT NULL
-) IN cdcdemo;
+) IN cdcdemo @
+
 CREATE TABLE cdcdemo.tab7 (
   A INTEGER NOT NULL PRIMARY KEY,
   B VARCHAR(100) NOT NULL,
   C TIMESTAMP NOT NULL
-) IN cdcdemo;
+) IN cdcdemo @
+
 CREATE TABLE cdcdemo.tab8 (
   A INTEGER NOT NULL PRIMARY KEY,
   B VARCHAR(100) NOT NULL,
   C TIMESTAMP NOT NULL
-) IN cdcdemo;
+) IN cdcdemo @
+
 CREATE TABLE cdcdemo.tab9 (
   A INTEGER NOT NULL PRIMARY KEY,
   B VARCHAR(100) NOT NULL,
   C TIMESTAMP NOT NULL
-) IN cdcdemo;
+) IN cdcdemo @
 
 CREATE OR REPLACE PROCEDURE cdcdemo.datagen
 LANGUAGE  SQL
@@ -89,18 +98,20 @@ BEGIN
 END
 @
 
+CALL cdcdemo.datagen @
+
 
 CREATE OR REPLACE PROCEDURE cdcdemo.action1
 LANGUAGE  SQL
 BEGIN
   DECLARE v_b VARCHAR(100);
   DECLARE v_id INTEGER;
-  SELECT DBMS_RANDOM.VALUE(1, 1000000) INTO v_id FROM sysibm.sysdummy1;
-  SELECT b INTO v_b FROM cdcdemo.tab0 WHERE a=v_id;
-  UPDATE cdcdemo.tab2 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab4 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab6 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab8 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  SELECT DBMS_RANDOM.VALUE(1, 1000000),
+         '1+' || dbms_random.string('x', dbms_random.value(10, 30))
+    INTO v_id, v_b FROM sysibm.sysdummy1;
+  UPDATE cdcdemo.tab0 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab3 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab6 SET b=v_b, c=SYSDATE WHERE a=v_id;
   COMMIT;
 END
 @
@@ -110,12 +121,12 @@ LANGUAGE  SQL
 BEGIN
   DECLARE v_b VARCHAR(100);
   DECLARE v_id INTEGER;
-  SELECT DBMS_RANDOM.VALUE(1, 1000000) INTO v_id FROM sysibm.sysdummy1;
-  SELECT b INTO v_b FROM cdcdemo.tab1 WHERE a=v_id;
-  UPDATE cdcdemo.tab3 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab5 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab7 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab9 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  SELECT DBMS_RANDOM.VALUE(1, 1000000),
+         '2+' || dbms_random.string('x', dbms_random.value(10, 30))
+    INTO v_id, v_b FROM sysibm.sysdummy1;
+  UPDATE cdcdemo.tab1 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab4 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab7 SET b=v_b, c=SYSDATE WHERE a=v_id;
   COMMIT;
 END
 @
@@ -125,12 +136,12 @@ LANGUAGE  SQL
 BEGIN
   DECLARE v_b VARCHAR(100);
   DECLARE v_id INTEGER;
-  SELECT DBMS_RANDOM.VALUE(1, 1000000) INTO v_id FROM sysibm.sysdummy1;
-  SELECT b INTO v_b FROM cdcdemo.tab8 WHERE a=v_id;
-  UPDATE cdcdemo.tab0 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab2 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab4 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab6 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  SELECT DBMS_RANDOM.VALUE(1, 1000000),
+         '3+' || dbms_random.string('x', dbms_random.value(10, 30))
+    INTO v_id, v_b FROM sysibm.sysdummy1;
+  UPDATE cdcdemo.tab2 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab5 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab8 SET b=v_b, c=SYSDATE WHERE a=v_id;
   COMMIT;
 END
 @
@@ -140,12 +151,12 @@ LANGUAGE  SQL
 BEGIN
   DECLARE v_b VARCHAR(100);
   DECLARE v_id INTEGER;
-  SELECT DBMS_RANDOM.VALUE(1, 1000000) INTO v_id FROM sysibm.sysdummy1;
-  SELECT b INTO v_b FROM cdcdemo.tab9 WHERE a=v_id;
-  UPDATE cdcdemo.tab1 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab3 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab5 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab7 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  SELECT DBMS_RANDOM.VALUE(1, 1000000),
+         '4+' || dbms_random.string('x', dbms_random.value(10, 30))
+    INTO v_id, v_b FROM sysibm.sysdummy1;
+  UPDATE cdcdemo.tab3 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab6 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab9 SET b=v_b, c=SYSDATE WHERE a=v_id;
   COMMIT;
 END
 @
@@ -155,12 +166,12 @@ LANGUAGE  SQL
 BEGIN
   DECLARE v_b VARCHAR(100);
   DECLARE v_id INTEGER;
-  SELECT DBMS_RANDOM.VALUE(1, 1000000) INTO v_id FROM sysibm.sysdummy1;
-  SELECT b INTO v_b FROM cdcdemo.tab6 WHERE a=v_id;
-  UPDATE cdcdemo.tab0 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab1 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab2 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
-  UPDATE cdcdemo.tab3 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  SELECT DBMS_RANDOM.VALUE(1, 1000000),
+         '5+' || dbms_random.string('x', dbms_random.value(10, 30))
+    INTO v_id, v_b FROM sysibm.sysdummy1;
+  UPDATE cdcdemo.tab0 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab4 SET b=v_b, c=SYSDATE WHERE a=v_id;
+  UPDATE cdcdemo.tab7 SET b=v_b, c=SYSDATE WHERE a=v_id;
   COMMIT;
 END
 @
