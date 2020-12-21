@@ -194,7 +194,7 @@ public class PendingChecker {
                     break;
                 }
                 case M9602: {
-// PostgreSQL:
+// PostgreSQL, Db2:
 // An exception has occurred during mirroring.
 // Stopping replication because table definition has changed for table "myuser.pgtab1".
                     String text = messageToLine(messageText).trim();
@@ -209,7 +209,6 @@ public class PendingChecker {
                         tabBegin += textBegin.length();
                         tableName = text.substring(tabBegin, tabEnd);
                         tableName = tableName.replace("\"", "");
-                        requireRefresh = true;
                     }
                     break;
                 }
@@ -337,20 +336,31 @@ public class PendingChecker {
             }
         }
 
-        if (! selectedTables.isEmpty()) {
-            LOG.info("Selected table(s) {} in subscription(s) {} for recovery",
-                    selectedTables, origin.pendingMonitors());
-        }
-
         // Leave only the selected tables as altered in all pending monitors.
         // If the list of altered tables becomes empty, exclude the monitor from repairs.
-        for (Monitor m : origin.pendingMonitors()) {
+        pendingMonitors = origin.pendingMonitors();
+        for (Monitor m : pendingMonitors) {
             m.filterAlteredTables(selectedTables);
             if (m.getAlteredTables().isEmpty()) {
                 LOG.debug("Excluded all altered tables for sub {}", m);
                 m.setRepair(RepairMode.Disabled);
             }
         }
+
+        if (! selectedTables.isEmpty()) {
+            pendingMonitors = origin.pendingMonitors();
+            LOG.info("Selected table(s) {} in subscription(s) {} "
+                    + "for recovery{}", selectedTables, pendingMonitors,
+                    plannedRefresh(pendingMonitors) ? " with REFRESH" : "");
+        }
+    }
+    
+    private static boolean plannedRefresh(List<Monitor> pendingMonitors) {
+        for (Monitor m : pendingMonitors) {
+            if (RepairMode.Refresh == m.getRepair())
+                return true;
+        }
+        return false;
     }
 
     /**

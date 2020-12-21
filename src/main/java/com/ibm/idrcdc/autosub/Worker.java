@@ -125,8 +125,8 @@ public class Worker implements Runnable {
                         LOG.info("Repairs for source datastore {}...", ps);
                         repair(ps);
                     }
-                    LOG.info("Repairs complete.");
-                    // Update start time for longer delay
+                    LOG.info("Repairs complete, back to monitoring...");
+                    // Update start time for longer delay after the repairs
                     tvStart = System.currentTimeMillis();
                 }
             }
