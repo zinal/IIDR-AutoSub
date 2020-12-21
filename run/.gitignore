@@ -3,4 +3,5 @@ autosub-config.sh
 subs-work.xml
 subs-work.xml.*
 lib
+subs/*.xml
 recovery/*.txt
