@@ -9,10 +9,10 @@ set variable name "ACCESS_HOSTNAME" value "zodak";
 set variable name "ACCESS_PORT" value "10101";
 set variable name "ACCESS_USERNAME" value "automon";
 set variable name "ACCESS_PASSWORD" value "P@ssw0rd";
-set variable name "SOURCE_DATASTORE" value "WRK1";
+set variable name "SOURCE_DATASTORE" value "DB2SAM";
 set variable name "TARGET_DATASTORE" value "DS";
-set variable name "SUBSCRIPTION" value "ORA2";
-set variable name "TARGET_DIR" value "/datum/home/cdcuser/DsOut";
+set variable name "SUBSCRIPTION" value "DB2B";
+set variable name "TARGET_DIR" value "/datum/home/cdcuser/DsMain";
 
 # Connecting to Access Server.
 connect server

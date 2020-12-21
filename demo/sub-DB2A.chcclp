@@ -1,0 +1,135 @@
+
+chcclp session set to cdc;
+
+# Turn on verbose output.
+set verbose;
+
+# Setting variables.
+set variable name "ACCESS_HOSTNAME" value "zodak";
+set variable name "ACCESS_PORT" value "10101";
+set variable name "ACCESS_USERNAME" value "automon";
+set variable name "ACCESS_PASSWORD" value "P@ssw0rd";
+set variable name "SOURCE_DATASTORE" value "DB2SAM";
+set variable name "TARGET_DATASTORE" value "KAFKA1";
+set variable name "SUBSCRIPTION" value "DB2A";
+
+# Connecting to Access Server.
+connect server
+    hostname "%ACCESS_HOSTNAME%"
+    port "%ACCESS_PORT%"
+    username "%ACCESS_USERNAME%"
+    password "%ACCESS_PASSWORD%";
+
+# Connecting to the source and target datastores.
+connect datastore name "%SOURCE_DATASTORE%";
+connect datastore name "%TARGET_DATASTORE%";
+
+# Setting the datastore context.
+select datastore name "%SOURCE_DATASTORE%" context source;
+select datastore name "%TARGET_DATASTORE%" context target;
+
+# Adding the subscription.
+add subscription name "%SUBSCRIPTION%";
+
+# Locking the subscription.
+lock subscription;
+
+# Adding table mapping TAB0 - Kafka
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB0";
+mark capture point;
+
+# Setting Kafka target key columns for TAB0 - Kafka
+modify table mapping
+    primaryKeyColumns "A";
+
+# Adding table mapping TAB1 - Kafka
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB1";
+mark capture point;
+
+# Setting Kafka target key columns for TAB1 - Kafka
+modify table mapping
+    primaryKeyColumns "A";
+
+# Adding table mapping TAB2 - Kafka
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB2";
+mark capture point;
+
+# Setting Kafka target key columns for TAB2 - Kafka
+modify table mapping
+    primaryKeyColumns "A";
+
+# Adding table mapping TAB3 - Kafka
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB3";
+mark capture point;
+
+# Setting Kafka target key columns for TAB3 - Kafka
+modify table mapping
+    primaryKeyColumns "A";
+
+# Adding table mapping TAB4 - Kafka
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB4";
+mark capture point;
+
+# Setting Kafka target key columns for TAB4 - Kafka
+modify table mapping
+    primaryKeyColumns "A";
+
+# Adding table mapping TAB5 - Kafka
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB5";
+mark capture point;
+
+# Setting Kafka target key columns for TAB5 - Kafka
+modify table mapping
+    primaryKeyColumns "A";
+
+# Adding table mapping TAB6 - Kafka
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB6";
+mark capture point;
+
+# Setting Kafka target key columns for TAB6 - Kafka
+modify table mapping
+    primaryKeyColumns "A";
+
+# Setting the subscription user exit
+modify subscription user exit
+    type "javaclass"
+    classname "com.datamirror.ts.target.publication.userexit.sample.kafka.KcopMultiRowAvroLiveAuditIntegrated"
+    parameter "-file:/home/cdcuser/kafka-avro-config.properties";
+
+# Setting target Kafka properties
+modify subscription kafka properties
+    communicationMethod "ZooKeeper"
+    kafkaHost "kafko"
+    kafkaPort "2181"
+    encrypted no
+    topicPrefix ""
+    commitStreamTopicName ""
+    schemaRegistryHost "kafko"
+    schemaRegistryPort "8081"
+    schemaRegistryEncrypted no;
+
+# Unlocking the subscription.
+unlock subscription;
+
+# Disconnecting from datastores and Access Server.
+disconnect datastore name "%SOURCE_DATASTORE%";
+disconnect datastore name "%TARGET_DATASTORE%";
+
+# Disconnect from Access Server and terminate the script.
+disconnect server;
+exit;
+
