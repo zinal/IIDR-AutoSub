@@ -3,6 +3,7 @@ CREATE TABLESPACE cdcdemo;
 
 CREATE SCHEMA cdcdemo;
 
+/*
 DROP TABLE cdcdemo.tab0;
 DROP TABLE cdcdemo.tab1;
 DROP TABLE cdcdemo.tab2;
@@ -13,6 +14,7 @@ DROP TABLE cdcdemo.tab6;
 DROP TABLE cdcdemo.tab7;
 DROP TABLE cdcdemo.tab8;
 DROP TABLE cdcdemo.tab9;
+*/
 
 CREATE TABLE cdcdemo.tab0 (
   A INTEGER NOT NULL PRIMARY KEY,
@@ -87,4 +89,78 @@ BEGIN
 END
 @
 
-SELECT COUNT(*) FROM cdcdemo.tab1;
+
+CREATE OR REPLACE PROCEDURE cdcdemo.action1
+LANGUAGE  SQL
+BEGIN
+  DECLARE v_b VARCHAR(100);
+  DECLARE v_id INTEGER;
+  SELECT DBMS_RANDOM.VALUE(1, 1000000) INTO v_id FROM sysibm.sysdummy1;
+  SELECT b INTO v_b FROM cdcdemo.tab0 WHERE a=v_id;
+  UPDATE cdcdemo.tab2 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab4 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab6 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab8 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  COMMIT;
+END
+@
+
+CREATE OR REPLACE PROCEDURE cdcdemo.action2
+LANGUAGE  SQL
+BEGIN
+  DECLARE v_b VARCHAR(100);
+  DECLARE v_id INTEGER;
+  SELECT DBMS_RANDOM.VALUE(1, 1000000) INTO v_id FROM sysibm.sysdummy1;
+  SELECT b INTO v_b FROM cdcdemo.tab1 WHERE a=v_id;
+  UPDATE cdcdemo.tab3 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab5 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab7 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab9 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  COMMIT;
+END
+@
+
+CREATE OR REPLACE PROCEDURE cdcdemo.action3
+LANGUAGE  SQL
+BEGIN
+  DECLARE v_b VARCHAR(100);
+  DECLARE v_id INTEGER;
+  SELECT DBMS_RANDOM.VALUE(1, 1000000) INTO v_id FROM sysibm.sysdummy1;
+  SELECT b INTO v_b FROM cdcdemo.tab8 WHERE a=v_id;
+  UPDATE cdcdemo.tab0 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab2 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab4 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab6 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  COMMIT;
+END
+@
+
+CREATE OR REPLACE PROCEDURE cdcdemo.action4
+LANGUAGE  SQL
+BEGIN
+  DECLARE v_b VARCHAR(100);
+  DECLARE v_id INTEGER;
+  SELECT DBMS_RANDOM.VALUE(1, 1000000) INTO v_id FROM sysibm.sysdummy1;
+  SELECT b INTO v_b FROM cdcdemo.tab9 WHERE a=v_id;
+  UPDATE cdcdemo.tab1 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab3 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab5 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab7 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  COMMIT;
+END
+@
+
+CREATE OR REPLACE PROCEDURE cdcdemo.action5
+LANGUAGE  SQL
+BEGIN
+  DECLARE v_b VARCHAR(100);
+  DECLARE v_id INTEGER;
+  SELECT DBMS_RANDOM.VALUE(1, 1000000) INTO v_id FROM sysibm.sysdummy1;
+  SELECT b INTO v_b FROM cdcdemo.tab6 WHERE a=v_id;
+  UPDATE cdcdemo.tab0 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab1 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab2 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  UPDATE cdcdemo.tab3 SET b=v_b, c=CURRENT TIMESTAMP WHERE a=v_id;
+  COMMIT;
+END
+@
