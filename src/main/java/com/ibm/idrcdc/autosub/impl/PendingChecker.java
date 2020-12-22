@@ -128,124 +128,75 @@ public class PendingChecker {
             if (diff < globals.getPauseAfterError())
                 return RepairMode.Disabled;
         }
-        // Supported event sequence: {9505 or 9602}, 1463.
-        // Table name is extracted from the event text.
+        // Find the event with the altered table name in its text.
+        // We need the oldest message, but not older then subscription start.
+        AlterTableEventType messageType = null;
+        int messageIndex = -1;
         script.execute("list subscription events name \"{0}\" type source;",
                 m.getSubscription().getName());
         final ScriptOutput table = script.getTable();
-        FailureMessageType messageType = null;
-        String messageText = null;
         for (int irow=0; irow < table.getRowCount(); ++irow) {
             String eventId = table.getValueAt(irow, "EVENT ID");
             if ("1463".equals(eventId)) {
                 // Subscription start, no need to scan further.
                 break;
             }
-            for (FailureMessageType mt : FailureMessageType.values()) {
-                if (mt.id.equals(eventId)) {
-                    messageType = mt;
-                    script.execute("show subscription event details row {0} ;",
-                            String.valueOf(irow+1));
-                    messageText = script.getTable().getValueAt(1, 1);
-                    break;
-                }
+            AlterTableEventType fmt = AlterTableEventType.find(eventId);
+            if (fmt != null) {
+                messageType = fmt;
+                messageIndex = irow;
             }
-            if (messageType != null)
-                break; // found the message with table name
         }
+        if (messageType == null) {
+            // Unsupported case - no message we could identify.
+            m.reportCannotRepair();
+            return RepairMode.Disabled;
+        }
+
+        // We have a message to parse, now retrieving its text
+        script.execute("show subscription event details row {0} ;",
+                String.valueOf(messageIndex+1));
+        final String text = messageToLine(
+                script.getTable().getValueAt(1, 1) );
+        
         // Retrieve the altered table name from the messages.
         String tableName = null;
         boolean requireRefresh = false;
-        if (messageType != null) {
-            switch (messageType) {
-                case M9505: {
-// Oracle, Db2:
-// IBM XXX has encountered a critical data definition (DDL) change for source table
-// METADEMO.TAB0 and will shutdown. Please re-add the table definition ...
-                    String text = messageToLine(messageText);
-                    final String textBegin = "(DDL) change for source table ";
-                    int tabBegin = text.indexOf(textBegin);
-                    int tabEnd = text.indexOf(" and will shutdown. Please re-add ");
-                    if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
-                        LOG.warn("Failed to parse the 9505 message text:\n\t{}", text);
-                    } else {
-                        tabBegin += textBegin.length();
-                        tableName = text.substring(tabBegin, tabEnd);
-                    }
-                    break;
-                }
-                case M9506: {
-// Oracle, PostgreSQL:
-// IBM XXX will be shutdown due to an error while parsing logs 
-// for table myuser.pgtab1 at position 00000000/017235d8. 
-// The table definition may have changed.
-                    String text = messageToLine(messageText).trim();
-                    final String textBegin = "error while parsing logs for table ";
-                    int tabBegin = text.indexOf(textBegin);
-                    int tabEnd = text.indexOf(" at position ");
-                    if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
-                        LOG.warn("Failed to parse the 9506 message text:\n\t{}", text);
-                    } else {
-                        tabBegin += textBegin.length();
-                        tableName = text.substring(tabBegin, tabEnd);
-                        // For Oracle this message means DDL->DML-DDL
-                        requireRefresh = true;
-                    }
-                    break;
-                }
-                case M9602: {
-// PostgreSQL, Db2:
-// An exception has occurred during mirroring.
-// Stopping replication because table definition has changed for table "myuser.pgtab1".
-                    String text = messageToLine(messageText).trim();
-                    final String textBegin = "definition has changed for table ";
-                    int tabBegin = text.indexOf(textBegin);
-                    int tabEnd = text.length() - 1;
-                    if (!text.endsWith("\"."))
-                        tabEnd = -1;
-                    if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
-                        LOG.warn("Failed to parse the 9602 message text:\n\t{}", text);
-                    } else {
-                        tabBegin += textBegin.length();
-                        tableName = text.substring(tabBegin, tabEnd);
-                        tableName = tableName.replace("\"", "");
-                    }
-                    break;
-                }
-                case M9519: {
-// MSSQL:
-// IBM XXX will be shutdown because the latest table definition
-// for table metademo.tab0 is newer than the table definition 
-// for the current operation. Refresh the table, ...
-                    String text = messageToLine(messageText).trim();
-                    final String textBegin = "table definition for table ";
-                    int tabBegin = text.indexOf(textBegin);
-                    int tabEnd = text.indexOf(" is newer than the table definition ");
-                    if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
-                        LOG.warn("Failed to parse the 9519 message text:\n\t{}", text);
-                    } else {
-                        tabBegin += textBegin.length();
-                        tableName = text.substring(tabBegin, tabEnd);
-                        tableName = tableName.replace("\"", "");
-                        requireRefresh = true;
-                    }
-                    break;
-                }
-            }
+        switch (messageType) {
+            case M9505:
+                tableName = parse9505(text);
+                break;
+            case M9506:
+                tableName = parse9506(text);
+                // This message means DDL->DML-DDL
+                requireRefresh = true;
+                break;
+            case M9602:
+                tableName = parse9602(text);
+                break;
+            case M9519:
+                tableName = parse9519(text);
+                break;
         }
+
+        LOG.debug("Table name {} from {}", tableName, text);
+
         if (StringUtils.isBlank(tableName)) {
             // Not a case we support.
             m.reportCannotRepair();
             return RepairMode.Disabled;
         }
+
         if (! m.getSource().isDdlAware()) {
             // We need a refresh for non-DDL-aware sources.
             requireRefresh = true;
+            LOG.debug("Non-DDL-aware source {}", m.getSource());
         }
+
         switch ( m.getRefreshMode() ) {
             case Never:
                 if (requireRefresh) {
-                     // We need a Refresh, but settings prohibit it.
+                    LOG.debug("We need a Refresh, but settings prohibit it");
                     m.reportCannotRepair();
                     return RepairMode.Disabled;
                 }
@@ -256,18 +207,95 @@ public class PendingChecker {
                 requireRefresh = true;
                 break;
         }
+
         // Seems to be a supported case.
         m.resetCannotRepair();
         m.getAlteredTables().add(tableName);
+
         LOG.debug("Probably able to repair the failed subscription {}, tables {}",
                 m.getSubscription(), m.getAlteredTables());
+
         return requireRefresh ? RepairMode.Refresh : RepairMode.Normal;
     }
 
     private static String messageToLine(String msg) {
+        if (msg==null)
+            return null;
         while (msg.contains("\n\r"))
             msg = msg.replace("\n\r", " ");
         return msg.replace('\n', ' ').replace('\r', ' ');
+    }
+    
+    private String parse9505(String text) {
+// Oracle, Db2:
+// IBM XXX has encountered a critical data definition (DDL) change for source table
+// METADEMO.TAB0 and will shutdown. Please re-add the table definition ...
+        final String textBegin = "(DDL) change for source table ";
+        int tabBegin = text.indexOf(textBegin);
+        int tabEnd = text.indexOf(" and will shutdown. Please re-add ");
+        if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
+            LOG.warn("Failed to parse the 9505 message text:\n\t{}", text);
+            return null;
+        } else {
+            tabBegin += textBegin.length();
+            return text.substring(tabBegin, tabEnd);
+        }
+    }
+    
+    private String parse9506(String text) {
+// Oracle, PostgreSQL:
+// IBM XXX will be shutdown due to an error while parsing logs 
+// for table myuser.pgtab1 at position 00000000/017235d8. 
+// The table definition may have changed.
+        final String textBegin = "error while parsing logs for table ";
+        int tabBegin = text.indexOf(textBegin);
+        int tabEnd = text.indexOf(" at position ");
+        tabBegin += textBegin.length();
+        if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
+            LOG.warn("Failed to parse the 9506 message text:\n\t{}", text);
+            return null;
+        } else {
+            return text.substring(tabBegin, tabEnd);
+        }
+    }
+    
+    private String parse9602(String text) {
+// PostgreSQL, Db2:
+// An exception has occurred during mirroring.
+// Stopping replication because table definition has changed for table "myuser.pgtab1".
+        final String textBegin = "definition has changed for table ";
+        int tabBegin = text.indexOf(textBegin);
+        int tabEnd = text.length() - 1;
+        if (!text.endsWith("\"."))
+            tabEnd = -1;
+        tabBegin += textBegin.length();
+        if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
+            LOG.warn("Failed to parse the 9602 message text:\n\t{}", text);
+            return null;
+        } else {
+            String tableName = text.substring(tabBegin, tabEnd);
+            tableName = tableName.replace("\"", "");
+            return tableName;
+        }
+    }
+
+    private String parse9519(String text) {
+// MSSQL:
+// IBM XXX will be shutdown because the latest table definition
+// for table metademo.tab0 is newer than the table definition 
+// for the current operation. Refresh the table, ...
+        final String textBegin = "table definition for table ";
+        int tabBegin = text.indexOf(textBegin);
+        int tabEnd = text.indexOf(" is newer than the table definition ");
+        tabBegin += textBegin.length();
+        if (tabBegin < 0 || tabEnd < 0 || tabBegin >= tabEnd) {
+            LOG.warn("Failed to parse the 9519 message text:\n\t{}", text);
+            return null;
+        } else {
+            String tableName = text.substring(tabBegin, tabEnd);
+            tableName = tableName.replace("\"", "");
+            return tableName;
+        }
     }
 
     /**

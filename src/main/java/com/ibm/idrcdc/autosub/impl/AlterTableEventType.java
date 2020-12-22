@@ -19,13 +19,13 @@
 **
 ** Author:   Maksim Zinal <mzinal@ru.ibm.com>
  */
-package com.ibm.idrcdc.autosub.monitor;
+package com.ibm.idrcdc.autosub.impl;
 
 /**
  *
  * @author zinal
  */
-public enum FailureMessageType {
+public enum AlterTableEventType {
 
     M9505("9505"),
     M9506("9506"),
@@ -34,8 +34,21 @@ public enum FailureMessageType {
 
     public final String id;
 
-    private FailureMessageType(String id) {
+    private AlterTableEventType(String id) {
         this.id = id;
+    }
+    
+    private static final java.util.Map<String, AlterTableEventType> DATA;
+    static {
+        DATA = new java.util.HashMap<>();
+        for ( AlterTableEventType fmt : AlterTableEventType.values() )
+            DATA.put(fmt.id.toLowerCase(), fmt);
+    }
+    
+    public static AlterTableEventType find(String id) {
+        if (id==null)
+            return null;
+        return DATA.get(id.toLowerCase());
     }
 
 }
