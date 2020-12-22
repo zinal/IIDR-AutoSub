@@ -81,7 +81,9 @@ public class RemoteTool {
             }
         }
         LOG.debug("Running the command {}", (Object) command);
-        RecoveryReport.logIf(CAT_COMMAND, Arrays.toString(command));
+        if (RecoveryReport.isEnabled()) {
+            RecoveryReport.logIf(CAT_COMMAND, toString(command));
+        }
         try {
             final Process proc = new ProcessBuilder(command)
                     .redirectErrorStream(true)
@@ -107,6 +109,40 @@ public class RemoteTool {
             LOG.error("Execution failed for command {}", (Object) command, ex);
             return -1;
         }
+    }
+
+    public static String toString(String[] cmd) {
+        final StringBuilder sb = new StringBuilder();
+        for (String cur : cmd) {
+            if (cur.contains("\"")) {
+                sb.append('"').append(cur.replace("\"", "\\\"")).append('"');
+            } else if (needQuotes(cur)) {
+                sb.append('"').append(cur).append('"');
+            } else {
+                sb.append(cur);
+            }
+            sb.append(' ');
+        }
+        return sb.toString();
+    }
+
+    private static boolean needQuotes(String v) {
+        for (int i=0; i<v.length(); ++i) {
+            char c = v.charAt(i);
+            if (c>='0' && c<='9')
+                continue;
+            if (c>='a' && c<='z')
+                continue;
+            if (c>='A' && c<='Z')
+                continue;
+            switch (c) {
+                case '.': case ',': case ':': case '/': case '\\':
+                case '+': case '-': case '=': case '@':
+                    continue;
+            }
+            return true;
+        }
+        return false;
     }
 
     public static int run(String logPrefix, String commandText,
