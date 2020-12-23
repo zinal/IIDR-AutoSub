@@ -21,7 +21,6 @@
  */
 package com.ibm.idrcdc.autosub.impl;
 
-import com.ibm.idrcdc.autosub.Worker;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
+import com.ibm.idrcdc.autosub.Worker;
 import com.ibm.idrcdc.autosub.monitor.*;
 import com.ibm.idrcdc.autosub.config.*;
 
@@ -93,9 +93,8 @@ public class Repairman implements Runnable {
 
         try {
             // 1. Grab and print the bookmarks on target datastores.
-            printAllBookmarks();
-            if (getPendingSubs().isEmpty())
-                return; // Exit if the bookmarks cannot be retrieved
+            if (globals.isGrabBookmarks())
+                printAllBookmarks();
 
             // 2. Reading the column states
             for (Monitor m : getPendingSubs()) {

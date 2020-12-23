@@ -43,6 +43,7 @@ public class AsGlobals {
     private int waitStartMirroring;
     private long pauseAfterError;
     private long pauseBeforeRepair;
+    private boolean grabBookmarks;
 
     /**
      * Constructor for the manual setup.
@@ -59,6 +60,7 @@ public class AsGlobals {
         this.waitStartMirroring = 30;
         this.pauseAfterError = 30000L;
         this.pauseBeforeRepair = 5000L;
+        this.grabBookmarks = false;
     }
 
     /**
@@ -80,6 +82,8 @@ public class AsGlobals {
                 Long.parseLong(props.getProperty("tool.pause_after_error", "30000"));
         this.pauseBeforeRepair =
                 Long.parseLong(props.getProperty("tool.pause_before_repair", "5000"));
+        this.grabBookmarks =
+                Misc.parseBoolean(props.getProperty("tool.grab_bookmarks", "false"), false);
     }
 
     public String getAccessServerAddress() {
@@ -168,6 +172,14 @@ public class AsGlobals {
 
     public void setPauseBeforeRepair(long pauseBeforeRepair) {
         this.pauseBeforeRepair = pauseBeforeRepair;
+    }
+
+    public boolean isGrabBookmarks() {
+        return grabBookmarks;
+    }
+
+    public void setGrabBookmarks(boolean grabBookmarks) {
+        this.grabBookmarks = grabBookmarks;
     }
 
     public static AsGlobals fromArgs(String[] args) throws Exception {

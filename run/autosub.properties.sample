@@ -18,5 +18,7 @@ tool.wait_start_mirroring = 20
 tool.pause_after_error = 60000
 # Delay before any recovery actions when failure is detected, milliseconds
 tool.pause_before_repair = 10000
+# Grab bookmarks into the logfile before attempting the recovery
+tool.grab_bookmarks = false
 
 # End Of File
