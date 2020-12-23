@@ -26,10 +26,29 @@
         <stringProp name="poolMax">0</stringProp>
         <boolProp name="preinit">false</boolProp>
         <stringProp name="timeout">10000</stringProp>
-        <stringProp name="transactionIsolation">DEFAULT</stringProp>
+        <stringProp name="transactionIsolation">TRANSACTION_READ_COMMITTED</stringProp>
         <stringProp name="trimInterval">60000</stringProp>
         <stringProp name="username">db2inst1</stringProp>
       </JDBCDataSource>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="executionId" elementType="Argument">
+            <stringProp name="Argument.name">executionId</stringProp>
+            <stringProp name="Argument.value">abc123$</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random Record ID" enabled="true">
+        <stringProp name="maximumValue">1000000</stringProp>
+        <stringProp name="minimumValue">1</stringProp>
+        <stringProp name="outputFormat"></stringProp>
+        <boolProp name="perThread">true</boolProp>
+        <stringProp name="randomSeed"></stringProp>
+        <stringProp name="variableName">recordId</stringProp>
+      </RandomVariableConfig>
       <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -45,13 +64,26 @@
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="dummy" enabled="true">
+          <stringProp name="dataSource">jdbcPool</stringProp>
+          <stringProp name="query">SELECT 1 FROM sysibm.sysdummy1</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Prepared Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree/>
         <RandomOrderController guiclass="RandomOrderControllerGui" testclass="RandomOrderController" testname="Random Order Controller" enabled="true"/>
         <hashTree>
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="action1" enabled="true">
             <stringProp name="dataSource">jdbcPool</stringProp>
-            <stringProp name="query">{call cdcdemo.action1()}</stringProp>
-            <stringProp name="queryArguments"></stringProp>
-            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="query">{call cdcdemo.action1(?,?)}</stringProp>
+            <stringProp name="queryArguments">${executionId},${recordId}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,INTEGER</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Callable Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -62,10 +94,9 @@
           <hashTree/>
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="action2" enabled="true">
             <stringProp name="dataSource">jdbcPool</stringProp>
-            <stringProp name="query">{call cdcdemo.action2()}
-</stringProp>
-            <stringProp name="queryArguments"></stringProp>
-            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="query">{call cdcdemo.action2(?,?)}</stringProp>
+            <stringProp name="queryArguments">${executionId},${recordId}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,INTEGER</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Callable Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -76,9 +107,9 @@
           <hashTree/>
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="action3" enabled="true">
             <stringProp name="dataSource">jdbcPool</stringProp>
-            <stringProp name="query">{call cdcdemo.action3()}</stringProp>
-            <stringProp name="queryArguments"></stringProp>
-            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="query">{call cdcdemo.action3(?,?)}</stringProp>
+            <stringProp name="queryArguments">${executionId},${recordId}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,INTEGER</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Callable Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -89,9 +120,9 @@
           <hashTree/>
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="action4" enabled="true">
             <stringProp name="dataSource">jdbcPool</stringProp>
-            <stringProp name="query">{call cdcdemo.action4()}</stringProp>
-            <stringProp name="queryArguments"></stringProp>
-            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="query">{call cdcdemo.action4(?,?)}</stringProp>
+            <stringProp name="queryArguments">${executionId},${recordId}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,INTEGER</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Callable Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -102,9 +133,9 @@
           <hashTree/>
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="action5" enabled="true">
             <stringProp name="dataSource">jdbcPool</stringProp>
-            <stringProp name="query">{call cdcdemo.action5()}</stringProp>
-            <stringProp name="queryArguments"></stringProp>
-            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="query">{call cdcdemo.action5(?,?)}</stringProp>
+            <stringProp name="queryArguments">${executionId},${recordId}</stringProp>
+            <stringProp name="queryArgumentsTypes">VARCHAR,INTEGER</stringProp>
             <stringProp name="queryTimeout"></stringProp>
             <stringProp name="queryType">Callable Statement</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
