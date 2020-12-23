@@ -43,6 +43,7 @@ with the CDC software owner used to run the CDC instances.
 No other commands are being executed, and therefore, SSH access can be
 restricted to the necessary CDC commands only.
 
-For Windows SSH access, a built-in function may be used, or, for older
+For Windows SSH access, a built-in function of Windows 10 or 
+Windows Server 2019 may be used, or, for older
 Windows versions, one can use the following software:
 https://github.com/PowerShell/openssh-portable/releases
