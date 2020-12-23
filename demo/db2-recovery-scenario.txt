@@ -1,0 +1,35 @@
+*** Main scenario ***
+
+0. Tables in the initial state (without the Z field).
+Table structure (and data, plus procedures) from database-db2.sql.
+Subscriptions generated from sub-DB2A.chcclp, sub-DB2B.chcclp
+
+1. Start the JMeter scenario (expected to be running during the test)
+
+2. Start the subscriptions
+
+3. Wait for some time, seeing that some rows are actually replicated
+
+4. Perform the DDL changes
+
+db2 connect to sample
+db2 alter table cdcdemo.tab4 add column x double default -1
+db2 update cdcdemo.tab4 set x = '4100 + cos(a)'
+db2 alter table cdcdemo.tab5 add column y double default -1
+db2 update cdcdemo.tab5 set y = '5100 + cos(a)'
+db2 alter table cdcdemo.tab6 add column z double default -1
+db2 update cdcdemo.tab6 set z = '6100 + cos(a)'
+
+5. Observe that the subscriptions fail.
+
+6. Observe the recovery process, including multiple steps and re-starts.
+
+*** Revert ***
+
+db2 alter table cdcdemo.tab4 drop column x
+db2 reorg table cdcdemo.tab4
+db2 alter table cdcdemo.tab5 drop column y
+db2 reorg table cdcdemo.tab5
+db2 alter table cdcdemo.tab6 drop column z
+db2 reorg table cdcdemo.tab6
+
