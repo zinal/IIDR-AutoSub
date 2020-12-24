@@ -104,6 +104,36 @@ mark capture point;
 modify table mapping
     primaryKeyColumns "A";
 
+# Adding table mapping TAB7 - Kafka
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB7";
+mark capture point;
+
+# Setting Kafka target key columns for TAB7 - Kafka
+modify table mapping
+    primaryKeyColumns "A";
+
+# Adding table mapping TAB8 - Kafka
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB8";
+mark capture point;
+
+# Setting Kafka target key columns for TAB8 - Kafka
+modify table mapping
+    primaryKeyColumns "A";
+
+# Adding table mapping TAB9 - Kafka
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB9";
+mark capture point;
+
+# Setting Kafka target key columns for TAB9 - Kafka
+modify table mapping
+    primaryKeyColumns "A";
+
 # Setting the subscription user exit
 modify subscription user exit
     type "javaclass"
@@ -132,4 +162,3 @@ disconnect datastore name "%TARGET_DATASTORE%";
 # Disconnect from Access Server and terminate the script.
 disconnect server;
 exit;
-

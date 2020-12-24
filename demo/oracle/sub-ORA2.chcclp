@@ -35,6 +35,33 @@ add subscription name "%SUBSCRIPTION%";
 # Locking the subscription.
 lock subscription;
 
+# Adding table mapping TAB0 - InfoSphere DataStage
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB0"
+    type "flatfile"
+    directory "%TARGET_DIR%"
+    recordFormat "multirecord";
+mark capture point;
+
+# Adding table mapping TAB1 - InfoSphere DataStage
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB1"
+    type "flatfile"
+    directory "%TARGET_DIR%"
+    recordFormat "multirecord";
+mark capture point;
+
+# Adding table mapping TAB2 - InfoSphere DataStage
+add table mapping
+    sourceSchema "CDCDEMO"
+    sourceTable "TAB2"
+    type "flatfile"
+    directory "%TARGET_DIR%"
+    recordFormat "multirecord";
+mark capture point;
+
 # Adding table mapping TAB3 - InfoSphere DataStage
 add table mapping
     sourceSchema "CDCDEMO"
@@ -93,33 +120,6 @@ mark capture point;
 add table mapping
     sourceSchema "CDCDEMO"
     sourceTable "TAB9"
-    type "flatfile"
-    directory "%TARGET_DIR%"
-    recordFormat "multirecord";
-mark capture point;
-
-# Adding table mapping TAB0 - InfoSphere DataStage
-add table mapping
-    sourceSchema "CDCDEMO"
-    sourceTable "TAB0"
-    type "flatfile"
-    directory "%TARGET_DIR%"
-    recordFormat "multirecord";
-mark capture point;
-
-# Adding table mapping TAB1 - InfoSphere DataStage
-add table mapping
-    sourceSchema "CDCDEMO"
-    sourceTable "TAB1"
-    type "flatfile"
-    directory "%TARGET_DIR%"
-    recordFormat "multirecord";
-mark capture point;
-
-# Adding table mapping TAB2 - InfoSphere DataStage
-add table mapping
-    sourceSchema "CDCDEMO"
-    sourceTable "TAB2"
     type "flatfile"
     directory "%TARGET_DIR%"
     recordFormat "multirecord";
