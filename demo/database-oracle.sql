@@ -119,7 +119,6 @@ CREATE OR REPLACE PROCEDURE cdcdemo.action1 (
   v_b VARCHAR2(100);
   v_t TIMESTAMP;
 BEGIN
-  v_id := DBMS_RANDOM.VALUE(1, 1000000);
   SELECT 'A1+' || dbms_random.string('x', dbms_random.value(10, 30))
         , SYSTIMESTAMP
     INTO v_b, v_t FROM DUAL;
@@ -138,8 +137,7 @@ CREATE OR REPLACE PROCEDURE cdcdemo.action2 (
   v_b VARCHAR2(100);
   v_t TIMESTAMP;
 BEGIN
-  v_id := DBMS_RANDOM.VALUE(1, 1000000);
-  SELECT 'A1+' || dbms_random.string('x', dbms_random.value(10, 30))
+  SELECT 'A2+' || dbms_random.string('x', dbms_random.value(10, 30))
         , SYSTIMESTAMP
     INTO v_b, v_t FROM DUAL;
   UPDATE cdcdemo.tab1 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
@@ -157,8 +155,7 @@ CREATE OR REPLACE PROCEDURE cdcdemo.action3 (
   v_b VARCHAR2(100);
   v_t TIMESTAMP;
 BEGIN
-  v_id := DBMS_RANDOM.VALUE(1, 1000000);
-  SELECT 'A1+' || dbms_random.string('x', dbms_random.value(10, 30))
+  SELECT 'A3+' || dbms_random.string('x', dbms_random.value(10, 30))
         , SYSTIMESTAMP
     INTO v_b, v_t FROM DUAL;
   UPDATE cdcdemo.tab2 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
@@ -176,8 +173,7 @@ CREATE OR REPLACE PROCEDURE cdcdemo.action4 (
   v_b VARCHAR2(100);
   v_t TIMESTAMP;
 BEGIN
-  v_id := DBMS_RANDOM.VALUE(1, 1000000);
-  SELECT 'A1+' || dbms_random.string('x', dbms_random.value(10, 30))
+  SELECT 'A4+' || dbms_random.string('x', dbms_random.value(10, 30))
         , SYSTIMESTAMP
     INTO v_b, v_t FROM DUAL;
   UPDATE cdcdemo.tab3 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
@@ -195,8 +191,7 @@ CREATE OR REPLACE PROCEDURE cdcdemo.action5 (
   v_b VARCHAR2(100);
   v_t TIMESTAMP;
 BEGIN
-  v_id := DBMS_RANDOM.VALUE(1, 1000000);
-  SELECT 'A1+' || dbms_random.string('x', dbms_random.value(10, 30))
+  SELECT 'A5+' || dbms_random.string('x', dbms_random.value(10, 30))
         , SYSTIMESTAMP
     INTO v_b, v_t FROM DUAL;
   UPDATE cdcdemo.tab4 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
