@@ -3,7 +3,7 @@ CREATE TABLESPACE cdcdemo @
 
 CREATE SCHEMA cdcdemo @
 
-/*
+/* Cleanup tables:
 DROP TABLE cdcdemo.tab0;
 DROP TABLE cdcdemo.tab1;
 DROP TABLE cdcdemo.tab2;
@@ -14,6 +14,7 @@ DROP TABLE cdcdemo.tab6;
 DROP TABLE cdcdemo.tab7;
 DROP TABLE cdcdemo.tab8;
 DROP TABLE cdcdemo.tab9;
+DROP TABLE cdcdemo.oplog;
 */
 
 CREATE TABLE cdcdemo.tab0 (
@@ -207,3 +208,5 @@ END
 @
 
 -- CALL cdcdemo.datagen @
+
+-- End Of File

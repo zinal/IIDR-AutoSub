@@ -1,0 +1,3032 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TS
+ fileVersion="1.0.0"
+ timestamp="December 24, 2020 4:40:14 PM"
+>
+	<Subscription
+	 availabilityFlag="0"
+	 codePage="0"
+	 commProtocol="TCP/IP"
+	 confluentCommistreamTopic=""
+	 confluentEncrypted="false"
+	 confluentKafkaHost="kafko"
+	 confluentKafkaPort="2181"
+	 confluentSchemaRegistryEncrypted="false"
+	 confluentSchemaRegistryHost="kafko"
+	 confluentSchemaRegistryPort="8081"
+	 confluentTopicPrefix=""
+	 dataStageBlobTruncate="0"
+	 dataStageClobTruncate="0"
+	 dataStageConnectionMethod="0"
+	 dataStageMaxRows="0"
+	 dataStageMaxTime="0"
+	 dataStageRecordCountFileName="0"
+	 dataStageWebHDFSAuthType="0"
+	 dataStagetDirectConnAutoStart="0"
+	 dbId=""
+	 dbPassword="ADUAQwBBADgAOQBGADYARAAxADEARAAwADgANAAyADkAQwA3AEMAQQBEADYAOABFADIARAA5AEQARgA5ADEAMw=="
+	 dbPath=""
+	 dbPlatformName="JDBC"
+	 dbUsername="A153B04AEC0A536E"
+	 description=""
+	 device=""
+	 errorHandlingForMirror="0"
+	 errorHandlingForRefresh="0"
+	 groupName=""
+	 isPartial="false"
+	 latencyAlertsEnabled="false"
+	 latencyThresholdProblem="0"
+	 latencyThresholdWarning="0"
+	 location="kafko"
+	 mbcsState="2"
+	 minimizeNetworkLoad="0"
+	 name="ORA1"
+	 netId=""
+	 osPlatformName="Java VM"
+	 partialRuleSets="false"
+	 partialTableMappings="false"
+	 pendingSourceDescription=""
+	 pendingSourceId=""
+	 port="11701"
+	 projectName="&lt;&lt;default&gt;&gt;"
+	 publisherMaxMessageSize="0"
+	 publisherMessageContent="0"
+	 publisherPublishingFormat="0"
+	 relatedSubscription=""
+	 sourceAgentSupportsTemporalTables="true"
+	 sourceDbSupportsTemporalTables="false"
+	 sourceDbType="19"
+	 sourceDescription=""
+	 sourceHandle="WRK1"
+	 sourceId="ORA1"
+	 sourceLocation=""
+	 sourceObjectLevel="2"
+	 sourcePort="0"
+	 sourceSupportsPropagation="true"
+	 subscriptionIdMaxLength="0"
+	 subscriptionNameMaxLength="0"
+	 subscriptionPersistency="false"
+	 supportDDLReplication="false"
+	 supportErrorHandling="false"
+	 supportMinimizeNetworkLoad="true"
+	 supportPersistency="true"
+	 supportTransferableWork="true"
+	 targetAgentSupportsTemporalTables="true"
+	 targetDbSupportsTemporalTables="false"
+	 targetDbType="28"
+	 targetHandle="KAFKA1"
+	 targetIsDatastageOnly="false"
+	 targetIsTSES="false"
+	 targetObjectLevel="2"
+	 temporalTablesHandleType="0"
+	 transferableWork="2"
+	 useZooKeeper="true"
+	 userExitFunctionParameter="-file:/home/cdcuser/kafka-avro-config.properties"
+	 userExitFunctionPath="com.datamirror.ts.target.publication.userexit.sample.kafka.KcopMultiRowAvroLiveAuditIntegrated"
+	 userExitFunctionType="4"
+	>
+		<TableMapping
+		 assignType="2"
+		 crMethod="0"
+		 indexLibrary=""
+		 indexMode="1"
+		 indexName=""
+		 journalName=""
+		 journalPath=""
+		 mbcsHandlingSupported="true"
+		 memberSelection="0"
+		 onDMLChangeError="0"
+		 onStructureChangeError="0"
+		 publishedTableName="TAB0"
+		 publishedUser="CDCDEMO"
+		 refreshGroupOrder="0"
+		 refreshSequence="0"
+		 replicationMethod="1"
+		 replicationStatus="3"
+		 rowIdentifier=""
+		 rowSelectionExpression=""
+		 rowSelectionType="0"
+		 sourceEncodingMBCS65="true"
+		 sourceTableName="TAB0"
+		 sourceUser="CDCDEMO"
+		 structureChanges="0"
+		 targetEncodingMBCS65="true"
+		 targetMember="&lt;ONLY&gt;"
+		 targetTableName="TS_KAFKA"
+		 targetUser="CUST"
+		 unicodeHandlingSupported="true"
+		>
+			<SourceColumn
+			 columnAlias="A"
+			 columnName="A"
+			 critical="false"
+			 dataType="NUMBER"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="1"
+			 key="true"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="38"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="B"
+			 columnName="B"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="2"
+			 key="false"
+			 length="100"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="100"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="DATE"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="3"
+			 key="false"
+			 length="0"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="0"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<TargetColumn
+			 columnName="X"
+			 dataType="INTEGER"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 scale="0"
+			 temporalType="0"
+			/>
+			<ColumnMapping
+			 SCKeyColumn="false"
+			 defaultValue=""
+			 expression=""
+			 sourceColumnName=""
+			 sourceTableType="0"
+			 summarizationType="1"
+			 targetColumnName="X"
+			 targetTableType="0"
+			 type="5"
+			 valueTranslation="false"
+			/>
+			<UserExit
+			 userExitBeforeTableImage=""
+			 userExitFunctionPath=""
+			 userExitFunctionType="4"
+			 userExitJournalTableImage=""
+			 userExitKeyTableImage=""
+			 userExitLogChangedDelete="false"
+			 userExitLogChangedInsert="false"
+			 userExitLogChangedUpdate="false"
+			 userExitRetrieveCurrentValue="false"
+			 userExitStandardClear="Y"
+			 userExitStandardDelete="Y"
+			 userExitStandardInsert="Y"
+			 userExitStandardUpdate="Y"
+			 userExitUpdateTableImage=""
+			>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="1"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="2"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="3"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="4"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="5"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="6"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="7"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="8"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="9"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="10"
+				 userExitFunctionsName="N"
+				/>
+			</UserExit>
+			<kafkaKeyColumns
+			>
+				<kafkaKeyColumn
+				 columnName="A"
+				/>
+			</kafkaKeyColumns>
+		</TableMapping>
+		<TableMapping
+		 assignType="2"
+		 crMethod="0"
+		 indexLibrary=""
+		 indexMode="1"
+		 indexName=""
+		 journalName=""
+		 journalPath=""
+		 mbcsHandlingSupported="true"
+		 memberSelection="0"
+		 onDMLChangeError="0"
+		 onStructureChangeError="0"
+		 publishedTableName="TAB1"
+		 publishedUser="CDCDEMO"
+		 refreshGroupOrder="0"
+		 refreshSequence="0"
+		 replicationMethod="1"
+		 replicationStatus="3"
+		 rowIdentifier=""
+		 rowSelectionExpression=""
+		 rowSelectionType="0"
+		 sourceEncodingMBCS65="true"
+		 sourceTableName="TAB1"
+		 sourceUser="CDCDEMO"
+		 structureChanges="0"
+		 targetEncodingMBCS65="true"
+		 targetMember="&lt;ONLY&gt;"
+		 targetTableName="TS_KAFKA"
+		 targetUser="CUST"
+		 unicodeHandlingSupported="true"
+		>
+			<SourceColumn
+			 columnAlias="A"
+			 columnName="A"
+			 critical="false"
+			 dataType="NUMBER"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="1"
+			 key="true"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="38"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="B"
+			 columnName="B"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="2"
+			 key="false"
+			 length="100"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="100"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="DATE"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="3"
+			 key="false"
+			 length="0"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="0"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<TargetColumn
+			 columnName="X"
+			 dataType="INTEGER"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 scale="0"
+			 temporalType="0"
+			/>
+			<ColumnMapping
+			 SCKeyColumn="false"
+			 defaultValue=""
+			 expression=""
+			 sourceColumnName=""
+			 sourceTableType="0"
+			 summarizationType="1"
+			 targetColumnName="X"
+			 targetTableType="0"
+			 type="5"
+			 valueTranslation="false"
+			/>
+			<UserExit
+			 userExitBeforeTableImage=""
+			 userExitFunctionPath=""
+			 userExitFunctionType="4"
+			 userExitJournalTableImage=""
+			 userExitKeyTableImage=""
+			 userExitLogChangedDelete="false"
+			 userExitLogChangedInsert="false"
+			 userExitLogChangedUpdate="false"
+			 userExitRetrieveCurrentValue="false"
+			 userExitStandardClear="Y"
+			 userExitStandardDelete="Y"
+			 userExitStandardInsert="Y"
+			 userExitStandardUpdate="Y"
+			 userExitUpdateTableImage=""
+			>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="1"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="2"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="3"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="4"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="5"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="6"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="7"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="8"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="9"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="10"
+				 userExitFunctionsName="N"
+				/>
+			</UserExit>
+			<kafkaKeyColumns
+			>
+				<kafkaKeyColumn
+				 columnName="A"
+				/>
+			</kafkaKeyColumns>
+		</TableMapping>
+		<TableMapping
+		 assignType="2"
+		 crMethod="0"
+		 indexLibrary=""
+		 indexMode="1"
+		 indexName=""
+		 journalName=""
+		 journalPath=""
+		 mbcsHandlingSupported="true"
+		 memberSelection="0"
+		 onDMLChangeError="0"
+		 onStructureChangeError="0"
+		 publishedTableName="TAB2"
+		 publishedUser="CDCDEMO"
+		 refreshGroupOrder="0"
+		 refreshSequence="0"
+		 replicationMethod="1"
+		 replicationStatus="3"
+		 rowIdentifier=""
+		 rowSelectionExpression=""
+		 rowSelectionType="0"
+		 sourceEncodingMBCS65="true"
+		 sourceTableName="TAB2"
+		 sourceUser="CDCDEMO"
+		 structureChanges="0"
+		 targetEncodingMBCS65="true"
+		 targetMember="&lt;ONLY&gt;"
+		 targetTableName="TS_KAFKA"
+		 targetUser="CUST"
+		 unicodeHandlingSupported="true"
+		>
+			<SourceColumn
+			 columnAlias="A"
+			 columnName="A"
+			 critical="false"
+			 dataType="NUMBER"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="1"
+			 key="true"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="38"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="B"
+			 columnName="B"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="2"
+			 key="false"
+			 length="100"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="100"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="DATE"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="3"
+			 key="false"
+			 length="0"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="0"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<TargetColumn
+			 columnName="X"
+			 dataType="INTEGER"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 scale="0"
+			 temporalType="0"
+			/>
+			<ColumnMapping
+			 SCKeyColumn="false"
+			 defaultValue=""
+			 expression=""
+			 sourceColumnName=""
+			 sourceTableType="0"
+			 summarizationType="1"
+			 targetColumnName="X"
+			 targetTableType="0"
+			 type="5"
+			 valueTranslation="false"
+			/>
+			<UserExit
+			 userExitBeforeTableImage=""
+			 userExitFunctionPath=""
+			 userExitFunctionType="4"
+			 userExitJournalTableImage=""
+			 userExitKeyTableImage=""
+			 userExitLogChangedDelete="false"
+			 userExitLogChangedInsert="false"
+			 userExitLogChangedUpdate="false"
+			 userExitRetrieveCurrentValue="false"
+			 userExitStandardClear="Y"
+			 userExitStandardDelete="Y"
+			 userExitStandardInsert="Y"
+			 userExitStandardUpdate="Y"
+			 userExitUpdateTableImage=""
+			>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="1"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="2"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="3"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="4"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="5"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="6"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="7"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="8"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="9"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="10"
+				 userExitFunctionsName="N"
+				/>
+			</UserExit>
+			<kafkaKeyColumns
+			>
+				<kafkaKeyColumn
+				 columnName="A"
+				/>
+			</kafkaKeyColumns>
+		</TableMapping>
+		<TableMapping
+		 assignType="2"
+		 crMethod="0"
+		 indexLibrary=""
+		 indexMode="1"
+		 indexName=""
+		 journalName=""
+		 journalPath=""
+		 mbcsHandlingSupported="true"
+		 memberSelection="0"
+		 onDMLChangeError="0"
+		 onStructureChangeError="0"
+		 publishedTableName="TAB3"
+		 publishedUser="CDCDEMO"
+		 refreshGroupOrder="0"
+		 refreshSequence="0"
+		 replicationMethod="1"
+		 replicationStatus="3"
+		 rowIdentifier=""
+		 rowSelectionExpression=""
+		 rowSelectionType="0"
+		 sourceEncodingMBCS65="true"
+		 sourceTableName="TAB3"
+		 sourceUser="CDCDEMO"
+		 structureChanges="0"
+		 targetEncodingMBCS65="true"
+		 targetMember="&lt;ONLY&gt;"
+		 targetTableName="TS_KAFKA"
+		 targetUser="CUST"
+		 unicodeHandlingSupported="true"
+		>
+			<SourceColumn
+			 columnAlias="A"
+			 columnName="A"
+			 critical="false"
+			 dataType="NUMBER"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="1"
+			 key="true"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="38"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="B"
+			 columnName="B"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="2"
+			 key="false"
+			 length="100"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="100"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="DATE"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="3"
+			 key="false"
+			 length="0"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="0"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<TargetColumn
+			 columnName="X"
+			 dataType="INTEGER"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 scale="0"
+			 temporalType="0"
+			/>
+			<ColumnMapping
+			 SCKeyColumn="false"
+			 defaultValue=""
+			 expression=""
+			 sourceColumnName=""
+			 sourceTableType="0"
+			 summarizationType="1"
+			 targetColumnName="X"
+			 targetTableType="0"
+			 type="5"
+			 valueTranslation="false"
+			/>
+			<UserExit
+			 userExitBeforeTableImage=""
+			 userExitFunctionPath=""
+			 userExitFunctionType="4"
+			 userExitJournalTableImage=""
+			 userExitKeyTableImage=""
+			 userExitLogChangedDelete="false"
+			 userExitLogChangedInsert="false"
+			 userExitLogChangedUpdate="false"
+			 userExitRetrieveCurrentValue="false"
+			 userExitStandardClear="Y"
+			 userExitStandardDelete="Y"
+			 userExitStandardInsert="Y"
+			 userExitStandardUpdate="Y"
+			 userExitUpdateTableImage=""
+			>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="1"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="2"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="3"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="4"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="5"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="6"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="7"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="8"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="9"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="10"
+				 userExitFunctionsName="N"
+				/>
+			</UserExit>
+			<kafkaKeyColumns
+			>
+				<kafkaKeyColumn
+				 columnName="A"
+				/>
+			</kafkaKeyColumns>
+		</TableMapping>
+		<TableMapping
+		 assignType="2"
+		 crMethod="0"
+		 indexLibrary=""
+		 indexMode="1"
+		 indexName=""
+		 journalName=""
+		 journalPath=""
+		 mbcsHandlingSupported="true"
+		 memberSelection="0"
+		 onDMLChangeError="0"
+		 onStructureChangeError="0"
+		 publishedTableName="TAB4"
+		 publishedUser="CDCDEMO"
+		 refreshGroupOrder="0"
+		 refreshSequence="0"
+		 replicationMethod="1"
+		 replicationStatus="3"
+		 rowIdentifier=""
+		 rowSelectionExpression=""
+		 rowSelectionType="0"
+		 sourceEncodingMBCS65="true"
+		 sourceTableName="TAB4"
+		 sourceUser="CDCDEMO"
+		 structureChanges="0"
+		 targetEncodingMBCS65="true"
+		 targetMember="&lt;ONLY&gt;"
+		 targetTableName="TS_KAFKA"
+		 targetUser="CUST"
+		 unicodeHandlingSupported="true"
+		>
+			<SourceColumn
+			 columnAlias="A"
+			 columnName="A"
+			 critical="false"
+			 dataType="NUMBER"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="1"
+			 key="true"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="38"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="B"
+			 columnName="B"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="2"
+			 key="false"
+			 length="100"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="100"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="DATE"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="3"
+			 key="false"
+			 length="0"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="0"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<TargetColumn
+			 columnName="X"
+			 dataType="INTEGER"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 scale="0"
+			 temporalType="0"
+			/>
+			<ColumnMapping
+			 SCKeyColumn="false"
+			 defaultValue=""
+			 expression=""
+			 sourceColumnName=""
+			 sourceTableType="0"
+			 summarizationType="1"
+			 targetColumnName="X"
+			 targetTableType="0"
+			 type="5"
+			 valueTranslation="false"
+			/>
+			<UserExit
+			 userExitBeforeTableImage=""
+			 userExitFunctionPath=""
+			 userExitFunctionType="4"
+			 userExitJournalTableImage=""
+			 userExitKeyTableImage=""
+			 userExitLogChangedDelete="false"
+			 userExitLogChangedInsert="false"
+			 userExitLogChangedUpdate="false"
+			 userExitRetrieveCurrentValue="false"
+			 userExitStandardClear="Y"
+			 userExitStandardDelete="Y"
+			 userExitStandardInsert="Y"
+			 userExitStandardUpdate="Y"
+			 userExitUpdateTableImage=""
+			>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="1"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="2"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="3"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="4"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="5"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="6"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="7"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="8"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="9"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="10"
+				 userExitFunctionsName="N"
+				/>
+			</UserExit>
+			<kafkaKeyColumns
+			>
+				<kafkaKeyColumn
+				 columnName="A"
+				/>
+			</kafkaKeyColumns>
+		</TableMapping>
+		<TableMapping
+		 assignType="2"
+		 crMethod="0"
+		 indexLibrary=""
+		 indexMode="1"
+		 indexName=""
+		 journalName=""
+		 journalPath=""
+		 mbcsHandlingSupported="true"
+		 memberSelection="0"
+		 onDMLChangeError="0"
+		 onStructureChangeError="0"
+		 publishedTableName="TAB5"
+		 publishedUser="CDCDEMO"
+		 refreshGroupOrder="0"
+		 refreshSequence="0"
+		 replicationMethod="1"
+		 replicationStatus="3"
+		 rowIdentifier=""
+		 rowSelectionExpression=""
+		 rowSelectionType="0"
+		 sourceEncodingMBCS65="true"
+		 sourceTableName="TAB5"
+		 sourceUser="CDCDEMO"
+		 structureChanges="0"
+		 targetEncodingMBCS65="true"
+		 targetMember="&lt;ONLY&gt;"
+		 targetTableName="TS_KAFKA"
+		 targetUser="CUST"
+		 unicodeHandlingSupported="true"
+		>
+			<SourceColumn
+			 columnAlias="A"
+			 columnName="A"
+			 critical="false"
+			 dataType="NUMBER"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="1"
+			 key="true"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="38"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="B"
+			 columnName="B"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="2"
+			 key="false"
+			 length="100"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="100"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="DATE"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="3"
+			 key="false"
+			 length="0"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="0"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<TargetColumn
+			 columnName="X"
+			 dataType="INTEGER"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 scale="0"
+			 temporalType="0"
+			/>
+			<ColumnMapping
+			 SCKeyColumn="false"
+			 defaultValue=""
+			 expression=""
+			 sourceColumnName=""
+			 sourceTableType="0"
+			 summarizationType="1"
+			 targetColumnName="X"
+			 targetTableType="0"
+			 type="5"
+			 valueTranslation="false"
+			/>
+			<UserExit
+			 userExitBeforeTableImage=""
+			 userExitFunctionPath=""
+			 userExitFunctionType="4"
+			 userExitJournalTableImage=""
+			 userExitKeyTableImage=""
+			 userExitLogChangedDelete="false"
+			 userExitLogChangedInsert="false"
+			 userExitLogChangedUpdate="false"
+			 userExitRetrieveCurrentValue="false"
+			 userExitStandardClear="Y"
+			 userExitStandardDelete="Y"
+			 userExitStandardInsert="Y"
+			 userExitStandardUpdate="Y"
+			 userExitUpdateTableImage=""
+			>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="1"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="2"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="3"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="4"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="5"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="6"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="7"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="8"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="9"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="10"
+				 userExitFunctionsName="N"
+				/>
+			</UserExit>
+			<kafkaKeyColumns
+			>
+				<kafkaKeyColumn
+				 columnName="A"
+				/>
+			</kafkaKeyColumns>
+		</TableMapping>
+		<TableMapping
+		 assignType="2"
+		 crMethod="0"
+		 indexLibrary=""
+		 indexMode="1"
+		 indexName=""
+		 journalName=""
+		 journalPath=""
+		 mbcsHandlingSupported="true"
+		 memberSelection="0"
+		 onDMLChangeError="0"
+		 onStructureChangeError="0"
+		 publishedTableName="TAB6"
+		 publishedUser="CDCDEMO"
+		 refreshGroupOrder="0"
+		 refreshSequence="0"
+		 replicationMethod="1"
+		 replicationStatus="3"
+		 rowIdentifier=""
+		 rowSelectionExpression=""
+		 rowSelectionType="0"
+		 sourceEncodingMBCS65="true"
+		 sourceTableName="TAB6"
+		 sourceUser="CDCDEMO"
+		 structureChanges="0"
+		 targetEncodingMBCS65="true"
+		 targetMember="&lt;ONLY&gt;"
+		 targetTableName="TS_KAFKA"
+		 targetUser="CUST"
+		 unicodeHandlingSupported="true"
+		>
+			<SourceColumn
+			 columnAlias="A"
+			 columnName="A"
+			 critical="false"
+			 dataType="NUMBER"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="1"
+			 key="true"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="38"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="B"
+			 columnName="B"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="2"
+			 key="false"
+			 length="100"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="100"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="DATE"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="3"
+			 key="false"
+			 length="0"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="0"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<TargetColumn
+			 columnName="X"
+			 dataType="INTEGER"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 scale="0"
+			 temporalType="0"
+			/>
+			<ColumnMapping
+			 SCKeyColumn="false"
+			 defaultValue=""
+			 expression=""
+			 sourceColumnName=""
+			 sourceTableType="0"
+			 summarizationType="1"
+			 targetColumnName="X"
+			 targetTableType="0"
+			 type="5"
+			 valueTranslation="false"
+			/>
+			<UserExit
+			 userExitBeforeTableImage=""
+			 userExitFunctionPath=""
+			 userExitFunctionType="4"
+			 userExitJournalTableImage=""
+			 userExitKeyTableImage=""
+			 userExitLogChangedDelete="false"
+			 userExitLogChangedInsert="false"
+			 userExitLogChangedUpdate="false"
+			 userExitRetrieveCurrentValue="false"
+			 userExitStandardClear="Y"
+			 userExitStandardDelete="Y"
+			 userExitStandardInsert="Y"
+			 userExitStandardUpdate="Y"
+			 userExitUpdateTableImage=""
+			>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="1"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="2"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="3"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="4"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="5"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="6"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="7"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="8"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="9"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="10"
+				 userExitFunctionsName="N"
+				/>
+			</UserExit>
+			<kafkaKeyColumns
+			>
+				<kafkaKeyColumn
+				 columnName="A"
+				/>
+			</kafkaKeyColumns>
+		</TableMapping>
+		<Notification
+		>
+			<Zone
+			 alarmZoneId="1"
+			 alarmZoneName="Scrape/Refresh"
+			 dataStoreType="0"
+			/>
+			<Zone
+			 alarmZoneId="2"
+			 alarmZoneName="Communications"
+			 dataStoreType="0"
+			/>
+			<Zone
+			 alarmZoneId="3"
+			 alarmZoneName="Environment"
+			 dataStoreType="0"
+			/>
+			<Zone
+			 alarmZoneId="4"
+			 alarmZoneName="Journal/Log Maintenance"
+			 dataStoreType="0"
+			/>
+			<Zone
+			 alarmZoneId="1"
+			 alarmZoneName="Communications"
+			 dataStoreType="1"
+			/>
+			<Zone
+			 alarmZoneId="2"
+			 alarmZoneName="Apply"
+			 dataStoreType="1"
+			/>
+			<Zone
+			 alarmZoneId="3"
+			 alarmZoneName="Environment"
+			 dataStoreType="1"
+			/>
+			<Category
+			 alarmCategoryId="1"
+			 alarmCategoryName="Fatal"
+			 alarmZoneId="1"
+			 alarmZoneName="Scrape/Refresh"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="2"
+			 alarmCategoryName="Error"
+			 alarmZoneId="1"
+			 alarmZoneName="Scrape/Refresh"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="3"
+			 alarmCategoryName="Information"
+			 alarmZoneId="1"
+			 alarmZoneName="Scrape/Refresh"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="4"
+			 alarmCategoryName="Status"
+			 alarmZoneId="1"
+			 alarmZoneName="Scrape/Refresh"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="5"
+			 alarmCategoryName="Operational"
+			 alarmZoneId="1"
+			 alarmZoneName="Scrape/Refresh"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="1"
+			 alarmCategoryName="Fatal"
+			 alarmZoneId="2"
+			 alarmZoneName="Communications"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="2"
+			 alarmCategoryName="Error"
+			 alarmZoneId="2"
+			 alarmZoneName="Communications"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="3"
+			 alarmCategoryName="Information"
+			 alarmZoneId="2"
+			 alarmZoneName="Communications"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="4"
+			 alarmCategoryName="Status"
+			 alarmZoneId="2"
+			 alarmZoneName="Communications"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="5"
+			 alarmCategoryName="Operational"
+			 alarmZoneId="2"
+			 alarmZoneName="Communications"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="1"
+			 alarmCategoryName="Fatal"
+			 alarmZoneId="3"
+			 alarmZoneName="Environment"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="2"
+			 alarmCategoryName="Error"
+			 alarmZoneId="3"
+			 alarmZoneName="Environment"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="3"
+			 alarmCategoryName="Information"
+			 alarmZoneId="3"
+			 alarmZoneName="Environment"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="4"
+			 alarmCategoryName="Status"
+			 alarmZoneId="3"
+			 alarmZoneName="Environment"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="5"
+			 alarmCategoryName="Operational"
+			 alarmZoneId="3"
+			 alarmZoneName="Environment"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="1"
+			 alarmCategoryName="Fatal"
+			 alarmZoneId="4"
+			 alarmZoneName="Journal/Log Maintenance"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="2"
+			 alarmCategoryName="Error"
+			 alarmZoneId="4"
+			 alarmZoneName="Journal/Log Maintenance"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="3"
+			 alarmCategoryName="Information"
+			 alarmZoneId="4"
+			 alarmZoneName="Journal/Log Maintenance"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="4"
+			 alarmCategoryName="Status"
+			 alarmZoneId="4"
+			 alarmZoneName="Journal/Log Maintenance"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="5"
+			 alarmCategoryName="Operational"
+			 alarmZoneId="4"
+			 alarmZoneName="Journal/Log Maintenance"
+			 alertIsDefault="true"
+			 dataStoreType="0"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="1"
+			 alarmCategoryName="Fatal"
+			 alarmZoneId="1"
+			 alarmZoneName="Communications"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="2"
+			 alarmCategoryName="Error"
+			 alarmZoneId="1"
+			 alarmZoneName="Communications"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="3"
+			 alarmCategoryName="Information"
+			 alarmZoneId="1"
+			 alarmZoneName="Communications"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="4"
+			 alarmCategoryName="Status"
+			 alarmZoneId="1"
+			 alarmZoneName="Communications"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="5"
+			 alarmCategoryName="Operational"
+			 alarmZoneId="1"
+			 alarmZoneName="Communications"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="1"
+			 alarmCategoryName="Fatal"
+			 alarmZoneId="2"
+			 alarmZoneName="Apply"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="2"
+			 alarmCategoryName="Error"
+			 alarmZoneId="2"
+			 alarmZoneName="Apply"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="3"
+			 alarmCategoryName="Information"
+			 alarmZoneId="2"
+			 alarmZoneName="Apply"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="4"
+			 alarmCategoryName="Status"
+			 alarmZoneId="2"
+			 alarmZoneName="Apply"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="5"
+			 alarmCategoryName="Operational"
+			 alarmZoneId="2"
+			 alarmZoneName="Apply"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="1"
+			 alarmCategoryName="Fatal"
+			 alarmZoneId="3"
+			 alarmZoneName="Environment"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="2"
+			 alarmCategoryName="Error"
+			 alarmZoneId="3"
+			 alarmZoneName="Environment"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="3"
+			 alarmCategoryName="Information"
+			 alarmZoneId="3"
+			 alarmZoneName="Environment"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="4"
+			 alarmCategoryName="Status"
+			 alarmZoneId="3"
+			 alarmZoneName="Environment"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+			<Category
+			 alarmCategoryId="5"
+			 alarmCategoryName="Operational"
+			 alarmZoneId="3"
+			 alarmZoneName="Environment"
+			 alertIsDefault="true"
+			 dataStoreType="1"
+			>
+				<AlertChannel
+				 alertChannelId="0"
+				 alertChannelName="INTERNET MAIL"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="SMTP Mail Host"
+					 alertPropertyValue="&lt;mail host&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="1"
+					 alertPropertyName="Alert Account"
+					 alertPropertyValue="&lt;someone@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="2"
+					 alertPropertyName="Sender Mail Address"
+					 alertPropertyValue="&lt;sender@someplace&gt;"
+					/>
+					<ChannelProperty
+					 alertPropertyId="3"
+					 alertPropertyName="Sender Mail Password"
+					 alertPropertyValue="&lt;sender&apos;s password&gt;"
+					/>
+				</AlertChannel>
+				<AlertChannel
+				 alertChannelId="1"
+				 alertChannelName="USER HANDLER"
+				 alertEnabled="0"
+				>
+					<ChannelProperty
+					 alertPropertyId="0"
+					 alertPropertyName="Java Class Name"
+					 alertPropertyValue="Java Class Name"
+					/>
+				</AlertChannel>
+			</Category>
+		</Notification>
+	</Subscription>
+</TS>
