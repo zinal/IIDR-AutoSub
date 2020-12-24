@@ -14,11 +14,11 @@ Subscriptions generated from sub-DB2A.chcclp, sub-DB2B.chcclp
 
 db2 connect to sample
 db2 alter table cdcdemo.tab4 add column x double default -1
-db2 update cdcdemo.tab4 set x = '4100 + cos(a)'
+db2 update cdcdemo.tab4 set x = '4100 + cos(a)', l = "'sys:update'"
 db2 alter table cdcdemo.tab5 add column y double default -1
-db2 update cdcdemo.tab5 set y = '5100 + cos(a)'
+db2 update cdcdemo.tab5 set y = '5100 + cos(a)', l = "'sys:update'"
 db2 alter table cdcdemo.tab6 add column z double default -1
-db2 update cdcdemo.tab6 set z = '6100 + cos(a)'
+db2 update cdcdemo.tab6 set z = '6100 + cos(a)', l = "'sys:update'"
 
 5. Observe that the subscriptions fail.
 
@@ -33,3 +33,13 @@ db2 reorg table cdcdemo.tab5
 db2 alter table cdcdemo.tab6 drop column z
 db2 reorg table cdcdemo.tab6
 
+db2 update cdcdemo.tab0 set l="'*'"
+db2 update cdcdemo.tab1 set l="'*'"
+db2 update cdcdemo.tab2 set l="'*'"
+db2 update cdcdemo.tab3 set l="'*'"
+db2 update cdcdemo.tab4 set l="'*'"
+db2 update cdcdemo.tab5 set l="'*'"
+db2 update cdcdemo.tab6 set l="'*'"
+db2 update cdcdemo.tab7 set l="'*'"
+db2 update cdcdemo.tab8 set l="'*'"
+db2 update cdcdemo.tab9 set l="'*'"

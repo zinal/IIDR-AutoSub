@@ -86,6 +86,13 @@ CREATE TABLE cdcdemo.tab9 (
   C TIMESTAMP NOT NULL
 ) IN cdcdemo @
 
+CREATE TABLE cdcdemo.oplog (
+  X INTEGER NOT NULL,
+  A INTEGER NOT NULL,
+  L VARCHAR(10) NOT NULL,
+  C TIMESTAMP NOT NULL
+) IN cdcdemo @
+
 CREATE OR REPLACE PROCEDURE cdcdemo.datagen
 LANGUAGE  SQL
 BEGIN
@@ -115,10 +122,14 @@ CREATE OR REPLACE PROCEDURE cdcdemo.action1 (
 ) LANGUAGE  SQL
 BEGIN
   DECLARE v_b VARCHAR(100);
+  DECLARE v_t TIMESTAMP;
   SELECT 'A1+' || dbms_random.string('x', dbms_random.value(10, 30))
-    INTO v_b FROM sysibm.sysdummy1;
-  UPDATE cdcdemo.tab0 SET b=v_b, l=p_label, c=CURRENT TIMESTAMP WHERE a=p_id;
-  UPDATE cdcdemo.tab5 SET b=v_b, l=p_label, c=CURRENT TIMESTAMP WHERE a=p_id;
+        , CURRENT TIMESTAMP
+    INTO v_b, v_t FROM sysibm.sysdummy1;
+  UPDATE cdcdemo.tab0 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
+  UPDATE cdcdemo.tab5 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
+  INSERT INTO cdcdemo.oplog(x, a, l, c) VALUES(0, p_id, p_label, v_t);
+  INSERT INTO cdcdemo.oplog(x, a, l, c) VALUES(5, p_id, p_label, v_t);
   COMMIT;
 END
 @
@@ -129,10 +140,14 @@ CREATE OR REPLACE PROCEDURE cdcdemo.action2 (
 ) LANGUAGE  SQL
 BEGIN
   DECLARE v_b VARCHAR(100);
+  DECLARE v_t TIMESTAMP;
   SELECT 'A2+' || dbms_random.string('x', dbms_random.value(10, 30))
-    INTO v_b FROM sysibm.sysdummy1;
-  UPDATE cdcdemo.tab1 SET b=v_b, l=p_label, c=CURRENT TIMESTAMP WHERE a=p_id;
-  UPDATE cdcdemo.tab6 SET b=v_b, l=p_label, c=CURRENT TIMESTAMP WHERE a=p_id;
+        , CURRENT TIMESTAMP
+    INTO v_b, v_t FROM sysibm.sysdummy1;
+  UPDATE cdcdemo.tab1 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
+  UPDATE cdcdemo.tab6 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
+  INSERT INTO cdcdemo.oplog(x, a, l, c) VALUES(1, p_id, p_label, v_t);
+  INSERT INTO cdcdemo.oplog(x, a, l, c) VALUES(6, p_id, p_label, v_t);
   COMMIT;
 END
 @
@@ -143,10 +158,14 @@ CREATE OR REPLACE PROCEDURE cdcdemo.action3 (
 ) LANGUAGE  SQL
 BEGIN
   DECLARE v_b VARCHAR(100);
+  DECLARE v_t TIMESTAMP;
   SELECT 'A3+' || dbms_random.string('x', dbms_random.value(10, 30))
-    INTO v_b FROM sysibm.sysdummy1;
-  UPDATE cdcdemo.tab2 SET b=v_b, l=p_label, c=CURRENT TIMESTAMP WHERE a=p_id;
-  UPDATE cdcdemo.tab7 SET b=v_b, l=p_label, c=CURRENT TIMESTAMP WHERE a=p_id;
+        , CURRENT TIMESTAMP
+    INTO v_b, v_t FROM sysibm.sysdummy1;
+  UPDATE cdcdemo.tab2 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
+  UPDATE cdcdemo.tab7 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
+  INSERT INTO cdcdemo.oplog(x, a, l, c) VALUES(2, p_id, p_label, v_t);
+  INSERT INTO cdcdemo.oplog(x, a, l, c) VALUES(7, p_id, p_label, v_t);
   COMMIT;
 END
 @
@@ -157,10 +176,14 @@ CREATE OR REPLACE PROCEDURE cdcdemo.action4 (
 ) LANGUAGE  SQL
 BEGIN
   DECLARE v_b VARCHAR(100);
+  DECLARE v_t TIMESTAMP;
   SELECT 'A4+' || dbms_random.string('x', dbms_random.value(10, 30))
-    INTO v_b FROM sysibm.sysdummy1;
-  UPDATE cdcdemo.tab3 SET b=v_b, l=p_label, c=CURRENT TIMESTAMP WHERE a=p_id;
-  UPDATE cdcdemo.tab8 SET b=v_b, l=p_label, c=CURRENT TIMESTAMP WHERE a=p_id;
+        , CURRENT TIMESTAMP
+    INTO v_b, v_t FROM sysibm.sysdummy1;
+  UPDATE cdcdemo.tab3 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
+  UPDATE cdcdemo.tab8 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
+  INSERT INTO cdcdemo.oplog(x, a, l, c) VALUES(3, p_id, p_label, v_t);
+  INSERT INTO cdcdemo.oplog(x, a, l, c) VALUES(8, p_id, p_label, v_t);
   COMMIT;
 END
 @
@@ -171,10 +194,14 @@ CREATE OR REPLACE PROCEDURE cdcdemo.action5 (
 ) LANGUAGE  SQL
 BEGIN
   DECLARE v_b VARCHAR(100);
+  DECLARE v_t TIMESTAMP;
   SELECT 'A5+' || dbms_random.string('x', dbms_random.value(10, 30))
-    INTO v_b FROM sysibm.sysdummy1;
-  UPDATE cdcdemo.tab4 SET b=v_b, l=p_label, c=CURRENT TIMESTAMP WHERE a=p_id;
-  UPDATE cdcdemo.tab9 SET b=v_b, l=p_label, c=CURRENT TIMESTAMP WHERE a=p_id;
+        , CURRENT TIMESTAMP
+    INTO v_b, v_t FROM sysibm.sysdummy1;
+  UPDATE cdcdemo.tab4 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
+  UPDATE cdcdemo.tab9 SET b=v_b, l=p_label, c=v_t WHERE a=p_id;
+  INSERT INTO cdcdemo.oplog(x, a, l, c) VALUES(4, p_id, p_label, v_t);
+  INSERT INTO cdcdemo.oplog(x, a, l, c) VALUES(9, p_id, p_label, v_t);
   COMMIT;
 END
 @
