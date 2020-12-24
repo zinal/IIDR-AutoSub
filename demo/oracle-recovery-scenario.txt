@@ -1,0 +1,75 @@
+*** Main scenario ***
+
+0. Tables in the initial state (without the Z field).
+Table structure (and data, plus procedures) from database-oracle.sql.
+Subscriptions generated from sub-ORA1.chcclp, sub-ORA2.chcclp
+
+1. Start the JMeter scenario (expected to be running during the test)
+
+2. Start the subscriptions
+
+3. Wait for some time, seeing that some rows are actually replicated
+
+4. Perform the DDL changes
+
+sqlplus cdcdemo/passw0rd@wrk1
+alter table cdcdemo.tab4 add(x number default -1);
+update cdcdemo.tab4 set x = 4100 + cos(a), l = 'sys:update';
+commit;
+alter table cdcdemo.tab5 add(y number default -1);
+update cdcdemo.tab5 set y = 5100 + cos(a), l = 'sys:update';
+commit;
+alter table cdcdemo.tab6 add(z number default -1);
+update cdcdemo.tab6 set z = 6100 + cos(a), l = 'sys:update';
+commit;
+
+5. Observe that the subscriptions fail.
+
+6. Observe the recovery process, including multiple steps and re-starts.
+
+
+*** Validate ***
+
+select count(*), X from cdcdemo.oplog where l='user:x01' group by x order by x;
+
+$ cat filter_normal.sh 
+#! /bin/sh
+
+ls "$1"/TAB*.D*.T* | while read fname; do
+  tname="$2"/`basename $fname`
+  grep ',"A",' $fname | grep ',"user:x01",' > $tname
+  echo $tname
+done
+
+./filter_normal.sh DsOut DsFilt
+
+wc -l DsFilt/TAB9.*
+
+
+*** Revert ***
+
+sqlplus cdcdemo/passw0rd@wrk1
+alter table cdcdemo.tab4 drop(x);
+alter table cdcdemo.tab5 drop(y);
+alter table cdcdemo.tab6 drop(z);
+
+update cdcdemo.tab0 set l='*';
+commit;
+update cdcdemo.tab1 set l='*';
+commit;
+update cdcdemo.tab2 set l='*';
+commit;
+update cdcdemo.tab3 set l='*';
+commit;
+update cdcdemo.tab4 set l='*';
+commit;
+update cdcdemo.tab5 set l='*';
+commit;
+update cdcdemo.tab6 set l='*';
+commit;
+update cdcdemo.tab7 set l='*';
+commit;
+update cdcdemo.tab8 set l='*';
+commit;
+update cdcdemo.tab9 set l='*';
+commit;

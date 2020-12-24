@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TS
  fileVersion="1.0.0"
- timestamp="December 24, 2020 4:40:14 PM"
+ timestamp="December 24, 2020 7:11:28 PM"
 >
 	<Subscription
 	 availabilityFlag="0"
@@ -24,10 +24,10 @@
 	 dataStageWebHDFSAuthType="0"
 	 dataStagetDirectConnAutoStart="0"
 	 dbId=""
-	 dbPassword="ADUAQwBBADgAOQBGADYARAAxADEARAAwADgANAAyADkAQwA3AEMAQQBEADYAOABFADIARAA5AEQARgA5ADEAMw=="
+	 dbPassword="ADUAQwBBADgAOQBGADYARAAxADEARAAwADgANAAyADkAQwAxADIAQwBEAEEANwAwADcAOQBDAEEANgAxAEQAQw=="
 	 dbPath=""
 	 dbPlatformName="JDBC"
-	 dbUsername="A153B04AEC0A536E"
+	 dbUsername="44032F0B2CC3E868"
 	 description=""
 	 device=""
 	 errorHandlingForMirror="0"
@@ -161,21 +161,43 @@
 			 unicode="1"
 			/>
 			<SourceColumn
-			 columnAlias="C"
-			 columnName="C"
+			 columnAlias="L"
+			 columnName="L"
 			 critical="false"
-			 dataType="DATE"
+			 dataType="VARCHAR2"
 			 derivedDateTimeSeparator="0"
 			 derivedOrderNo="0"
 			 id="3"
 			 key="false"
-			 length="0"
+			 length="10"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="10"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="TIMESTAMP"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="4"
+			 key="false"
+			 length="6"
 			 mbcsEncodingDatabase=""
 			 mbcsEncodingOverried=""
 			 mbcsEncodingType="0"
 			 nullable="false"
-			 precision="0"
-			 scale="0"
+			 precision="6"
+			 scale="6"
 			 selected="true"
 			 sourceEncodingMethod="1"
 			 targetEncodingMethod="1"
@@ -346,21 +368,43 @@
 			 unicode="1"
 			/>
 			<SourceColumn
-			 columnAlias="C"
-			 columnName="C"
+			 columnAlias="L"
+			 columnName="L"
 			 critical="false"
-			 dataType="DATE"
+			 dataType="VARCHAR2"
 			 derivedDateTimeSeparator="0"
 			 derivedOrderNo="0"
 			 id="3"
 			 key="false"
-			 length="0"
+			 length="10"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="10"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="TIMESTAMP"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="4"
+			 key="false"
+			 length="6"
 			 mbcsEncodingDatabase=""
 			 mbcsEncodingOverried=""
 			 mbcsEncodingType="0"
 			 nullable="false"
-			 precision="0"
-			 scale="0"
+			 precision="6"
+			 scale="6"
 			 selected="true"
 			 sourceEncodingMethod="1"
 			 targetEncodingMethod="1"
@@ -531,21 +575,43 @@
 			 unicode="1"
 			/>
 			<SourceColumn
-			 columnAlias="C"
-			 columnName="C"
+			 columnAlias="L"
+			 columnName="L"
 			 critical="false"
-			 dataType="DATE"
+			 dataType="VARCHAR2"
 			 derivedDateTimeSeparator="0"
 			 derivedOrderNo="0"
 			 id="3"
 			 key="false"
-			 length="0"
+			 length="10"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="10"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="TIMESTAMP"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="4"
+			 key="false"
+			 length="6"
 			 mbcsEncodingDatabase=""
 			 mbcsEncodingOverried=""
 			 mbcsEncodingType="0"
 			 nullable="false"
-			 precision="0"
-			 scale="0"
+			 precision="6"
+			 scale="6"
 			 selected="true"
 			 sourceEncodingMethod="1"
 			 targetEncodingMethod="1"
@@ -716,21 +782,43 @@
 			 unicode="1"
 			/>
 			<SourceColumn
-			 columnAlias="C"
-			 columnName="C"
+			 columnAlias="L"
+			 columnName="L"
 			 critical="false"
-			 dataType="DATE"
+			 dataType="VARCHAR2"
 			 derivedDateTimeSeparator="0"
 			 derivedOrderNo="0"
 			 id="3"
 			 key="false"
-			 length="0"
+			 length="10"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="10"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="TIMESTAMP"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="4"
+			 key="false"
+			 length="6"
 			 mbcsEncodingDatabase=""
 			 mbcsEncodingOverried=""
 			 mbcsEncodingType="0"
 			 nullable="false"
-			 precision="0"
-			 scale="0"
+			 precision="6"
+			 scale="6"
 			 selected="true"
 			 sourceEncodingMethod="1"
 			 targetEncodingMethod="1"
@@ -901,20 +989,64 @@
 			 unicode="1"
 			/>
 			<SourceColumn
-			 columnAlias="C"
-			 columnName="C"
+			 columnAlias="L"
+			 columnName="L"
 			 critical="false"
-			 dataType="DATE"
+			 dataType="VARCHAR2"
 			 derivedDateTimeSeparator="0"
 			 derivedOrderNo="0"
 			 id="3"
 			 key="false"
-			 length="0"
+			 length="10"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="10"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="TIMESTAMP"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="4"
+			 key="false"
+			 length="6"
 			 mbcsEncodingDatabase=""
 			 mbcsEncodingOverried=""
 			 mbcsEncodingType="0"
 			 nullable="false"
-			 precision="0"
+			 precision="6"
+			 scale="6"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="X"
+			 columnName="X"
+			 critical="false"
+			 dataType="NUMBER FLOATING POINT"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="5"
+			 key="false"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 precision="38"
 			 scale="0"
 			 selected="true"
 			 sourceEncodingMethod="1"
@@ -1086,20 +1218,64 @@
 			 unicode="1"
 			/>
 			<SourceColumn
-			 columnAlias="C"
-			 columnName="C"
+			 columnAlias="L"
+			 columnName="L"
 			 critical="false"
-			 dataType="DATE"
+			 dataType="VARCHAR2"
 			 derivedDateTimeSeparator="0"
 			 derivedOrderNo="0"
 			 id="3"
 			 key="false"
-			 length="0"
+			 length="10"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="10"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="TIMESTAMP"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="4"
+			 key="false"
+			 length="6"
 			 mbcsEncodingDatabase=""
 			 mbcsEncodingOverried=""
 			 mbcsEncodingType="0"
 			 nullable="false"
-			 precision="0"
+			 precision="6"
+			 scale="6"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="Y"
+			 columnName="Y"
+			 critical="false"
+			 dataType="NUMBER FLOATING POINT"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="5"
+			 key="false"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 precision="38"
 			 scale="0"
 			 selected="true"
 			 sourceEncodingMethod="1"
@@ -1271,21 +1447,686 @@
 			 unicode="1"
 			/>
 			<SourceColumn
-			 columnAlias="C"
-			 columnName="C"
+			 columnAlias="L"
+			 columnName="L"
 			 critical="false"
-			 dataType="DATE"
+			 dataType="VARCHAR2"
 			 derivedDateTimeSeparator="0"
 			 derivedOrderNo="0"
 			 id="3"
 			 key="false"
-			 length="0"
+			 length="10"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="10"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="TIMESTAMP"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="4"
+			 key="false"
+			 length="6"
 			 mbcsEncodingDatabase=""
 			 mbcsEncodingOverried=""
 			 mbcsEncodingType="0"
 			 nullable="false"
-			 precision="0"
+			 precision="6"
+			 scale="6"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="Z"
+			 columnName="Z"
+			 critical="false"
+			 dataType="NUMBER FLOATING POINT"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="5"
+			 key="false"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 precision="38"
 			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<TargetColumn
+			 columnName="X"
+			 dataType="INTEGER"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 scale="0"
+			 temporalType="0"
+			/>
+			<ColumnMapping
+			 SCKeyColumn="false"
+			 defaultValue=""
+			 expression=""
+			 sourceColumnName=""
+			 sourceTableType="0"
+			 summarizationType="1"
+			 targetColumnName="X"
+			 targetTableType="0"
+			 type="5"
+			 valueTranslation="false"
+			/>
+			<UserExit
+			 userExitBeforeTableImage=""
+			 userExitFunctionPath=""
+			 userExitFunctionType="4"
+			 userExitJournalTableImage=""
+			 userExitKeyTableImage=""
+			 userExitLogChangedDelete="false"
+			 userExitLogChangedInsert="false"
+			 userExitLogChangedUpdate="false"
+			 userExitRetrieveCurrentValue="false"
+			 userExitStandardClear="Y"
+			 userExitStandardDelete="Y"
+			 userExitStandardInsert="Y"
+			 userExitStandardUpdate="Y"
+			 userExitUpdateTableImage=""
+			>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="1"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="2"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="3"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="4"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="5"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="6"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="7"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="8"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="9"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="10"
+				 userExitFunctionsName="N"
+				/>
+			</UserExit>
+			<kafkaKeyColumns
+			>
+				<kafkaKeyColumn
+				 columnName="A"
+				/>
+			</kafkaKeyColumns>
+		</TableMapping>
+		<TableMapping
+		 assignType="2"
+		 crMethod="0"
+		 indexLibrary=""
+		 indexMode="1"
+		 indexName=""
+		 journalName=""
+		 journalPath=""
+		 mbcsHandlingSupported="true"
+		 memberSelection="0"
+		 onDMLChangeError="0"
+		 onStructureChangeError="0"
+		 publishedTableName="TAB7"
+		 publishedUser="CDCDEMO"
+		 refreshGroupOrder="0"
+		 refreshSequence="0"
+		 replicationMethod="1"
+		 replicationStatus="3"
+		 rowIdentifier=""
+		 rowSelectionExpression=""
+		 rowSelectionType="0"
+		 sourceEncodingMBCS65="true"
+		 sourceTableName="TAB7"
+		 sourceUser="CDCDEMO"
+		 structureChanges="0"
+		 targetEncodingMBCS65="true"
+		 targetMember="&lt;ONLY&gt;"
+		 targetTableName="TS_KAFKA"
+		 targetUser="CUST"
+		 unicodeHandlingSupported="true"
+		>
+			<SourceColumn
+			 columnAlias="A"
+			 columnName="A"
+			 critical="false"
+			 dataType="NUMBER"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="1"
+			 key="true"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="38"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="B"
+			 columnName="B"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="2"
+			 key="false"
+			 length="100"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="100"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="L"
+			 columnName="L"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="3"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="10"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="TIMESTAMP"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="4"
+			 key="false"
+			 length="6"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="6"
+			 scale="6"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<TargetColumn
+			 columnName="X"
+			 dataType="INTEGER"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 scale="0"
+			 temporalType="0"
+			/>
+			<ColumnMapping
+			 SCKeyColumn="false"
+			 defaultValue=""
+			 expression=""
+			 sourceColumnName=""
+			 sourceTableType="0"
+			 summarizationType="1"
+			 targetColumnName="X"
+			 targetTableType="0"
+			 type="5"
+			 valueTranslation="false"
+			/>
+			<UserExit
+			 userExitBeforeTableImage=""
+			 userExitFunctionPath=""
+			 userExitFunctionType="4"
+			 userExitJournalTableImage=""
+			 userExitKeyTableImage=""
+			 userExitLogChangedDelete="false"
+			 userExitLogChangedInsert="false"
+			 userExitLogChangedUpdate="false"
+			 userExitRetrieveCurrentValue="false"
+			 userExitStandardClear="Y"
+			 userExitStandardDelete="Y"
+			 userExitStandardInsert="Y"
+			 userExitStandardUpdate="Y"
+			 userExitUpdateTableImage=""
+			>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="1"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="2"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="3"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="4"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="5"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="6"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="7"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="8"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="9"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="10"
+				 userExitFunctionsName="N"
+				/>
+			</UserExit>
+			<kafkaKeyColumns
+			>
+				<kafkaKeyColumn
+				 columnName="A"
+				/>
+			</kafkaKeyColumns>
+		</TableMapping>
+		<TableMapping
+		 assignType="2"
+		 crMethod="0"
+		 indexLibrary=""
+		 indexMode="1"
+		 indexName=""
+		 journalName=""
+		 journalPath=""
+		 mbcsHandlingSupported="true"
+		 memberSelection="0"
+		 onDMLChangeError="0"
+		 onStructureChangeError="0"
+		 publishedTableName="TAB8"
+		 publishedUser="CDCDEMO"
+		 refreshGroupOrder="0"
+		 refreshSequence="0"
+		 replicationMethod="1"
+		 replicationStatus="3"
+		 rowIdentifier=""
+		 rowSelectionExpression=""
+		 rowSelectionType="0"
+		 sourceEncodingMBCS65="true"
+		 sourceTableName="TAB8"
+		 sourceUser="CDCDEMO"
+		 structureChanges="0"
+		 targetEncodingMBCS65="true"
+		 targetMember="&lt;ONLY&gt;"
+		 targetTableName="TS_KAFKA"
+		 targetUser="CUST"
+		 unicodeHandlingSupported="true"
+		>
+			<SourceColumn
+			 columnAlias="A"
+			 columnName="A"
+			 critical="false"
+			 dataType="NUMBER"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="1"
+			 key="true"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="38"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="B"
+			 columnName="B"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="2"
+			 key="false"
+			 length="100"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="100"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="L"
+			 columnName="L"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="3"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="10"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="TIMESTAMP"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="4"
+			 key="false"
+			 length="6"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="6"
+			 scale="6"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<TargetColumn
+			 columnName="X"
+			 dataType="INTEGER"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="true"
+			 scale="0"
+			 temporalType="0"
+			/>
+			<ColumnMapping
+			 SCKeyColumn="false"
+			 defaultValue=""
+			 expression=""
+			 sourceColumnName=""
+			 sourceTableType="0"
+			 summarizationType="1"
+			 targetColumnName="X"
+			 targetTableType="0"
+			 type="5"
+			 valueTranslation="false"
+			/>
+			<UserExit
+			 userExitBeforeTableImage=""
+			 userExitFunctionPath=""
+			 userExitFunctionType="4"
+			 userExitJournalTableImage=""
+			 userExitKeyTableImage=""
+			 userExitLogChangedDelete="false"
+			 userExitLogChangedInsert="false"
+			 userExitLogChangedUpdate="false"
+			 userExitRetrieveCurrentValue="false"
+			 userExitStandardClear="Y"
+			 userExitStandardDelete="Y"
+			 userExitStandardInsert="Y"
+			 userExitStandardUpdate="Y"
+			 userExitUpdateTableImage=""
+			>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="1"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="2"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="3"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="4"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="5"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="6"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="7"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="8"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="9"
+				 userExitFunctionsName="N"
+				/>
+				<UserExitFunction
+				 userExitFunctionsEntryPoint="10"
+				 userExitFunctionsName="N"
+				/>
+			</UserExit>
+			<kafkaKeyColumns
+			>
+				<kafkaKeyColumn
+				 columnName="A"
+				/>
+			</kafkaKeyColumns>
+		</TableMapping>
+		<TableMapping
+		 assignType="2"
+		 crMethod="0"
+		 indexLibrary=""
+		 indexMode="1"
+		 indexName=""
+		 journalName=""
+		 journalPath=""
+		 mbcsHandlingSupported="true"
+		 memberSelection="0"
+		 onDMLChangeError="0"
+		 onStructureChangeError="0"
+		 publishedTableName="TAB9"
+		 publishedUser="CDCDEMO"
+		 refreshGroupOrder="0"
+		 refreshSequence="0"
+		 replicationMethod="1"
+		 replicationStatus="3"
+		 rowIdentifier=""
+		 rowSelectionExpression=""
+		 rowSelectionType="0"
+		 sourceEncodingMBCS65="true"
+		 sourceTableName="TAB9"
+		 sourceUser="CDCDEMO"
+		 structureChanges="0"
+		 targetEncodingMBCS65="true"
+		 targetMember="&lt;ONLY&gt;"
+		 targetTableName="TS_KAFKA"
+		 targetUser="CUST"
+		 unicodeHandlingSupported="true"
+		>
+			<SourceColumn
+			 columnAlias="A"
+			 columnName="A"
+			 critical="false"
+			 dataType="NUMBER"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="1"
+			 key="true"
+			 length="38"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="38"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="B"
+			 columnName="B"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="2"
+			 key="false"
+			 length="100"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="100"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="L"
+			 columnName="L"
+			 critical="false"
+			 dataType="VARCHAR2"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="3"
+			 key="false"
+			 length="10"
+			 mbcsEncodingDatabase="UTF-8"
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="2"
+			 nullable="false"
+			 precision="10"
+			 scale="0"
+			 selected="true"
+			 sourceEncodingMethod="1"
+			 targetEncodingMethod="1"
+			 temporalType="0"
+			 unicode="1"
+			/>
+			<SourceColumn
+			 columnAlias="C"
+			 columnName="C"
+			 critical="false"
+			 dataType="TIMESTAMP"
+			 derivedDateTimeSeparator="0"
+			 derivedOrderNo="0"
+			 id="4"
+			 key="false"
+			 length="6"
+			 mbcsEncodingDatabase=""
+			 mbcsEncodingOverried=""
+			 mbcsEncodingType="0"
+			 nullable="false"
+			 precision="6"
+			 scale="6"
 			 selected="true"
 			 sourceEncodingMethod="1"
 			 targetEncodingMethod="1"
@@ -1422,7 +2263,7 @@
 			 alarmCategoryName="Fatal"
 			 alarmZoneId="1"
 			 alarmZoneName="Scrape/Refresh"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -1468,7 +2309,7 @@
 			 alarmCategoryName="Error"
 			 alarmZoneId="1"
 			 alarmZoneName="Scrape/Refresh"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -1514,7 +2355,7 @@
 			 alarmCategoryName="Information"
 			 alarmZoneId="1"
 			 alarmZoneName="Scrape/Refresh"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -1560,7 +2401,7 @@
 			 alarmCategoryName="Status"
 			 alarmZoneId="1"
 			 alarmZoneName="Scrape/Refresh"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -1606,7 +2447,7 @@
 			 alarmCategoryName="Operational"
 			 alarmZoneId="1"
 			 alarmZoneName="Scrape/Refresh"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -1652,7 +2493,7 @@
 			 alarmCategoryName="Fatal"
 			 alarmZoneId="2"
 			 alarmZoneName="Communications"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -1698,7 +2539,7 @@
 			 alarmCategoryName="Error"
 			 alarmZoneId="2"
 			 alarmZoneName="Communications"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -1744,7 +2585,7 @@
 			 alarmCategoryName="Information"
 			 alarmZoneId="2"
 			 alarmZoneName="Communications"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -1790,7 +2631,7 @@
 			 alarmCategoryName="Status"
 			 alarmZoneId="2"
 			 alarmZoneName="Communications"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -1836,7 +2677,7 @@
 			 alarmCategoryName="Operational"
 			 alarmZoneId="2"
 			 alarmZoneName="Communications"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -1882,7 +2723,7 @@
 			 alarmCategoryName="Fatal"
 			 alarmZoneId="3"
 			 alarmZoneName="Environment"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -1928,7 +2769,7 @@
 			 alarmCategoryName="Error"
 			 alarmZoneId="3"
 			 alarmZoneName="Environment"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -1974,7 +2815,7 @@
 			 alarmCategoryName="Information"
 			 alarmZoneId="3"
 			 alarmZoneName="Environment"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -2020,7 +2861,7 @@
 			 alarmCategoryName="Status"
 			 alarmZoneId="3"
 			 alarmZoneName="Environment"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -2066,7 +2907,7 @@
 			 alarmCategoryName="Operational"
 			 alarmZoneId="3"
 			 alarmZoneName="Environment"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -2112,7 +2953,7 @@
 			 alarmCategoryName="Fatal"
 			 alarmZoneId="4"
 			 alarmZoneName="Journal/Log Maintenance"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -2158,7 +2999,7 @@
 			 alarmCategoryName="Error"
 			 alarmZoneId="4"
 			 alarmZoneName="Journal/Log Maintenance"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -2204,7 +3045,7 @@
 			 alarmCategoryName="Information"
 			 alarmZoneId="4"
 			 alarmZoneName="Journal/Log Maintenance"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -2250,7 +3091,7 @@
 			 alarmCategoryName="Status"
 			 alarmZoneId="4"
 			 alarmZoneName="Journal/Log Maintenance"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -2296,7 +3137,7 @@
 			 alarmCategoryName="Operational"
 			 alarmZoneId="4"
 			 alarmZoneName="Journal/Log Maintenance"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="0"
 			>
 				<AlertChannel
@@ -2342,7 +3183,7 @@
 			 alarmCategoryName="Fatal"
 			 alarmZoneId="1"
 			 alarmZoneName="Communications"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2388,7 +3229,7 @@
 			 alarmCategoryName="Error"
 			 alarmZoneId="1"
 			 alarmZoneName="Communications"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2434,7 +3275,7 @@
 			 alarmCategoryName="Information"
 			 alarmZoneId="1"
 			 alarmZoneName="Communications"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2480,7 +3321,7 @@
 			 alarmCategoryName="Status"
 			 alarmZoneId="1"
 			 alarmZoneName="Communications"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2526,7 +3367,7 @@
 			 alarmCategoryName="Operational"
 			 alarmZoneId="1"
 			 alarmZoneName="Communications"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2572,7 +3413,7 @@
 			 alarmCategoryName="Fatal"
 			 alarmZoneId="2"
 			 alarmZoneName="Apply"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2618,7 +3459,7 @@
 			 alarmCategoryName="Error"
 			 alarmZoneId="2"
 			 alarmZoneName="Apply"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2664,7 +3505,7 @@
 			 alarmCategoryName="Information"
 			 alarmZoneId="2"
 			 alarmZoneName="Apply"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2710,7 +3551,7 @@
 			 alarmCategoryName="Status"
 			 alarmZoneId="2"
 			 alarmZoneName="Apply"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2756,7 +3597,7 @@
 			 alarmCategoryName="Operational"
 			 alarmZoneId="2"
 			 alarmZoneName="Apply"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2802,7 +3643,7 @@
 			 alarmCategoryName="Fatal"
 			 alarmZoneId="3"
 			 alarmZoneName="Environment"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2848,7 +3689,7 @@
 			 alarmCategoryName="Error"
 			 alarmZoneId="3"
 			 alarmZoneName="Environment"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2894,7 +3735,7 @@
 			 alarmCategoryName="Information"
 			 alarmZoneId="3"
 			 alarmZoneName="Environment"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2940,7 +3781,7 @@
 			 alarmCategoryName="Status"
 			 alarmZoneId="3"
 			 alarmZoneName="Environment"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel
@@ -2986,7 +3827,7 @@
 			 alarmCategoryName="Operational"
 			 alarmZoneId="3"
 			 alarmZoneName="Environment"
-			 alertIsDefault="true"
+			 alertIsDefault="false"
 			 dataStoreType="1"
 			>
 				<AlertChannel

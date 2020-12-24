@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TS
  fileVersion="1.0.0"
- timestamp="December 24, 2020 4:40:41 PM"
+ timestamp="December 24, 2020 7:20:45 PM"
 >
 	<Subscription
 	 availabilityFlag="0"
@@ -28,10 +28,10 @@
 	 dataStageWebHDFSUserPassword=""
 	 dataStagetDirectConnAutoStart="2"
 	 dbId=""
-	 dbPassword="ADUAQwBBADgAOQBGADYARAAxADEARAAwADgANAAyADkAQgAzADkAOQAyADIAOQA0AEIAOQAxADkANABBADAAOQ=="
+	 dbPassword="ADUAQwBBADgAOQBGADYARAAxADEARAAwADgANAAyADkAQQAxADYAMQBGADIAQgA1ADMANwBGADgAMwA2AEMAQw=="
 	 dbPath=""
 	 dbPlatformName="JDBC"
-	 dbUsername="87483DEFD09AD2E4"
+	 dbUsername="115DFFCE65D48129"
 	 description=""
 	 device=""
 	 errorHandlingForMirror="0"
