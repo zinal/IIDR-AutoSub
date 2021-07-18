@@ -29,12 +29,14 @@ have been done against DataStage and relational targets.
 
 ## Build
 
-Pre-build versions are available as Releases.
+Pre-built versions are available as Releases.
 
-Build uses Maven. Third-party (IBM CDC Access Server) jars need to be installed
-into the local Maven repository with the iidr-cdc-setup-maven-libs.sh script.
+Build uses Maven. IBM CDC Access Server jars need to be installed
+into the local Maven repository, see the example in the 
+`iidr-cdc-setup-maven-libs.sh` script.
 Required Eclipse libraries are grabbed from central Maven repository,
-their versions should be validated against the particular Access Server version.
+their versions should be validated against the particular Access Server
+version (through the names of jar files).
 
 ## Configuration
 
