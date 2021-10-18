@@ -1,4 +1,4 @@
-# autosub application
+# AutoSub application
 
 ## Overview
 
@@ -9,6 +9,19 @@ over the source tables.
 This tool uses CHCCLP embedded scripting and CDC engine commands to do its job.
 It periodically monitors the defined list of subscriptions.
 If it detects a recoverable failure, it tries to repair it.
+
+## Downloading and installing
+
+Pre-built binaries are available on the [Releases page](/zinal/IIDR-AutoSub/releases).
+
+Basic installation instructions are provided in the README.txt file
+which is included in the installation binary file.
+
+AutoSub depends on the IBM CDC Access Server libraries, which are not
+included in the binary package. IBM CDC Access Server needs to be installed
+on the host where AutoSub will be running. This copy of Access Server
+may be left unconfigured and does not need to be running, as AutoSub
+supports both local and remote connections to the CDC Access Server.
 
 ## News
 
