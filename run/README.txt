@@ -66,6 +66,29 @@ are specified in the XML files located by default in the "subs"
 subdirectory. Examples for different datastore types are provided
 in "subs-sample" subdirectory.
 
+For each CDC source or target engine (e.g. each "datastore")
+which needs to be monitored by AutoSub, a separate file
+is created. It contains the parameters for the CDC agent:
+* logical datastore name;
+* operation mode (Source, Target or Both);
+* path to CDC agent software installation;
+* CDC instance name;
+* SSH or RSH client command for executing CDC engine commands.
+
+The list of subscriptions to be monitored is defined in the
+configuration XML file for the source CDC agent. It defines
+the subscription name in the context of the source and target
+CDC agents. Please note that subscription names are only
+unique in that context, and may have duplicates between
+different source and target pairs.
+
+AutoSub application is started through the "autosub-worker.sh" script.
+On startup reads its settings from the properties file and from the global
+configuration file, connects to the Access Server, and checks the initial
+state of the configured CDC agents and subscriptions. After that it enters
+the regular monitoring loop, fixing the subscription state when needed
+and possible.
+
 AutoSub application reads its current settings from the single active
 configuration file. This file is typically not edited manually,
 instead, it is generated automatically through the "autosub-refresh.sh"
@@ -73,8 +96,7 @@ command from the set of source files described above. This allows
 to safely edit the current configuration without affecting
 the operations of the running AutoSub application.
 
-AutoSub is started through the "autosub-worker.sh" script.
-It can be safely shut down though the "autosub-shutdown.sh" script.
+AutoSub can be safely shut down though the "autosub-shutdown.sh" script.
 Terminating the tool by entering Control-C or sending other signals is not
 recommended, as this can leave the recovery and monitoring procedures 
 uncompleted.
