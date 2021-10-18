@@ -12,7 +12,7 @@ If it detects a recoverable failure, it tries to repair it.
 
 ## Downloading and installing
 
-Pre-built binaries are available on the [Releases page](/zinal/IIDR-AutoSub/releases).
+Pre-built binaries are available on the [Releases page](https://github.com/zinal/IIDR-AutoSub/releases).
 
 Basic installation instructions are provided in the README.txt file
 which is included in the installation binary file.
