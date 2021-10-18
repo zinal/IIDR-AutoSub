@@ -9,7 +9,12 @@ It periodically monitors the defined list of subscriptions.
 If it detects a recoverable failure, it tries to repair it.
 
 Environment variables are configured through autosub-config.sh.
-See the provided file autosub-config.sh.sample for example values.
+Settings to be configured there:
+* JAVA_CMD - command to run Java;
+* JAVA_FLAGS - Java runtime parameters, like memory settings;
+* AUTOSUB_IIDR - path to CDC Access Server or Management Console
+  library directory containing the CDC product jar files.
+See the provided file autosub-config.sh.sample for example contents.
 
 Global settings are defined in autosub.properties file.
 See the provided file autosub.properties.sample for the list of parameters,
