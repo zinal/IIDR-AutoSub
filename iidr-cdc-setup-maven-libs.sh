@@ -6,12 +6,12 @@
 
 # Debian Linux options:
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-MVN=/opt/netbeans/v12.0/netbeans/java/maven/bin/mvn
+MVN=/opt/netbeans/v12.5/netbeans/java/maven/bin/mvn
 
 "$MVN" --version
 
-XVER=11.4.0.3.11041
-XLOC=/home/zinal/Projects/Examples/IIDR-Samples/jars/aslibs-"$XVER"
+XVER=11.4.0.4.11071
+XLOC=/home/zinal/Software/iidr-access/lib
 
 # Buildtime dependency jars:
 # * chcclp
