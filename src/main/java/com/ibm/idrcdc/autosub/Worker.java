@@ -37,7 +37,7 @@ public class Worker implements Runnable {
     private static final org.slf4j.Logger LOG
             = org.slf4j.LoggerFactory.getLogger(Worker.class);
 
-    public static final String VERSION = "2.1-2021.10.18";
+    public static final String VERSION = "2.2-SNAPSHOT";
 
     private final AsGlobals globals;
     private final AsConfig config;
