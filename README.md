@@ -14,9 +14,9 @@ If it detects a recoverable failure, it tries to repair it.
 
 Pre-built binaries are available on the [Releases page](https://github.com/zinal/IIDR-AutoSub/releases).
 
-Basic installation instructions are provided in the 
-[README.txt](run/README.txt)
-file which is included in the installation binary file.
+Basic installation and configuration instructions are provided in the 
+[README.txt](run/README.txt) file, which is also included in the
+installation binary file.
 
 AutoSub depends on the IBM CDC Access Server libraries, which are not
 included in the binary package. IBM CDC Access Server needs to be installed
@@ -43,15 +43,10 @@ have been done against DataStage and relational targets.
 
 ## Build
 
-Pre-built versions are available as Releases.
-
 Build uses Maven. IBM CDC Access Server jars need to be installed
 into the local Maven repository, see the example in the 
 `iidr-cdc-setup-maven-libs.sh` script.
+
 Required Eclipse libraries are grabbed from central Maven repository,
 their versions should be validated against the particular Access Server
 version (through the names of jar files).
-
-## Configuration
-
-Please see the configuration information in the run/README.txt file.
