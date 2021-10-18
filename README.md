@@ -2,13 +2,15 @@
 
 ## Overview
 
-IBM Data Replication sample implementation of a tool to automate
-the recovery of subscriptions in the event of DDL operation
-over the source tables.
+AutoSub is the sample implementation of a tool to automate 
+the recovery of subscriptions of IBM Data Replication product
+in the event of DDL operation over the replicated tables
+in the source databases.
 
-This tool uses CHCCLP embedded scripting and CDC engine commands to do its job.
-It periodically monitors the defined list of subscriptions.
-If it detects a recoverable failure, it tries to repair it.
+This tool uses CHCCLP embedded scripting and CDC engine
+commands to do its job. It periodically monitors the defined
+list of subscriptions. If it detects a recoverable failure
+of the replication process (subscription), it tries to fix it.
 
 ## Downloading and installing
 
