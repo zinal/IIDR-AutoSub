@@ -40,6 +40,23 @@ public enum EngineMode {
     /**
      * Able to act as both source and target.
      */
-    Both
+    Dual;
+
+    public static EngineMode fromString(String value) {
+        if (value==null)
+            return null;
+        value = value.trim();
+        if (value.length()==0)
+            return null;
+        if ("Source".equalsIgnoreCase(value))
+            return Source;
+        if ("Target".equalsIgnoreCase(value))
+            return Target;
+        if ("Dual".equalsIgnoreCase(value))
+            return Dual;
+        if ("Both".equalsIgnoreCase(value))
+            return Dual;
+        throw new IllegalArgumentException("Not an EngineMode: " + value);
+    }
 
 }

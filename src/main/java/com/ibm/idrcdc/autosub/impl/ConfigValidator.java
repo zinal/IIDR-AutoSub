@@ -39,6 +39,8 @@ public class ConfigValidator implements Runnable {
 
     private final MonitorGroups groups;
     private final Script script;
+    // datastore name -> datastore mode (Source, Target, Dual)
+    private Map<String, EngineMode> knownAgents = null;
 
     public ConfigValidator(MonitorGroups groups, Script script) {
         this.groups = groups;
@@ -47,6 +49,8 @@ public class ConfigValidator implements Runnable {
 
     @Override
     public void run() {
+        LOG.info("*** Grabbing the known datastores...");
+        knownAgents = listKnownAgents();
         LOG.info("*** Validating datastores...");
         for (PerEngine engine : groups.getEngines().values()) {
             try {
@@ -93,22 +97,41 @@ public class ConfigValidator implements Runnable {
 
     private void validate(PerEngine e) {
         e.setEnabled(false);
+
         if (! groups.isEngineUsed(e) ) {
             LOG.info("Datastore {} is not used, skipping.", e.getName());
             return;
         }
+
         if (LOG.isDebugEnabled()) {
             LOG.debug("Datastore {} ({}) access commands below:", e.getName(), e.getMode());
             LOG.debug("\tdmshowversion\t{}",           e.cmdVersion());
             LOG.debug("\tdmshowevents\t{}",            e.cmdEvents());
-            if (EngineMode.Both==e.getMode() || EngineMode.Source==e.getMode()) {
+            if (EngineMode.Dual==e.getMode() || EngineMode.Source==e.getMode()) {
                 LOG.debug("\tdmclearstagingstore\t{}", e.cmdClear());
                 LOG.debug("\tdmsetbookmark\t{}",       e.cmdBookmarkPut());
                 LOG.debug("\tdmreaddtable\t{}",        e.cmdReAddTable());
             }
-            if (EngineMode.Both==e.getMode() || EngineMode.Target==e.getMode()) {
+            if (EngineMode.Dual==e.getMode() || EngineMode.Target==e.getMode()) {
                 LOG.debug("\tdmshowbookmark\t{}",      e.cmdBookmarkGet());
             }
+        }
+
+        // Checking whether the datastore is known to CDC at all?
+        EngineMode actualMode = knownAgents.get(e.getName());
+        if (actualMode==null) {
+            LOG.warn("Datastore {} is not known to CDC Access Server - skipping.", 
+                    e.getName());
+            return;
+        }
+        // Ideally the configured and actual modes should match.
+        // But still source- and target-only modes are dual-compatible.
+        if ( (actualMode != EngineMode.Dual)
+                && (e.getMode() != actualMode) ) {
+            LOG.warn("Datastore {} requested incompatible mode {}, "
+                    + "actual mode is {} - skipping.", 
+                    e.getName(), e.getMode(), actualMode);
+            return;
         }
 
         int code;
@@ -170,7 +193,7 @@ public class ConfigValidator implements Runnable {
         m.setEnabled(false);
         // Switch to proper datastores
         if ( m.getTarget() == m.getSource() ) {
-            script.dataStore(m.getSource(), EngineMode.Both);
+            script.dataStore(m.getSource(), EngineMode.Dual);
         } else {
             script.dataStore(m.getSource(), EngineMode.Source);
             script.dataStore(m.getTarget(), EngineMode.Target);
@@ -185,6 +208,18 @@ public class ConfigValidator implements Runnable {
         }
         LOG.info("\tFound {} table mapping(s)", mappingsCount);
         m.setEnabled(true);
+    }
+
+    private Map<String, EngineMode> listKnownAgents() {
+        script.execute("list datastores;");
+        Map<String, EngineMode> retval = new HashMap<>();
+        final ScriptOutput table = script.getTable();
+        for (int irow = 0; irow < table.getRowCount(); ++irow) {
+            String name = table.getValueAt(irow, "DATASTORE");
+            String type = table.getValueAt(irow, "TYPE");
+            retval.put(name, EngineMode.fromString(type));
+        }
+        return retval;
     }
 
 }

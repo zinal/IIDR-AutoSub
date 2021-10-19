@@ -83,7 +83,7 @@ public class AsParser {
     private static AsEngine parseEngine(Element el) {
         AsEngine ae = new AsEngine(
                 Misc.getAttr(el, "name"),
-                EngineMode.valueOf(Misc.getAttr(el, "mode")));
+                EngineMode.fromString(Misc.getAttr(el, "mode")));
         Element cur;
         cur = el.getChild(EL_ENG_RSH);
         if (cur!=null)

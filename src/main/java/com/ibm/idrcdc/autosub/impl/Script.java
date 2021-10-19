@@ -47,8 +47,11 @@ public class Script implements AutoCloseable {
 
     private final EmbeddedScript es;
 
+    // current set of open connections, by names
     private final Set<String> connections = new HashSet<>();
+    // name of the current source datastore
     private String currentSource = null;
+    // name of the current target datastore
     private String currentTarget = null;
 
     /**
@@ -116,15 +119,14 @@ public class Script implements AutoCloseable {
 
     /**
      * Connect or select a data store.
-     * @param name Data store name
+     * @param name Data store name, case sensitive
      * @param mode Source, Target or Both
      */
     public void dataStore(String name, EngineMode mode) {
-        name = name.trim().toUpperCase();
         switch (mode) {
             case Source:
                 if (connections.contains(name)) {
-                    if (name.equalsIgnoreCase(currentTarget)) {
+                    if (name.equals(currentTarget)) {
                         execute("select datastore name \"{0}\";", name);
                     } else {
                         execute("select datastore name \"{0}\" "
@@ -139,7 +141,7 @@ public class Script implements AutoCloseable {
                 break;
             case Target:
                 if (connections.contains(name)) {
-                    if (name.equalsIgnoreCase(currentSource)) {
+                    if (name.equals(currentSource)) {
                         execute("select datastore name \"{0}\";", name);
                     } else {
                         execute("select datastore name \"{0}\" "
@@ -152,7 +154,7 @@ public class Script implements AutoCloseable {
                 }
                 currentTarget = name;
                 break;
-            case Both:
+            case Dual:
                 if (connections.contains(name)) {
                     execute("select datastore name \"{0}\";", name);
                 } else {

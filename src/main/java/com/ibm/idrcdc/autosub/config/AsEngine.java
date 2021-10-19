@@ -45,7 +45,7 @@ public class AsEngine {
 
     public AsEngine(String name, EngineMode type) {
         this.name = name;
-        this.mode = type;
+        this.mode = (type==null) ? EngineMode.Dual : type;
     }
 
     public String getName() {
