@@ -49,15 +49,15 @@ public class ConfigValidator implements Runnable {
 
     @Override
     public void run() {
-        LOG.info("*** Grabbing the known datastores...");
-        knownAgents = listKnownAgents();
         LOG.info("*** Validating datastores...");
+        knownAgents = listKnownAgents();
+        LOG.info("Found total of {} known datastores", knownAgents.size());
         for (PerEngine engine : groups.getEngines().values()) {
             try {
                 validate(engine);
             } catch(Exception ex) {
                 engine.setEnabled(false);
-                LOG.warn("Disabled datastore {}\n\t{}",
+                LOG.warn("Disabled handling for datastore {}\n\t{}",
                         engine.getName(), Misc.liteMessage(ex));
             }
         }
@@ -68,7 +68,7 @@ public class ConfigValidator implements Runnable {
                 for ( Monitor m : pst.getMonitors() ) {
                     if (m.getSource().isEnabled()==false
                             || m.getTarget().isEnabled()==false) {
-                        // Skipping subscriptions for disabled engines
+                        // Skipping subscriptions for disabled datastores
                         continue;
                     }
                     LOG.info("Subscription {}: {} -> {}",
