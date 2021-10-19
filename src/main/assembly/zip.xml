@@ -28,6 +28,13 @@
       </includes>
     </fileSet>
     <fileSet>
+      <directory>${basedir}/run/classes</directory>
+      <outputDirectory>classes</outputDirectory>
+      <includes>
+        <include>*.xml</include>
+      </includes>
+    </fileSet>
+    <fileSet>
       <directory>${basedir}/run/recovery</directory>
       <outputDirectory>recovery</outputDirectory>
       <includes>
