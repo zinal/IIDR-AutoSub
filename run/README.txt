@@ -73,7 +73,7 @@ an overview of the format and contents below in section [4].
 
 Before starting AutoSub for the first time, datastore and
 subscription settings need to be merged into a single active
-configuration file by running the "autosub-refresh.sh" command.
+configuration file by running the "autosub-reload.sh" command.
 
 Any changes to the original configuration files are not
 used until they are merged to the active configuration file.
@@ -90,7 +90,7 @@ and possible.
 
 Any changes to the configuration can be re-applied to the running
 AutoSub application at the desired point in time by running
-the "autosub-refresh.sh" command.
+the "autosub-reload.sh" command.
 
 AutoSub can be safely shut down though the "autosub-shutdown.sh"
 script. Terminating the tool by entering Control-C or by sending
