@@ -27,6 +27,8 @@ package com.ibm.idrcdc.autosub;
  */
 public class Version {
 
-    public static final String VERSION = "2.2-2021.10.25";
+    // development format: x.y-SNAPSHOT
+    // release format: x.y-YYYY.MM.DD
+    public static final String VERSION = "2.3-SNAPSHOT";
 
 }
