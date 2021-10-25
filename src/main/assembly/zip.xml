@@ -71,7 +71,6 @@
         <directory>${basedir}/run</directory>
         <outputDirectory>.</outputDirectory>
         <includes>
-            <include>*.xml</include>
             <include>*.sql</include>
             <include>*.txt</include>
             <include>*.sample</include>
@@ -85,13 +84,6 @@
             <include>*.xml</include>
         </includes>
         <fileMode>640</fileMode>
-    </fileSet>
-    <fileSet>
-        <directory>${basedir}/../sample/names-data</directory>
-        <outputDirectory>names-data</outputDirectory>
-        <includes>
-            <include>*.txt</include>
-        </includes>
     </fileSet>
   </fileSets>
 </assembly>
