@@ -21,29 +21,12 @@
  */
 package com.ibm.idrcdc.autosub;
 
-import com.ibm.idrcdc.autosub.config.*;
-import com.ibm.idrcdc.autosub.impl.*;
-
 /**
- * Initiate the shutdown of the Autosub service.
+ *
  * @author zinal
  */
-public class DoShutdown extends Version {
+public class Version {
 
-    private static final org.slf4j.Logger LOG
-            = org.slf4j.LoggerFactory.getLogger(DoShutdown.class);
-
-    public static void main(String[] args) {
-        LOG.info("autosub version {} DoShutdown", VERSION);
-        try {
-            final AsGlobals globals = AsGlobals.fromArgs(args);
-            LOG.info("Working data file is {}", globals.getDataFile());
-            FileFlag.newShutdown(globals.getDataFile()) . enable();
-            LOG.info("Shutdown signaled.");
-        } catch(Exception ex) {
-            LOG.error("Command execution failed", ex);
-            System.exit(1);
-        }
-    }
+    public static final String VERSION = "2.2-SNAPSHOT";
 
 }

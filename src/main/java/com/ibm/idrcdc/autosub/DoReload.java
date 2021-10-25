@@ -29,13 +29,13 @@ import com.ibm.idrcdc.autosub.impl.*;
  * Initiate the configuration reload of the Autosub service.
  * @author zinal
  */
-public class DoReload {
+public class DoReload extends Version {
 
     private static final org.slf4j.Logger LOG
             = org.slf4j.LoggerFactory.getLogger(DoReload.class);
 
     public static void main(String[] args) {
-        LOG.info("autosub version {} DoReload", Worker.VERSION);
+        LOG.info("autosub version {} DoReload", VERSION);
         try {
             final AsGlobals globals = AsGlobals.fromArgs(args);
             LOG.info("Working data file is {}", globals.getDataFile());

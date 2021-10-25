@@ -32,12 +32,10 @@ import com.ibm.idrcdc.autosub.impl.*;
  * Application entry point and main working cycle.
  * @author zinal
  */
-public class Worker implements Runnable {
+public class Worker extends Version implements Runnable {
 
     private static final org.slf4j.Logger LOG
             = org.slf4j.LoggerFactory.getLogger(Worker.class);
-
-    public static final String VERSION = "2.2-SNAPSHOT";
 
     private final AsGlobals globals;
     private final AsConfig config;
