@@ -29,6 +29,6 @@ public class Version {
 
     // development format: x.y-SNAPSHOT
     // release format: x.y-YYYY.MM.DD
-    public static final String VERSION = "2.3-2021.12.13";
+    public static final String VERSION = "2.4-SNAPSHOT";
 
 }
